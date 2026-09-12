@@ -2015,6 +2015,151 @@ time {
   }
 }
 
+/* ── View Toggle & Inbox Layout ──────────────────────────────────────────── */
+.ts-view-toggle {
+  display: flex;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 4px;
+  gap: 4px;
+}
+
+.ts-toggle-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: transparent;
+  border: none;
+  color: var(--foreground-muted);
+  padding: 6px 12px;
+  font-size: 13px;
+  font-weight: 500;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.ts-toggle-btn:hover {
+  color: var(--foreground);
+}
+
+.ts-toggle-btn.is-active {
+  background: var(--surface-hover);
+  color: var(--primary-light);
+  box-shadow: var(--shadow-sm);
+}
+
+.ts-inbox-view {
+  width: 100%;
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 24px 0;
+  animation: ts-fade-in 0.3s ease-out both;
+}
+
+.ts-inbox-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+
+.ts-inbox-header h2 {
+  font-size: 24px;
+  font-weight: 600;
+  margin: 0;
+  color: var(--foreground);
+}
+
+.ts-badge-simulated {
+  background: var(--rose-bg);
+  color: var(--rose-text);
+  border: 1px solid var(--rose-border);
+  font-size: 12px;
+  padding: 4px 8px;
+  border-radius: 99px;
+  font-weight: 600;
+}
+
+.ts-inbox-desc {
+  color: var(--foreground-muted);
+  margin: 0 0 24px 0;
+}
+
+.ts-inbox-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.ts-inbox-item {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 16px;
+  transition: all 0.2s ease;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.ts-inbox-item:hover {
+  border-color: var(--border-hover);
+  box-shadow: var(--shadow-sm);
+}
+
+.ts-inbox-meta {
+  display: flex;
+  justify-content: space-between;
+  font-size: 13px;
+  color: var(--foreground-muted);
+}
+
+.ts-inbox-sender {
+  font-weight: 600;
+  color: var(--foreground);
+}
+
+.ts-inbox-subject {
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.ts-inbox-attachment {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  color: var(--primary-light);
+  background: var(--primary-subtle);
+  padding: 6px 10px;
+  border-radius: 6px;
+  width: fit-content;
+}
+
+.ts-inbox-status {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 8px;
+  padding-top: 12px;
+  border-top: 1px solid var(--border);
+}
+
+.ts-candidate-item-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.ts-shortlist-checkbox {
+  width: 18px;
+  height: 18px;
+  cursor: pointer;
+  accent-color: var(--primary-light);
+}
+
 /* ── Pop-Click Spring Animation ─────────────────────────────────────────── */
 /*
  * Strategy: CSS-only transform for the press phase (scale 0.96 on :active),

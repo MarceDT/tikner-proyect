@@ -13,10 +13,16 @@ export function AppControl({
   selectedId,
   selectCandidate,
   onUpdateStatus,
+  shortlistApproved,
+  shortlistIds,
+  onExportStart,
 }: {
   selectedId: string;
   selectCandidate: (id: string) => void;
   onUpdateStatus?: (id: string, status: Candidate["status"]) => void;
+  shortlistApproved?: boolean;
+  shortlistIds?: Set<string>;
+  onExportStart?: () => void;
 }) {
   // Give the Copilot agent real-time eyes on the selected candidate, target role, and pipeline.
   useAgentContext({
@@ -77,6 +83,28 @@ export function AppControl({
       },
     },
     [onUpdateStatus]
+  );
+
+  // Frontend tool: AI command to export the shortlist
+  useFrontendTool(
+    {
+      name: "export_shortlist",
+      description: "Inicia la exportación de la shortlist actual a PDF/Excel. Requiere que la shortlist esté previamente aprobada por el usuario (Human-in-the-Loop).",
+      parameters: z.object({}),
+      handler: async () => {
+        if (!shortlistIds || shortlistIds.size === 0) {
+          return "No hay candidatos seleccionados en la shortlist para exportar.";
+        }
+        if (!shortlistApproved) {
+          return "Error: No se puede exportar. La shortlist requiere aprobación humana. Por favor pide al reclutador que haga clic en 'Aprobar Selección' en la compuerta de exportación.";
+        }
+        if (onExportStart) {
+          onExportStart();
+        }
+        return `Exportación iniciada exitosamente para ${shortlistIds.size} candidato(s). El usuario verá el estado de descarga en pantalla.`;
+      }
+    },
+    [shortlistApproved, shortlistIds, onExportStart]
   );
 
   return null;

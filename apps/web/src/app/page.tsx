@@ -105,6 +105,22 @@ function UserGroupIcon() {
   );
 }
 
+function InboxIcon() {
+  return (
+    <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
+      <path d="M.5 3.5A1.5 1.5 0 012 2h12a1.5 1.5 0 011.5 1.5v9A1.5 1.5 0 0114 14H2a1.5 1.5 0 01-1.5-1.5v-9zm1.5 0v9h12v-9H2zm6 5.38L2.72 5.06l.86-1.12L8 7.3l4.42-3.36.86 1.12L8 8.88z" />
+    </svg>
+  );
+}
+
+function DownloadIcon() {
+  return (
+    <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
+      <path d="M8 12l-4-4h2.5V1h3v7H12L8 12zM2 14v-2H1v3h14v-3h-1v2H2z" />
+    </svg>
+  );
+}
+
 function ProfileIcon() {
   return (
     <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
@@ -118,6 +134,12 @@ export default function Home() {
   const [selectedId, setSelectedId] = useState<string>(initialCandidates[0].id);
   const [mobileTab, setMobileTab] = useState<"detail" | "pipeline" | "copilot">("detail");
   const [theme, setTheme] = useState<"light" | "dark">("light");
+  
+  // New State for Visual Workflow
+  const [mainView, setMainView] = useState<"inbox" | "workspace">("inbox");
+  const [shortlistIds, setShortlistIds] = useState<Set<string>>(new Set());
+  const [shortlistApproved, setShortlistApproved] = useState(false);
+  const [exportStatus, setExportStatus] = useState<"idle" | "exporting" | "done">("idle");
 
   // ── Pop-click spring animation ───────────────────────────────────────────
   // Delegated from document: finds the closest pop-click target on mousedown,
@@ -276,6 +298,12 @@ export default function Home() {
         selectedId={selectedId}
         selectCandidate={selectCandidate}
         onUpdateStatus={updateCandidateStatus}
+        shortlistApproved={shortlistApproved}
+        shortlistIds={shortlistIds}
+        onExportStart={() => {
+          setExportStatus("exporting");
+          setTimeout(() => setExportStatus("done"), 1500);
+        }}
       />
 
       {/* Top Navigation Bar */}
@@ -301,6 +329,24 @@ export default function Home() {
           </div>
 
           <div className="ts-nav-actions">
+            {/* View Toggle */}
+            <div className="ts-view-toggle">
+              <button
+                type="button"
+                className={`ts-toggle-btn ${mainView === "inbox" ? "is-active" : ""}`}
+                onClick={() => setMainView("inbox")}
+              >
+                <InboxIcon /> Bandeja
+              </button>
+              <button
+                type="button"
+                className={`ts-toggle-btn ${mainView === "workspace" ? "is-active" : ""}`}
+                onClick={() => setMainView("workspace")}
+              >
+                <ProfileIcon /> Workspace
+              </button>
+            </div>
+
             {/* Accessible Theme Toggle */}
             <button
               type="button"
@@ -323,7 +369,42 @@ export default function Home() {
 
       {/* Main Workspace Layout */}
       <main className="ts-container">
-        {/* Mobile Segmented View Controller (Visible < 840px) */}
+        {mainView === "inbox" ? (
+          <div className="ts-inbox-view">
+            <div className="ts-inbox-header">
+              <h2>Bandeja de Entrada Simulada</h2>
+              <span className="ts-badge-simulated">Integración de Correo Simulada</span>
+            </div>
+            <p className="ts-inbox-desc">
+              Estos correos representan aplicaciones extraídas automáticamente por la IA.
+            </p>
+            <div className="ts-inbox-list">
+              {candidatesList.map((c) => (
+                <div key={c.id} className="ts-inbox-item">
+                  <div className="ts-inbox-meta">
+                    <span className="ts-inbox-sender">{c.name.toLowerCase().replace(" ", ".")}@example.com</span>
+                    <span className="ts-inbox-date">Hoy, 10:30 AM</span>
+                  </div>
+                  <div className="ts-inbox-subject">Aplicación para Lead Engineer: {c.name}</div>
+                  <div className="ts-inbox-attachment">
+                    <DownloadIcon /> CV_{c.name.replace(" ", "_")}.pdf
+                  </div>
+                  <div className="ts-inbox-status">
+                    <span className="ts-status-badge ts-status-finalist">Extracción Completa</span>
+                    <button className="ts-btn ts-btn-outline" onClick={() => {
+                      setSelectedId(c.id);
+                      setMainView("workspace");
+                    }}>
+                      Ver en Workspace
+                    </button>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        ) : (
+          <>
+            {/* Mobile Segmented View Controller (Visible < 840px) */}
         <div className="ts-mobile-tabs" role="tablist" aria-label="Vistas del espacio de trabajo">
           <button
             type="button"
@@ -405,33 +486,46 @@ export default function Home() {
                     : "ts-status-review";
 
                 return (
-                  <button
-                    key={item.id}
-                    type="button"
-                    className={`ts-candidate-item ${isSelected ? "is-selected" : ""}`}
-                    onClick={() => handleCandidateSelection(item.id)}
-                    aria-current={isSelected ? "true" : undefined}
-                  >
-                    <div className="ts-cand-top">
-                      {/* eslint-disable-next-line @next/next/no-img-element */}
-                      <img
-                        src={item.avatar}
-                        alt={item.name}
-                        className="ts-cand-avatar"
-                      />
-                      <div className="ts-cand-meta">
-                        <div className="ts-cand-name">{item.name}</div>
-                        <div className="ts-cand-role">{item.currentTitle}</div>
+                  <div key={item.id} className="ts-candidate-item-wrapper">
+                    <input
+                      type="checkbox"
+                      className="ts-shortlist-checkbox"
+                      checked={shortlistIds.has(item.id)}
+                      onChange={(e) => {
+                        const next = new Set(shortlistIds);
+                        if (e.target.checked) next.add(item.id);
+                        else next.delete(item.id);
+                        setShortlistIds(next);
+                      }}
+                      title="Agregar a Shortlist"
+                    />
+                    <button
+                      type="button"
+                      className={`ts-candidate-item ${isSelected ? "is-selected" : ""}`}
+                      onClick={() => handleCandidateSelection(item.id)}
+                      aria-current={isSelected ? "true" : undefined}
+                    >
+                      <div className="ts-cand-top">
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                        <img
+                          src={item.avatar}
+                          alt={item.name}
+                          className="ts-cand-avatar"
+                        />
+                        <div className="ts-cand-meta">
+                          <div className="ts-cand-name">{item.name}</div>
+                          <div className="ts-cand-role">{item.currentTitle}</div>
+                        </div>
                       </div>
-                    </div>
 
-                    <div className="ts-cand-bottom">
-                      <span className="ts-salary-tag">{item.salaryExpectation}</span>
-                      <span className={`ts-status-badge ${statusClass}`}>
-                        {item.status}
-                      </span>
-                    </div>
-                  </button>
+                      <div className="ts-cand-bottom">
+                        <span className="ts-salary-tag">{item.salaryExpectation}</span>
+                        <span className={`ts-status-badge ${statusClass}`}>
+                          {item.status}
+                        </span>
+                      </div>
+                    </button>
+                  </div>
                 );
               })}
             </div>
@@ -661,6 +755,56 @@ export default function Home() {
                 })}
               </div>
             </div>
+
+            {/* Export & Approval Gate (HitL) */}
+            {shortlistIds.size > 0 && (
+              <div className="ts-card ts-export-card">
+                <div className="ts-box-header">
+                  <DownloadIcon />
+                  <span>Compuerta de Exportación (Shortlist Activa: {shortlistIds.size})</span>
+                </div>
+                <div style={{ padding: "16px", background: "var(--surface-hover)", borderRadius: "6px", marginTop: "12px", border: "1px solid var(--border)" }}>
+                  <p style={{ margin: "0 0 12px 0", fontSize: "14px", color: "var(--foreground-muted)" }}>
+                    La exportación de datos y la confirmación de la shortlist requieren aprobación humana explícita.
+                  </p>
+                  
+                  <div style={{ display: "flex", gap: "12px", alignItems: "center" }}>
+                    {!shortlistApproved ? (
+                      <button 
+                        className="ts-btn" 
+                        onClick={() => setShortlistApproved(true)}
+                      >
+                        <CheckIcon /> Aprobar Selección
+                      </button>
+                    ) : (
+                      <>
+                        <button 
+                          className="ts-btn ts-btn-outline" 
+                          disabled={exportStatus === "exporting"}
+                          onClick={() => {
+                            setExportStatus("exporting");
+                            setTimeout(() => setExportStatus("done"), 1500);
+                          }}
+                        >
+                          <DownloadIcon /> {exportStatus === "exporting" ? "Generando PDF..." : "Exportar Dossier PDF"}
+                        </button>
+                        <button 
+                          className="ts-btn ts-btn-outline"
+                          disabled={exportStatus === "exporting"}
+                        >
+                          Exportar a Excel
+                        </button>
+                        {exportStatus === "done" && (
+                          <span style={{ color: "var(--color-emerald)", fontSize: "13px", display: "flex", alignItems: "center", gap: "4px" }}>
+                            <CheckIcon /> Exportado
+                          </span>
+                        )}
+                      </>
+                    )}
+                  </div>
+                </div>
+              </div>
+            )}
           </section>
 
           {/* Column 3: Talent Copilot Panel */}
@@ -688,6 +832,8 @@ export default function Home() {
             />
           </aside>
         </div>
+        </>
+        )}
       </main>
     </>
   );
