@@ -7,6 +7,9 @@ import {
 } from "@copilotkit/react-core/v2";
 import { GenerativeUI } from "@/components/generative-ui";
 import { AppControl } from "@/components/app-control";
+import { KanbanBoard } from "@/components/kanban-board";
+import { InterviewCalendar } from "@/components/interview-calendar";
+import { TalentDashboard } from "@/components/talent-dashboard";
 import {
   candidates as initialCandidates,
   findCandidate,
@@ -20,7 +23,7 @@ function LogoIcon() {
     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
       <circle cx="12" cy="12" r="10" />
       <circle cx="12" cy="12" r="6" />
-      <circle cx="12" cy="12" r="2" />
+      <circle cx="12" cy="2" />
     </svg>
   );
 }
@@ -45,6 +48,30 @@ function MoonIcon() {
   return (
     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
       <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z" />
+    </svg>
+  );
+}
+
+function DashboardIcon() {
+  return (
+    <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
+      <path d="M1 2.5A1.5 1.5 0 012.5 1h3A1.5 1.5 0 017 2.5v4A1.5 1.5 0 015.5 8h-3A1.5 1.5 0 011 6.5v-4zm0 7A1.5 1.5 0 012.5 8h3A1.5 1.5 0 017 9.5v4A1.5 1.5 0 015.5 15h-3A1.5 1.5 0 011 13.5v-4zm8-7A1.5 1.5 0 0110.5 1h3A1.5 1.5 0 0115 2.5v4A1.5 1.5 0 0113.5 8h-3A1.5 1.5 0 019 6.5v-4zm0 7A1.5 1.5 0 0110.5 8h3a1.5 1.5 0 011.5 1.5v4a1.5 1.5 0 01-1.5 1.5h-3a1.5 1.5 0 01-1.5-1.5v-4z" />
+    </svg>
+  );
+}
+
+function KanbanIcon() {
+  return (
+    <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
+      <path d="M1.5 1A1.5 1.5 0 000 2.5v11A1.5 1.5 0 001.5 15h2A1.5 1.5 0 005 13.5v-11A1.5 1.5 0 003.5 1h-2zm0 1.5h2v11h-2v-11zm5.5-1.5A1.5 1.5 0 005.5 2.5v7A1.5 1.5 0 007 11h2a1.5 1.5 0 001.5-1.5v-7A1.5 1.5 0 009 1h-2zm0 1.5h2v7h-2v-7zm5.5-1.5A1.5 1.5 0 0011 2.5v9a1.5 1.5 0 001.5 1.5h2a1.5 1.5 0 001.5-1.5v-9A1.5 1.5 0 0014.5 1h-2zm0 1.5h2v9h-2v-9z" />
+    </svg>
+  );
+}
+
+function CalendarIcon() {
+  return (
+    <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
+      <path d="M4.75 0a.75.75 0 01.75.75V2h5V.75a.75.75 0 011.5 0V2h1.25A1.75 1.75 0 0115 3.75v10.5A1.75 1.75 0 0113.25 16H2.75A1.75 1.75 0 011 14.25V3.75A1.75 1.75 0 012.75 2H4V.75A.75.75 0 014.75 0zm0 3.5h-2a.25.25 0 00-.25.25V6h11V3.75a.25.25 0 00-.25-.25h-2V4.5a.75.75 0 01-1.5 0V3.5h-5V4.5a.75.75 0 01-1.5 0V3.5zM2.5 7.5v6.75c0 .138.112.25.25.25h10.5a.25.25 0 00.25-.25V7.5h-11z" />
     </svg>
   );
 }
@@ -134,32 +161,32 @@ export default function Home() {
   const [selectedId, setSelectedId] = useState<string>(initialCandidates[0].id);
   const [mobileTab, setMobileTab] = useState<"detail" | "pipeline" | "copilot">("detail");
   const [theme, setTheme] = useState<"light" | "dark">("light");
-  
-  // New State for Visual Workflow
-  const [mainView, setMainView] = useState<"inbox" | "workspace">("inbox");
-  const [shortlistIds, setShortlistIds] = useState<Set<string>>(new Set());
+
+  // Views in the ATS visual workflow
+  const [mainView, setMainView] = useState<"dashboard" | "inbox" | "kanban" | "calendar" | "workspace">("dashboard");
+  const [shortlistIds, setShortlistIds] = useState<Set<string>>(() => new Set(["CAND-101"]));
   const [shortlistApproved, setShortlistApproved] = useState(false);
   const [exportStatus, setExportStatus] = useState<"idle" | "exporting" | "done">("idle");
+  const [toast, setToast] = useState<{ text: string; type: "success" | "info" } | null>(null);
+
+  const showToast = useCallback((text: string, type: "success" | "info" = "success") => {
+    setToast({ text, type });
+    setTimeout(() => setToast(null), 3200);
+  }, []);
 
   // ── Pop-click spring animation ───────────────────────────────────────────
-  // Delegated from document: finds the closest pop-click target on mousedown,
-  // then applies .is-popping on release so the spring CSS fires exactly once.
-  // Skips nested interactive elements (buttons, links, inputs inside a card).
-  // Respects prefers-reduced-motion.
   useEffect(() => {
     const POP_SELECTORS =
-      ".ts-candidate-item,.ts-card,.ts-hero-card,.ts-prompt-chip,.ts-btn,.ts-theme-toggle,.ts-mobile-tab-btn";
+      ".ts-candidate-item,.ts-card,.ts-hero-card,.ts-prompt-chip,.ts-btn,.ts-theme-toggle,.ts-mobile-tab-btn,.ts-kanban-card,.ts-cal-card,.ts-dash-kpi-card";
     const INNER_INTERACTIVE = "a,button,input,select,textarea,[role='button']";
 
     let target: Element | null = null;
 
     function findPopTarget(el: EventTarget | null): Element | null {
       if (!(el instanceof Element)) return null;
-      // If the direct click was on an inner interactive inside a card, skip.
       const innerEl = el.closest(INNER_INTERACTIVE);
       const card = el.closest(POP_SELECTORS);
       if (!card) return null;
-      // Allow if the card itself IS the interactive element (e.g. ts-candidate-item is a button)
       if (innerEl && innerEl !== card) return null;
       return card;
     }
@@ -168,9 +195,7 @@ export default function Home() {
       if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
       target = findPopTarget(e.target);
       if (target) {
-        // Remove any in-flight animation so rapid clicks restart cleanly.
         target.classList.remove("is-popping");
-        // Force reflow to restart animation
         void (target as HTMLElement).offsetWidth;
       }
     }
@@ -203,7 +228,6 @@ export default function Home() {
   }, []);
 
   // Sync theme with localStorage and documentElement on mount
-
   useEffect(() => {
     try {
       const saved = localStorage.getItem("talentscore_theme");
@@ -212,7 +236,6 @@ export default function Home() {
         document.documentElement.setAttribute("data-theme", saved);
       } else {
         const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
-        // Default is light per requirement; only use system preference if dark preferred
         const initial = prefersDark ? "dark" : "light";
         setTheme(initial);
         document.documentElement.setAttribute("data-theme", initial);
@@ -255,7 +278,14 @@ export default function Home() {
     setCandidatesList((prev) =>
       prev.map((c) => (c.id === id ? { ...c, status: newStatus } : c))
     );
-  }, []);
+    const cand = findCandidate(id);
+    showToast(`Estado de ${cand.name} actualizado a "${newStatus}"`, "success");
+  }, [showToast]);
+
+  const handleApproveShortlist = useCallback(() => {
+    setShortlistApproved(true);
+    showToast("Shortlist aprobada por el reclutador (Human-in-the-Loop). Exportaciones habilitadas.", "success");
+  }, [showToast]);
 
   // Suggestions for the CopilotChat before first message
   useConfigureSuggestions(
@@ -329,19 +359,55 @@ export default function Home() {
           </div>
 
           <div className="ts-nav-actions">
-            {/* View Toggle */}
-            <div className="ts-view-toggle">
+            {/* View Switcher Bar */}
+            <div className="ts-view-toggle" role="tablist" aria-label="Selector de Vistas">
               <button
                 type="button"
+                role="tab"
+                aria-selected={mainView === "dashboard"}
+                className={`ts-toggle-btn ${mainView === "dashboard" ? "is-active" : ""}`}
+                onClick={() => setMainView("dashboard")}
+                title="Dashboard Ejecutivo"
+              >
+                <DashboardIcon /> Dashboard
+              </button>
+              <button
+                type="button"
+                role="tab"
+                aria-selected={mainView === "inbox"}
                 className={`ts-toggle-btn ${mainView === "inbox" ? "is-active" : ""}`}
                 onClick={() => setMainView("inbox")}
+                title="Bandeja de CVs extraídos"
               >
                 <InboxIcon /> Bandeja
               </button>
               <button
                 type="button"
+                role="tab"
+                aria-selected={mainView === "kanban"}
+                className={`ts-toggle-btn ${mainView === "kanban" ? "is-active" : ""}`}
+                onClick={() => setMainView("kanban")}
+                title="Tablero Kanban CIME"
+              >
+                <KanbanIcon /> Kanban
+              </button>
+              <button
+                type="button"
+                role="tab"
+                aria-selected={mainView === "calendar"}
+                className={`ts-toggle-btn ${mainView === "calendar" ? "is-active" : ""}`}
+                onClick={() => setMainView("calendar")}
+                title="Calendario de Entrevistas"
+              >
+                <CalendarIcon /> Calendario
+              </button>
+              <button
+                type="button"
+                role="tab"
+                aria-selected={mainView === "workspace"}
                 className={`ts-toggle-btn ${mainView === "workspace" ? "is-active" : ""}`}
                 onClick={() => setMainView("workspace")}
+                title="Workspace de Selección & Copilot"
               >
                 <ProfileIcon /> Workspace
               </button>
@@ -369,14 +435,81 @@ export default function Home() {
 
       {/* Main Workspace Layout */}
       <main className="ts-container">
-        {mainView === "inbox" ? (
+        {/* Workflow Stepper Bar: Inbox → Ranking → Shortlist → Entrevistas → Aprobación HitL → Exportación */}
+        <nav className="ts-stepper-bar" aria-label="Flujo de Selección ATS">
+          <button
+            type="button"
+            className={`ts-stepper-item ${mainView === "dashboard" ? "is-active" : ""}`}
+            onClick={() => setMainView("dashboard")}
+          >
+            <span className="ts-stepper-num">1</span>
+            <span>Dashboard & KPIs</span>
+          </button>
+          <span className="ts-stepper-arrow">→</span>
+
+          <button
+            type="button"
+            className={`ts-stepper-item ${mainView === "inbox" ? "is-active" : ""}`}
+            onClick={() => setMainView("inbox")}
+          >
+            <span className="ts-stepper-num">2</span>
+            <span>Bandeja CVs</span>
+          </button>
+          <span className="ts-stepper-arrow">→</span>
+
+          <button
+            type="button"
+            className={`ts-stepper-item ${mainView === "kanban" ? "is-active" : ""}`}
+            onClick={() => setMainView("kanban")}
+          >
+            <span className="ts-stepper-num">3</span>
+            <span>Kanban Pipeline</span>
+          </button>
+          <span className="ts-stepper-arrow">→</span>
+
+          <button
+            type="button"
+            className={`ts-stepper-item ${mainView === "calendar" ? "is-active" : ""}`}
+            onClick={() => setMainView("calendar")}
+          >
+            <span className="ts-stepper-num">4</span>
+            <span>Entrevistas & Agenda</span>
+          </button>
+          <span className="ts-stepper-arrow">→</span>
+
+          <button
+            type="button"
+            className={`ts-stepper-item ${mainView === "workspace" ? "is-active" : ""}`}
+            onClick={() => setMainView("workspace")}
+          >
+            <span className="ts-stepper-num">5</span>
+            <span>Workspace & Copilot</span>
+          </button>
+        </nav>
+
+        {/* ── View 1: Executive Dashboard ─────────────────────────────────── */}
+        {mainView === "dashboard" && (
+          <TalentDashboard
+            candidates={candidatesList}
+            shortlistIds={shortlistIds}
+            shortlistApproved={shortlistApproved}
+            onNavigateView={(view) => setMainView(view)}
+            onSelectCandidate={(id) => {
+              setSelectedId(id);
+            }}
+            onApproveShortlist={handleApproveShortlist}
+          />
+        )}
+
+        {/* ── View 2: Simulated Email Inbox ──────────────────────────────── */}
+        {mainView === "inbox" && (
           <div className="ts-inbox-view">
             <div className="ts-inbox-header">
-              <h2>Bandeja de Entrada Simulada</h2>
-              <span className="ts-badge-simulated">Integración de Correo Simulada</span>
+              <h2>Bandeja de Entrada de Postulaciones</h2>
+              <span className="ts-badge-simulated">Integración Simulada · Extracción LLM</span>
             </div>
             <p className="ts-inbox-desc">
-              Estos correos representan aplicaciones extraídas automáticamente por la IA.
+              Estos correos representan postulaciones extraídas automáticamente por la IA desde CVs estructurados.
             </p>
             <div className="ts-inbox-list">
               {candidatesList.map((c) => (
@@ -385,456 +518,506 @@ export default function Home() {
                     <span className="ts-inbox-sender">{c.name.toLowerCase().replace(" ", ".")}@example.com</span>
                     <span className="ts-inbox-date">Hoy, 10:30 AM</span>
                   </div>
-                  <div className="ts-inbox-subject">Aplicación para Lead Engineer: {c.name}</div>
+                  <div className="ts-inbox-subject">Postulación para {TARGET_ROLE.title}: {c.name}</div>
                   <div className="ts-inbox-attachment">
                     <DownloadIcon /> CV_{c.name.replace(" ", "_")}.pdf
                   </div>
                   <div className="ts-inbox-status">
-                    <span className="ts-status-badge ts-status-finalist">Extracción Completa</span>
-                    <button className="ts-btn ts-btn-outline" onClick={() => {
-                      setSelectedId(c.id);
-                      setMainView("workspace");
-                    }}>
-                      Ver en Workspace
-                    </button>
+                    <span className="ts-status-badge ts-status-finalist">Extracción Completa (Confianza 95%)</span>
+                    <div style={{ display: "flex", gap: "8px" }}>
+                      <button
+                        className="ts-btn ts-btn-outline"
+                        onClick={() => {
+                          setSelectedId(c.id);
+                          setMainView("kanban");
+                        }}
+                      >
+                        Ver en Kanban
+                      </button>
+                      <button
+                        className="ts-btn ts-btn-primary"
+                        onClick={() => {
+                          setSelectedId(c.id);
+                          setMainView("workspace");
+                        }}
+                      >
+                        Ver en Workspace
+                      </button>
+                    </div>
                   </div>
                 </div>
               ))}
             </div>
           </div>
-        ) : (
+        )}
+
+        {/* ── View 3: CIME Kanban Board ──────────────────────────────────── */}
+        {mainView === "kanban" && (
+          <KanbanBoard
+            candidates={candidatesList}
+            onSelectCandidate={(id) => setSelectedId(id)}
+            onUpdateStatus={updateCandidateStatus}
+            onOpenWorkspace={(id) => {
+              setSelectedId(id);
+              setMainView("workspace");
+            }}
+          />
+        )}
+
+        {/* ── View 4: Interview Calendar ─────────────────────────────────── */}
+        {mainView === "calendar" && (
+          <InterviewCalendar
+            candidates={candidatesList}
+            onSelectCandidate={(id) => {
+              setSelectedId(id);
+              setMainView("workspace");
+            }}
+          />
+        )}
+
+        {/* ── View 5: Deep Dive Workspace with Copilot ────────────────────── */}
+        {mainView === "workspace" && (
           <>
             {/* Mobile Segmented View Controller (Visible < 840px) */}
-        <div className="ts-mobile-tabs" role="tablist" aria-label="Vistas del espacio de trabajo">
-          <button
-            type="button"
-            role="tab"
-            aria-selected={mobileTab === "detail"}
-            className={`ts-mobile-tab-btn ${mobileTab === "detail" ? "is-active" : ""}`}
-            onClick={() => setMobileTab("detail")}
-          >
-            <ProfileIcon /> Perfil
-          </button>
-          <button
-            type="button"
-            role="tab"
-            aria-selected={mobileTab === "pipeline"}
-            className={`ts-mobile-tab-btn ${mobileTab === "pipeline" ? "is-active" : ""}`}
-            onClick={() => setMobileTab("pipeline")}
-          >
-            <UserGroupIcon /> Pipeline
-            <span className="ts-mobile-tab-count">{candidatesList.length}</span>
-          </button>
-          <button
-            type="button"
-            role="tab"
-            aria-selected={mobileTab === "copilot"}
-            className={`ts-mobile-tab-btn ${mobileTab === "copilot" ? "is-active" : ""}`}
-            onClick={() => setMobileTab("copilot")}
-          >
-            <SparklesIcon /> Copilot
-          </button>
-        </div>
-
-        {/* Quick Candidates Selector Bar */}
-        <div className="ts-quick-prompts-bar">
-          <div className="ts-quick-prompts" aria-label="Acceso rápido a candidatos">
-            <span className="ts-prompt-label">Candidatos:</span>
-            {candidatesList.map((item) => {
-              const isSelected = item.id === selectedId;
-              const isOver = item.salaryNumber > TARGET_ROLE.budgetMaxSalary;
-              return (
-                <button
-                  key={item.id}
-                  type="button"
-                  className={`ts-prompt-chip ${isSelected ? "is-active" : ""}`}
-                  onClick={() => handleCandidateSelection(item.id)}
-                  aria-pressed={isSelected}
-                >
-                  <span>{item.name}</span>
-                  <span style={{ fontSize: "11px", opacity: 0.8 }}>
-                    {isOver ? `(+$${(item.salaryNumber - TARGET_ROLE.budgetMaxSalary) / 1000}k)` : `(${item.status})`}
-                  </span>
-                </button>
-              );
-            })}
-          </div>
-        </div>
-
-        {/* 3-Column Responsive Grid with Mobile View Filter */}
-        <div className={`ts-grid-layout ts-view-${mobileTab}`}>
-          {/* Column 1: Candidates Pipeline */}
-          <aside className="ts-panel" aria-label="Pipeline de Candidatos">
-            <div className="ts-panel-header">
-              <h2 className="ts-panel-title">
-                <UserGroupIcon />
-                <span>Pipeline de Talento</span>
-              </h2>
-              <span className="ts-panel-count">{candidatesList.length} activos</span>
+            <div className="ts-mobile-tabs" role="tablist" aria-label="Vistas del espacio de trabajo">
+              <button
+                type="button"
+                role="tab"
+                aria-selected={mobileTab === "detail"}
+                className={`ts-mobile-tab-btn ${mobileTab === "detail" ? "is-active" : ""}`}
+                onClick={() => setMobileTab("detail")}
+              >
+                <ProfileIcon /> Perfil
+              </button>
+              <button
+                type="button"
+                role="tab"
+                aria-selected={mobileTab === "pipeline"}
+                className={`ts-mobile-tab-btn ${mobileTab === "pipeline" ? "is-active" : ""}`}
+                onClick={() => setMobileTab("pipeline")}
+              >
+                <UserGroupIcon /> Pipeline
+                <span className="ts-mobile-tab-count">{candidatesList.length}</span>
+              </button>
+              <button
+                type="button"
+                role="tab"
+                aria-selected={mobileTab === "copilot"}
+                className={`ts-mobile-tab-btn ${mobileTab === "copilot" ? "is-active" : ""}`}
+                onClick={() => setMobileTab("copilot")}
+              >
+                <SparklesIcon /> Copilot
+              </button>
             </div>
 
-            <div className="ts-candidate-list">
-              {candidatesList.map((item) => {
-                const isSelected = item.id === selectedId;
-                const statusClass =
-                  item.status === "Finalist"
-                    ? "ts-status-finalist"
-                    : item.status === "Interviewing"
-                    ? "ts-status-interviewing"
-                    : item.status === "Offer Extended"
-                    ? "ts-status-offer"
-                    : "ts-status-review";
-
-                return (
-                  <div key={item.id} className="ts-candidate-item-wrapper">
-                    <input
-                      type="checkbox"
-                      className="ts-shortlist-checkbox"
-                      checked={shortlistIds.has(item.id)}
-                      onChange={(e) => {
-                        const next = new Set(shortlistIds);
-                        if (e.target.checked) next.add(item.id);
-                        else next.delete(item.id);
-                        setShortlistIds(next);
-                      }}
-                      title="Agregar a Shortlist"
-                    />
-                    <button
-                      type="button"
-                      className={`ts-candidate-item ${isSelected ? "is-selected" : ""}`}
-                      onClick={() => handleCandidateSelection(item.id)}
-                      aria-current={isSelected ? "true" : undefined}
-                    >
-                      <div className="ts-cand-top">
-                        {/* eslint-disable-next-line @next/next/no-img-element */}
-                        <img
-                          src={item.avatar}
-                          alt={item.name}
-                          className="ts-cand-avatar"
-                        />
-                        <div className="ts-cand-meta">
-                          <div className="ts-cand-name">{item.name}</div>
-                          <div className="ts-cand-role">{item.currentTitle}</div>
-                        </div>
-                      </div>
-
-                      <div className="ts-cand-bottom">
-                        <span className="ts-salary-tag">{item.salaryExpectation}</span>
-                        <span className={`ts-status-badge ${statusClass}`}>
-                          {item.status}
-                        </span>
-                      </div>
-                    </button>
-                  </div>
-                );
-              })}
-            </div>
-          </aside>
-
-          {/* Column 2: Candidate Deep Dive */}
-          <section
-            key={candidate.id}
-            className="ts-detail-container ts-detail-animated"
-            aria-label="Detalle del Candidato"
-          >
-            {/* Candidate Header Profile Card */}
-            <div className="ts-hero-card">
-              <div className="ts-hero-top">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  src={candidate.avatar}
-                  alt={candidate.name}
-                  className="ts-hero-avatar"
-                />
-                <div className="ts-hero-info">
-                  <div className="ts-hero-name-row">
-                    <h2 className="ts-hero-name">{candidate.name}</h2>
-                    <span
-                      className={`ts-status-badge ${
-                        candidate.status === "Finalist"
-                          ? "ts-status-finalist"
-                          : candidate.status === "Interviewing"
-                          ? "ts-status-interviewing"
-                          : candidate.status === "Offer Extended"
-                          ? "ts-status-offer"
-                          : "ts-status-review"
-                      }`}
-                    >
-                      {candidate.status}
-                    </span>
-                  </div>
-                  <div className="ts-hero-title">{candidate.currentTitle}</div>
-                  <div className="ts-hero-facts">
-                    <span className="ts-hero-fact">
-                      <LocationIcon /> {candidate.location}
-                    </span>
-                    <span className="ts-hero-fact">
-                      <BriefcaseIcon /> {candidate.experienceYears} años de exp.
-                    </span>
-                    <span className="ts-hero-fact">
-                      <RoleBadgeIcon /> Aplicó a: {candidate.appliedRole}
-                    </span>
-                  </div>
-                </div>
-              </div>
-
-              {/* Headline */}
-              <blockquote className="ts-headline-box">
-                &ldquo;{candidate.headline}&rdquo;
-              </blockquote>
-
-              {/* Salary vs Budget Indicator */}
-              <div className={`ts-budget-banner ${isWithinBudget ? "is-ok" : "is-over"}`}>
-                <div className="ts-budget-info">
-                  <span className="ts-budget-title">
-                    {isWithinBudget ? (
-                      <>
-                        <CheckIcon /> Pretensión Salarial en Rango Presupuestario
-                      </>
-                    ) : (
-                      <>
-                        <AlertIcon /> Alerta de Compensación: Supera Presupuesto
-                      </>
-                    )}
-                  </span>
-                  <span className="ts-budget-desc">
-                    Pretensión: {candidate.salaryExpectation} · Presupuesto tope disponible: $
-                    {TARGET_ROLE.budgetMaxSalary.toLocaleString()} {TARGET_ROLE.currency}
-                  </span>
-                </div>
-                <span className="ts-budget-pill-large">
-                  {isWithinBudget
-                    ? `-$${Math.abs(budgetDiff).toLocaleString()} margen disponible`
-                    : `+$${Math.abs(budgetDiff).toLocaleString()} por encima del tope`}
-                </span>
-              </div>
-
-              {/* Summary */}
-              <p className="ts-candidate-summary-text">
-                {candidate.summary}
-              </p>
-
-              {/* Required Skills */}
-              <div className="ts-skills-section">
-                <span className="ts-section-heading">Competencias Principales:</span>
-                <div className="ts-skills-tags">
-                  {candidate.skills.map((skill) => (
-                    <span key={skill} className="ts-skill-pill">
-                      {skill}
-                    </span>
-                  ))}
-                </div>
-              </div>
-            </div>
-
-            {/* Competency Matrix (Ratings 1-10) */}
-            <div className="ts-card">
-              <h3 className="ts-card-title">
-                <span>Matriz de Competencias Técnicas & Liderazgo</span>
-                <span className="ts-card-badge">Escala 1 a 10</span>
-              </h3>
-
-              <div className="ts-ratings-grid">
-                <div className="ts-rating-row">
-                  <span className="ts-rating-label">System Design</span>
-                  <div className="ts-bar-track" role="progressbar" aria-valuenow={candidate.ratings.systemDesign} aria-valuemin={1} aria-valuemax={10}>
-                    <div
-                      className="ts-bar-fill"
-                      style={{ width: `${candidate.ratings.systemDesign * 10}%` }}
-                    />
-                  </div>
-                  <span className="ts-rating-value">{candidate.ratings.systemDesign} / 10</span>
-                </div>
-
-                <div className="ts-rating-row">
-                  <span className="ts-rating-label">Coding & Algoritmos</span>
-                  <div className="ts-bar-track" role="progressbar" aria-valuenow={candidate.ratings.coding} aria-valuemin={1} aria-valuemax={10}>
-                    <div
-                      className="ts-bar-fill"
-                      style={{ width: `${candidate.ratings.coding * 10}%` }}
-                    />
-                  </div>
-                  <span className="ts-rating-value">{candidate.ratings.coding} / 10</span>
-                </div>
-
-                <div className="ts-rating-row">
-                  <span className="ts-rating-label">Arquitectura de Software</span>
-                  <div className="ts-bar-track" role="progressbar" aria-valuenow={candidate.ratings.architecture} aria-valuemin={1} aria-valuemax={10}>
-                    <div
-                      className="ts-bar-fill"
-                      style={{ width: `${candidate.ratings.architecture * 10}%` }}
-                    />
-                  </div>
-                  <span className="ts-rating-value">{candidate.ratings.architecture} / 10</span>
-                </div>
-
-                <div className="ts-rating-row">
-                  <span className="ts-rating-label">Liderazgo & Mentoría</span>
-                  <div className="ts-bar-track" role="progressbar" aria-valuenow={candidate.ratings.leadership} aria-valuemin={1} aria-valuemax={10}>
-                    <div
-                      className="ts-bar-fill"
-                      style={{ width: `${candidate.ratings.leadership * 10}%` }}
-                    />
-                  </div>
-                  <span className="ts-rating-value">{candidate.ratings.leadership} / 10</span>
-                </div>
-
-                <div className="ts-rating-row">
-                  <span className="ts-rating-label">Comunicación & Cultura</span>
-                  <div className="ts-bar-track" role="progressbar" aria-valuenow={candidate.ratings.communication} aria-valuemin={1} aria-valuemax={10}>
-                    <div
-                      className="ts-bar-fill"
-                      style={{ width: `${candidate.ratings.communication * 10}%` }}
-                    />
-                  </div>
-                  <span className="ts-rating-value">{candidate.ratings.communication} / 10</span>
-                </div>
-              </div>
-            </div>
-
-            {/* Strengths & Red Flags */}
-            <div className="ts-pros-cons-grid">
-              <div className="ts-box ts-pros-box">
-                <div className="ts-box-header">
-                  <CheckIcon />
-                  <span>Fortalezas Destacadas</span>
-                </div>
-                <ul className="ts-bullet-list">
-                  {candidate.pros.map((pro, index) => (
-                    <li key={index}>{pro}</li>
-                  ))}
-                </ul>
-              </div>
-
-              <div className="ts-box ts-cons-box">
-                <div className="ts-box-header">
-                  <AlertIcon />
-                  <span>Puntos de Atención / Riesgos</span>
-                </div>
-                <ul className="ts-bullet-list">
-                  {candidate.redFlags.map((flag, index) => (
-                    <li key={index}>{flag}</li>
-                  ))}
-                </ul>
-              </div>
-            </div>
-
-            {/* Interview Feed */}
-            <div className="ts-card">
-              <h3 className="ts-card-title">
-                <span>Feed de Entrevistas & Feedback del Equipo</span>
-                <span className="ts-card-badge">
-                  {candidate.interviewNotes.length} rondas completadas
-                </span>
-              </h3>
-
-              <div className="ts-interview-timeline">
-                {candidate.interviewNotes.map((note, index) => {
-                  const ratingClass =
-                    note.rating === "Strong Yes"
-                      ? "ts-rating-strong-yes"
-                      : note.rating === "Neutral"
-                      ? "ts-rating-neutral"
-                      : "ts-rating-no";
-
+            {/* Quick Candidates Selector Bar */}
+            <div className="ts-quick-prompts-bar">
+              <div className="ts-quick-prompts" aria-label="Acceso rápido a candidatos">
+                <span className="ts-prompt-label">Candidatos:</span>
+                {candidatesList.map((item) => {
+                  const isSelected = item.id === selectedId;
+                  const isOver = item.salaryNumber > TARGET_ROLE.budgetMaxSalary;
                   return (
-                    <div key={index} className="ts-interview-item">
-                      <div className="ts-interview-header">
-                        <div className="ts-interview-meta">
-                          <span className="ts-interview-round">{note.round}</span>
-                          <span className="ts-interview-interviewer">· entrevistador: {note.interviewer}</span>
-                        </div>
-                        <span className={`ts-interview-rating ${ratingClass}`}>
-                          {note.rating}
-                        </span>
-                      </div>
-                      <p className="ts-interview-notes">{note.notes}</p>
-                      <time className="ts-interview-date">{note.date}</time>
-                    </div>
+                    <button
+                      key={item.id}
+                      type="button"
+                      className={`ts-prompt-chip ${isSelected ? "is-active" : ""}`}
+                      onClick={() => handleCandidateSelection(item.id)}
+                      aria-pressed={isSelected}
+                    >
+                      <span>{item.name}</span>
+                      <span style={{ fontSize: "11px", opacity: 0.8 }}>
+                        {isOver ? `(+$${(item.salaryNumber - TARGET_ROLE.budgetMaxSalary) / 1000}k)` : `(${item.status})`}
+                      </span>
+                    </button>
                   );
                 })}
               </div>
             </div>
 
-            {/* Export & Approval Gate (HitL) */}
-            {shortlistIds.size > 0 && (
-              <div className="ts-card ts-export-card">
-                <div className="ts-box-header">
-                  <DownloadIcon />
-                  <span>Compuerta de Exportación (Shortlist Activa: {shortlistIds.size})</span>
+            {/* 3-Column Responsive Grid with Mobile View Filter */}
+            <div className={`ts-grid-layout ts-view-${mobileTab}`}>
+              {/* Column 1: Candidates Pipeline */}
+              <aside className="ts-panel" aria-label="Pipeline de Candidatos">
+                <div className="ts-panel-header">
+                  <h2 className="ts-panel-title">
+                    <UserGroupIcon />
+                    <span>Pipeline de Talento</span>
+                  </h2>
+                  <span className="ts-panel-count">{candidatesList.length} activos</span>
                 </div>
-                <div style={{ padding: "16px", background: "var(--surface-hover)", borderRadius: "6px", marginTop: "12px", border: "1px solid var(--border)" }}>
-                  <p style={{ margin: "0 0 12px 0", fontSize: "14px", color: "var(--foreground-muted)" }}>
-                    La exportación de datos y la confirmación de la shortlist requieren aprobación humana explícita.
-                  </p>
-                  
-                  <div style={{ display: "flex", gap: "12px", alignItems: "center" }}>
-                    {!shortlistApproved ? (
-                      <button 
-                        className="ts-btn" 
-                        onClick={() => setShortlistApproved(true)}
-                      >
-                        <CheckIcon /> Aprobar Selección
-                      </button>
-                    ) : (
-                      <>
-                        <button 
-                          className="ts-btn ts-btn-outline" 
-                          disabled={exportStatus === "exporting"}
-                          onClick={() => {
-                            setExportStatus("exporting");
-                            setTimeout(() => setExportStatus("done"), 1500);
+
+                <div className="ts-candidate-list">
+                  {candidatesList.map((item) => {
+                    const isSelected = item.id === selectedId;
+                    const statusClass =
+                      item.status === "Finalist"
+                        ? "ts-status-finalist"
+                        : item.status === "Interviewing"
+                          ? "ts-status-interviewing"
+                          : item.status === "Offer Extended"
+                            ? "ts-status-offer"
+                            : "ts-status-review";
+
+                    return (
+                      <div key={item.id} className="ts-candidate-item-wrapper">
+                        <input
+                          type="checkbox"
+                          className="ts-shortlist-checkbox"
+                          checked={shortlistIds.has(item.id)}
+                          onChange={(e) => {
+                            const next = new Set(shortlistIds);
+                            if (e.target.checked) next.add(item.id);
+                            else next.delete(item.id);
+                            setShortlistIds(next);
                           }}
+                          title="Agregar a Shortlist"
+                        />
+                        <button
+                          type="button"
+                          className={`ts-candidate-item ${isSelected ? "is-selected" : ""}`}
+                          onClick={() => handleCandidateSelection(item.id)}
+                          aria-current={isSelected ? "true" : undefined}
                         >
-                          <DownloadIcon /> {exportStatus === "exporting" ? "Generando PDF..." : "Exportar Dossier PDF"}
+                          <div className="ts-cand-top">
+                            {/* eslint-disable-next-line @next/next/no-img-element */}
+                            <img
+                              src={item.avatar}
+                              alt={item.name}
+                              className="ts-cand-avatar"
+                            />
+                            <div className="ts-cand-meta">
+                              <div className="ts-cand-name">{item.name}</div>
+                              <div className="ts-cand-role">{item.currentTitle}</div>
+                            </div>
+                          </div>
+
+                          <div className="ts-cand-bottom">
+                            <span className="ts-salary-tag">{item.salaryExpectation}</span>
+                            <span className={`ts-status-badge ${statusClass}`}>
+                              {item.status}
+                            </span>
+                          </div>
                         </button>
-                        <button 
-                          className="ts-btn ts-btn-outline"
-                          disabled={exportStatus === "exporting"}
+                      </div>
+                    );
+                  })}
+                </div>
+              </aside>
+
+              {/* Column 2: Candidate Deep Dive */}
+              <section
+                key={candidate.id}
+                className="ts-detail-container ts-detail-animated"
+                aria-label="Detalle del Candidato"
+              >
+                {/* Candidate Header Profile Card */}
+                <div className="ts-hero-card">
+                  <div className="ts-hero-top">
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img
+                      src={candidate.avatar}
+                      alt={candidate.name}
+                      className="ts-hero-avatar"
+                    />
+                    <div className="ts-hero-info">
+                      <div className="ts-hero-name-row">
+                        <h2 className="ts-hero-name">{candidate.name}</h2>
+                        <span
+                          className={`ts-status-badge ${candidate.status === "Finalist"
+                              ? "ts-status-finalist"
+                              : candidate.status === "Interviewing"
+                                ? "ts-status-interviewing"
+                                : candidate.status === "Offer Extended"
+                                  ? "ts-status-offer"
+                                  : "ts-status-review"
+                            }`}
                         >
-                          Exportar a Excel
-                        </button>
-                        {exportStatus === "done" && (
-                          <span style={{ color: "var(--color-emerald)", fontSize: "13px", display: "flex", alignItems: "center", gap: "4px" }}>
-                            <CheckIcon /> Exportado
-                          </span>
+                          {candidate.status}
+                        </span>
+                      </div>
+                      <div className="ts-hero-title">{candidate.currentTitle}</div>
+                      <div className="ts-hero-facts">
+                        <span className="ts-hero-fact">
+                          <LocationIcon /> {candidate.location}
+                        </span>
+                        <span className="ts-hero-fact">
+                          <BriefcaseIcon /> {candidate.experienceYears} años de exp.
+                        </span>
+                        <span className="ts-hero-fact">
+                          <RoleBadgeIcon /> Aplicó a: {candidate.appliedRole}
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Headline */}
+                  <blockquote className="ts-headline-box">
+                    &ldquo;{candidate.headline}&rdquo;
+                  </blockquote>
+
+                  {/* Salary vs Budget Indicator */}
+                  <div className={`ts-budget-banner ${isWithinBudget ? "is-ok" : "is-over"}`}>
+                    <div className="ts-budget-info">
+                      <span className="ts-budget-title">
+                        {isWithinBudget ? (
+                          <>
+                            <CheckIcon /> Pretensión Salarial en Rango Presupuestario
+                          </>
+                        ) : (
+                          <>
+                            <AlertIcon /> Alerta de Compensación: Supera Presupuesto
+                          </>
                         )}
-                      </>
-                    )}
+                      </span>
+                      <span className="ts-budget-desc">
+                        Pretensión: {candidate.salaryExpectation} · Presupuesto tope disponible: $
+                        {TARGET_ROLE.budgetMaxSalary.toLocaleString()} {TARGET_ROLE.currency}
+                      </span>
+                    </div>
+                    <span className="ts-budget-pill-large">
+                      {isWithinBudget
+                        ? `-$${Math.abs(budgetDiff).toLocaleString()} margen disponible`
+                        : `+$${Math.abs(budgetDiff).toLocaleString()} por encima del tope`}
+                    </span>
+                  </div>
+
+                  {/* Summary */}
+                  <p className="ts-candidate-summary-text">
+                    {candidate.summary}
+                  </p>
+
+                  {/* Required Skills */}
+                  <div className="ts-skills-section">
+                    <span className="ts-section-heading">Competencias Principales:</span>
+                    <div className="ts-skills-tags">
+                      {candidate.skills.map((skill) => (
+                        <span key={skill} className="ts-skill-pill">
+                          {skill}
+                        </span>
+                      ))}
+                    </div>
                   </div>
                 </div>
-              </div>
-            )}
-          </section>
 
-          {/* Column 3: Talent Copilot Panel */}
-          <aside className="ts-copilot-panel" aria-label="Asistente Talent Copilot">
-            <div className="ts-copilot-header">
-              <div className="ts-copilot-title-group">
-                <div className="ts-copilot-icon" aria-hidden="true">
-                  <SparklesIcon />
+                {/* Competency Matrix (Ratings 1-10) */}
+                <div className="ts-card">
+                  <h3 className="ts-card-title">
+                    <span>Matriz de Competencias Técnicas & Liderazgo</span>
+                    <span className="ts-card-badge">Escala 1 a 10</span>
+                  </h3>
+
+                  <div className="ts-ratings-grid">
+                    <div className="ts-rating-row">
+                      <span className="ts-rating-label">System Design</span>
+                      <div className="ts-bar-track" role="progressbar" aria-valuenow={candidate.ratings.systemDesign} aria-valuemin={1} aria-valuemax={10}>
+                        <div
+                          className="ts-bar-fill"
+                          style={{ width: `${candidate.ratings.systemDesign * 10}%` }}
+                        />
+                      </div>
+                      <span className="ts-rating-value">{candidate.ratings.systemDesign} / 10</span>
+                    </div>
+
+                    <div className="ts-rating-row">
+                      <span className="ts-rating-label">Coding & Algoritmos</span>
+                      <div className="ts-bar-track" role="progressbar" aria-valuenow={candidate.ratings.coding} aria-valuemin={1} aria-valuemax={10}>
+                        <div
+                          className="ts-bar-fill"
+                          style={{ width: `${candidate.ratings.coding * 10}%` }}
+                        />
+                      </div>
+                      <span className="ts-rating-value">{candidate.ratings.coding} / 10</span>
+                    </div>
+
+                    <div className="ts-rating-row">
+                      <span className="ts-rating-label">Arquitectura de Software</span>
+                      <div className="ts-bar-track" role="progressbar" aria-valuenow={candidate.ratings.architecture} aria-valuemin={1} aria-valuemax={10}>
+                        <div
+                          className="ts-bar-fill"
+                          style={{ width: `${candidate.ratings.architecture * 10}%` }}
+                        />
+                      </div>
+                      <span className="ts-rating-value">{candidate.ratings.architecture} / 10</span>
+                    </div>
+
+                    <div className="ts-rating-row">
+                      <span className="ts-rating-label">Liderazgo & Mentoría</span>
+                      <div className="ts-bar-track" role="progressbar" aria-valuenow={candidate.ratings.leadership} aria-valuemin={1} aria-valuemax={10}>
+                        <div
+                          className="ts-bar-fill"
+                          style={{ width: `${candidate.ratings.leadership * 10}%` }}
+                        />
+                      </div>
+                      <span className="ts-rating-value">{candidate.ratings.leadership} / 10</span>
+                    </div>
+
+                    <div className="ts-rating-row">
+                      <span className="ts-rating-label">Comunicación & Cultura</span>
+                      <div className="ts-bar-track" role="progressbar" aria-valuenow={candidate.ratings.communication} aria-valuemin={1} aria-valuemax={10}>
+                        <div
+                          className="ts-bar-fill"
+                          style={{ width: `${candidate.ratings.communication * 10}%` }}
+                        />
+                      </div>
+                      <span className="ts-rating-value">{candidate.ratings.communication} / 10</span>
+                    </div>
+                  </div>
                 </div>
-                <div>
-                  <h3 className="ts-copilot-title">Talent Copilot</h3>
-                  <p className="ts-copilot-subtitle">
-                    <span className="ts-role-dot" /> Conectado al workspace
-                  </p>
+
+                {/* Strengths & Red Flags */}
+                <div className="ts-pros-cons-grid">
+                  <div className="ts-box ts-pros-box">
+                    <div className="ts-box-header">
+                      <CheckIcon />
+                      <span>Fortalezas Destacadas</span>
+                    </div>
+                    <ul className="ts-bullet-list">
+                      {candidate.pros.map((pro, index) => (
+                        <li key={index}>{pro}</li>
+                      ))}
+                    </ul>
+                  </div>
+
+                  <div className="ts-box ts-cons-box">
+                    <div className="ts-box-header">
+                      <AlertIcon />
+                      <span>Puntos de Atención / Riesgos</span>
+                    </div>
+                    <ul className="ts-bullet-list">
+                      {candidate.redFlags.map((flag, index) => (
+                        <li key={index}>{flag}</li>
+                      ))}
+                    </ul>
+                  </div>
                 </div>
-              </div>
+
+                {/* Interview Feed */}
+                <div className="ts-card">
+                  <h3 className="ts-card-title">
+                    <span>Feed de Entrevistas & Feedback del Equipo</span>
+                    <span className="ts-card-badge">
+                      {candidate.interviewNotes.length} rondas completadas
+                    </span>
+                  </h3>
+
+                  <div className="ts-interview-timeline">
+                    {candidate.interviewNotes.map((note, index) => {
+                      const ratingClass =
+                        note.rating === "Strong Yes"
+                          ? "ts-rating-strong-yes"
+                          : note.rating === "Neutral"
+                            ? "ts-rating-neutral"
+                            : "ts-rating-no";
+
+                      return (
+                        <div key={index} className="ts-interview-item">
+                          <div className="ts-interview-header">
+                            <div className="ts-interview-meta">
+                              <span className="ts-interview-round">{note.round}</span>
+                              <span className="ts-interview-interviewer">· entrevistador: {note.interviewer}</span>
+                            </div>
+                            <span className={`ts-interview-rating ${ratingClass}`}>
+                              {note.rating}
+                            </span>
+                          </div>
+                          <p className="ts-interview-notes">{note.notes}</p>
+                          <time className="ts-interview-date">{note.date}</time>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+
+                {/* Export & Approval Gate (HitL) */}
+                {shortlistIds.size > 0 && (
+                  <div className="ts-card ts-export-card">
+                    <div className="ts-box-header">
+                      <DownloadIcon />
+                      <span>Compuerta de Exportación (Shortlist Activa: {shortlistIds.size})</span>
+                    </div>
+                    <div style={{ padding: "16px", background: "var(--surface-hover)", borderRadius: "6px", marginTop: "12px", border: "1px solid var(--border)" }}>
+                      <p style={{ margin: "0 0 12px 0", fontSize: "14px", color: "var(--foreground-muted)" }}>
+                        La exportación de datos y la confirmación de la shortlist requieren aprobación humana explícita.
+                      </p>
+
+                      <div style={{ display: "flex", gap: "12px", alignItems: "center" }}>
+                        {!shortlistApproved ? (
+                          <button
+                            className="ts-btn ts-btn-primary"
+                            onClick={handleApproveShortlist}
+                          >
+                            <CheckIcon /> Aprobar Selección (HitL)
+                          </button>
+                        ) : (
+                          <>
+                            <button
+                              className="ts-btn ts-btn-outline"
+                              disabled={exportStatus === "exporting"}
+                              onClick={() => {
+                                setExportStatus("exporting");
+                                setTimeout(() => setExportStatus("done"), 1500);
+                              }}
+                            >
+                              <DownloadIcon /> {exportStatus === "exporting" ? "Generando PDF..." : "Exportar Dossier PDF"}
+                            </button>
+                            <button
+                              className="ts-btn ts-btn-outline"
+                              disabled={exportStatus === "exporting"}
+                            >
+                              Exportar a Excel
+                            </button>
+                            {exportStatus === "done" && (
+                              <span style={{ color: "var(--emerald)", fontSize: "13px", display: "flex", alignItems: "center", gap: "4px" }}>
+                                <CheckIcon /> Exportado exitosamente
+                              </span>
+                            )}
+                          </>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                )}
+              </section>
+
+              {/* Column 3: Talent Copilot Panel */}
+              <aside className="ts-copilot-panel" aria-label="Asistente Talent Copilot">
+                <div className="ts-copilot-header">
+                  <div className="ts-copilot-title-group">
+                    <div className="ts-copilot-icon" aria-hidden="true">
+                      <SparklesIcon />
+                    </div>
+                    <div>
+                      <h3 className="ts-copilot-title">Talent Copilot</h3>
+                      <p className="ts-copilot-subtitle">
+                        <span className="ts-role-dot" /> Conectado al workspace
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+                <CopilotChat
+                  className="ts-copilot-chat"
+                  labels={{
+                    welcomeMessageText: `Hola. Asistente activo para ${TARGET_ROLE.title}. Estoy analizando a ${candidate.name}. ¿Deseas evaluar su fit, comparar candidatos o preparar una oferta?`,
+                    chatInputPlaceholder: `Consulta sobre ${candidate.name}, compara o redacta una oferta…`,
+                  }}
+                />
+              </aside>
             </div>
-
-            <CopilotChat
-              className="ts-copilot-chat"
-              labels={{
-                welcomeMessageText: `Hola. Asistente activo para ${TARGET_ROLE.title}. Estoy analizando a ${candidate.name}. ¿Deseas evaluar su fit, comparar candidatos o preparar una oferta?`,
-                chatInputPlaceholder: `Consulta sobre ${candidate.name}, compara o redacta una oferta…`,
-              }}
-            />
-          </aside>
-        </div>
-        </>
+          </>
         )}
       </main>
+
+      {/* Toast Notification Container */}
+      {toast && (
+        <div className="ts-toast-container" role="status" aria-live="polite">
+          <div className={`ts-toast ts-toast-${toast.type}`}>
+            {toast.type === "success" ? <CheckIcon /> : <AlertIcon />}
+            <span>{toast.text}</span>
+          </div>
+        </div>
+      )}
     </>
   );
 }
