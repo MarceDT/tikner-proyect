@@ -424,11 +424,6 @@ export default function Home() {
               {theme === "light" ? <MoonIcon /> : <SunIcon />}
               <span>{theme === "light" ? "Oscuro" : "Claro"}</span>
             </button>
-
-            <div className="ts-user-badge">
-              <span className="ts-user-avatar" aria-hidden="true">M</span>
-              <span>Milena · Lead UI & Product</span>
-            </div>
           </div>
         </div>
       </header>
