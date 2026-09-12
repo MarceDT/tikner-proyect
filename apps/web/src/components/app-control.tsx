@@ -2,7 +2,7 @@
 
 import { useFrontendTool, useAgentContext } from "@copilotkit/react-core/v2";
 import { z } from "zod";
-import { findIncident, workspaceContext } from "@/lib/incidents";
+import { findCandidate, candidatesWorkspaceContext, candidates, getOrFirstCandidate } from "@/lib/candidates";
 import type { WorkplaceControls } from "@/lib/use-workplace";
 
 async function toolResult<T>(action: () => Promise<T>) {
@@ -14,57 +14,73 @@ async function toolResult<T>(action: () => Promise<T>) {
       message:
         error instanceof Error
           ? error.message
-          : "Workplace operation failed. Check the page for setup details.",
+          : "Operación de TalentScore fallida.",
     };
   }
 }
 
 export function AppControl({
   selectedId,
+  selectCandidate,
   selectIncident,
   workplace,
 }: {
   selectedId: string;
-  selectIncident: (id: string) => void;
+  selectCandidate: (id: string) => void;
+  selectIncident?: (id: string) => void;
   workplace: WorkplaceControls;
 }) {
   const { status, propose, retrieve } = workplace;
+  const currentCandidate = getOrFirstCandidate(selectedId);
 
   useAgentContext({
     description:
-      "The incident workspace currently visible to the user, including sample timeline and Ambiguous follow-ups. CRITICAL: propose_followup only prepares a proposal. Only the user's approval button saves it; prose/chat approval never executes a write. Use retrieve_followup or refresh_followups for real reads. Never claim a task was saved without a provider record. Never invent record links.",
+      "Contexto del espacio de trabajo de TalentScore. Contiene la información del candidato seleccionado actualmente, el puesto al que aplica (Lead Fullstack & AI Systems Engineer, presupuesto $95k USD), notas de entrevistas de Marcelo, Amin y Milena, y las políticas de aprobación. Solo el botón del reclutador en la pantalla puede formalizar una oferta.",
     value: {
-      ...workspaceContext(
-        selectedId,
-        status?.status === "connected" ? status.tasks : [],
-      ),
-      workplace: status?.status ?? "unavailable",
-      workplaceError: workplace.error,
-      proposal: workplace.proposal ?? null,
-      lastResult: workplace.notice,
-    },
+      activeCandidate: currentCandidate,
+      workspace: candidatesWorkspaceContext(currentCandidate.id),
+      workplaceStatus: status?.status ?? "disponible",
+      proposalAwaitingApproval: workplace.proposal ?? null,
+      lastNotice: workplace.notice,
+    } as any,
   });
 
   useFrontendTool(
     {
-      name: "select_incident",
+      name: "select_candidate",
       description:
-        "Open an existing sample incident in the workspace. Use an ID from availableIncidents.",
-      parameters: z.object({ incidentId: z.string() }),
-      handler: async ({ incidentId }) => {
-        const incident = findIncident(incidentId);
-        selectIncident(incident.id);
-        return `Opened ${incident.id}: ${incident.title}. The visible details and agent context now show this incident.`;
+        "Abre la ficha de un candidato en el panel de TalentScore. Usa uno de los IDs disponibles: CAND-101 (Sofía), CAND-102 (Lucas), o CAND-103 (Elena).",
+      parameters: z.object({ candidateId: z.string() }),
+      handler: async ({ candidateId }) => {
+        const c = findCandidate(candidateId);
+        selectCandidate(c.id);
+        if (selectIncident) selectIncident(c.id);
+        return `Ficha de ${c.name} (${c.id}) abierta en pantalla. Se actualizó el contexto visual y las notas de entrevista.`;
       },
     },
-    [selectIncident],
+    [selectCandidate, selectIncident],
+  );
+
+  // Alias compatible con tests heredados
+  useFrontendTool(
+    {
+      name: "select_incident",
+      description: "Alias para seleccionar un candidato o registro en la vista.",
+      parameters: z.object({ incidentId: z.string() }),
+      handler: async ({ incidentId }) => {
+        const c = getOrFirstCandidate(incidentId);
+        selectCandidate(c.id);
+        return `Abierto ${c.id} (${c.name}).`;
+      },
+    },
+    [selectCandidate],
   );
 
   useFrontendTool(
     {
       name: "propose_followup",
       description:
-        "Prepare an Ambiguous task from the selected incident context. Show the exact title and details for the user's approval button. Does not save anything. CRITICAL: wait for the user to click Approve & save to Ambiguous in the page.",
+        "Prepara una propuesta de oferta salarial o acción de seguimiento para el candidato seleccionado. No guarda nada hasta que el usuario pulse 'Aprobar' en la pantalla.",
       parameters: z.object({
         incidentId: z.string(),
         title: z.string().trim().min(1).max(200),
@@ -83,8 +99,8 @@ export function AppControl({
     {
       name: "retrieve_followup",
       description:
-        "Retrieve an existing Ambiguous task by its actual ID. Read-only; never creates a duplicate.",
-      parameters: z.object({ id: z.uuid() }),
+        "Recupera un registro persistente guardado por su ID. Solo lectura.",
+      parameters: z.object({ id: z.string() }),
       handler: async ({ id }) => toolResult(() => retrieve(id)),
     },
     [retrieve],
@@ -94,7 +110,7 @@ export function AppControl({
     {
       name: "refresh_followups",
       description:
-        "Read saved follow-ups for the currently selected incident from Ambiguous. Use after approval or browser refresh to verify persistence.",
+        "Refresca y sincroniza las ofertas y tareas del candidato actual desde el almacenamiento.",
       parameters: z.object({}),
       handler: async () => toolResult(() => workplace.refresh()),
     },

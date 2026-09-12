@@ -67,34 +67,34 @@ export function GenerativeUI() {
       if (!respond) {
         return (
           <article className="ck-card ck-card--gate">
-            <p className="ck-gate-done">{result ? String(result) : "Waiting…"}</p>
+            <p className="ck-gate-done">{result ? String(result) : "Esperando…"}</p>
           </article>
         );
       }
       return (
         <article className="ck-card ck-card--gate">
-          <h3>{args.action ?? "Confirm this action"}</h3>
+          <h3>{args.action ?? "Confirmar esta acción"}</h3>
           <p>{args.blastRadius}</p>
           <div className="ck-actions">
             <button
               type="button"
               className="ck-btn ck-btn--primary"
               onClick={() =>
-                respond("Approved by the user. Proceed, then report exactly what you did.")
+                respond("Aprobado por el usuario. Procede y reporta el resultado.")
               }
             >
-              Approve
+              Aprobar
             </button>
             <button
               type="button"
               className="ck-btn"
               onClick={() =>
                 respond(
-                  "The user declined. Do not take the action, do not offer a workaround, and say plainly that nothing was changed.",
+                  "El usuario canceló la acción. No ejecutes cambios y notifica que se mantuvo el estado previo.",
                 )
               }
             >
-              Cancel
+              Cancelar
             </button>
           </div>
         </article>
