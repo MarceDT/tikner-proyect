@@ -1,6 +1,10 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { GET, POST } from "../../app/api/copilotkit/[[...path]]/route";
+import {
+  GET,
+  POST,
+  resolveIntelligenceTransportConfiguration,
+} from "../../app/api/copilotkit/[[...path]]/route";
 
 const origin = "http://localhost:3100";
 
@@ -25,10 +29,12 @@ test("GET /api/copilotkit/info advertises audioFileTranscriptionEnabled: true", 
   // Assert existing capabilities remain active
   assert.equal(data.a2uiEnabled, true, "Expected a2uiEnabled to remain true");
   assert.equal(data.openGenerativeUIEnabled, true, "Expected openGenerativeUIEnabled to remain true");
-  assert.equal(data.inspectorLearning, true, "Expected inspectorLearning to remain true");
+  if (resolveIntelligenceTransportConfiguration().enabled) {
+    assert.equal(data.inspectorLearning, true, "Expected inspectorLearning to remain true");
+    assert.equal(data.mode, "intelligence");
+  }
   assert.ok(data.agents.default, "Expected default agent to remain available");
   assert.equal(data.agents.default.name, "default");
-  assert.equal(data.mode, "intelligence");
 });
 
 test("POST /api/copilotkit/transcribe handles audio payloads and returns transcription", async () => {

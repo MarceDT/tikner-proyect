@@ -1,6 +1,9 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { GET } from "../../app/api/copilotkit/[[...path]]/route";
+import {
+  GET,
+  resolveIntelligenceTransportConfiguration,
+} from "../../app/api/copilotkit/[[...path]]/route";
 
 const origin = "http://localhost:3100";
 
@@ -23,10 +26,12 @@ test("GET /api/copilotkit/info advertises openGenerativeUIEnabled: true", async 
 
   // Assert existing capabilities are preserved
   assert.equal(data.a2uiEnabled, true, "Expected a2uiEnabled to remain true");
-  assert.equal(data.inspectorLearning, true, "Expected inspectorLearning to remain true");
+  if (resolveIntelligenceTransportConfiguration().enabled) {
+    assert.equal(data.inspectorLearning, true, "Expected inspectorLearning to remain true");
+    assert.equal(data.mode, "intelligence");
+  }
   assert.ok(data.agents.default, "Expected default agent to remain available");
   assert.equal(data.agents.default.name, "default");
-  assert.equal(data.mode, "intelligence");
 });
 
 test("Open Generative UI activity message payload conforms to open-generative-ui specification", () => {

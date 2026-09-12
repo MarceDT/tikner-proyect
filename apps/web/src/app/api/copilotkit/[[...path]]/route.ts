@@ -33,21 +33,100 @@ import { makeAgent } from "agent-core";
  */
 export const LEARNING_CONTAINER_ID = "talentscore-recruiting";
 
-const intelligenceApiKey =
-  process.env.CPK_INTELLIGENCE_API_KEY ||
-  process.env.INTELLIGENCE_API_KEY ||
-  "cpk-dev_talentscore_learning_preview";
+type Environment = Record<string, string | undefined>;
 
-const intelligenceWsUrl =
-  process.env.INTELLIGENCE_WS_URL ||
-  process.env.COPILOTKIT_WS_URL;
+export type IntelligenceTransportConfiguration =
+  | { enabled: false }
+  | {
+      enabled: true;
+      apiKey: string;
+      apiUrl?: string;
+      wsUrl?: string;
+    };
 
-const intelligence = new CopilotKitIntelligence({
-  apiKey: intelligenceApiKey,
-  ...(intelligenceWsUrl ? { wsUrl: intelligenceWsUrl } : {}),
-  getLearningContainerId: ({ agentId }) =>
-    agentId === "default" || !agentId ? LEARNING_CONTAINER_ID : undefined,
-});
+function firstDefined(environment: Environment, names: string[]) {
+  return names
+    .map((name) => environment[name]?.trim())
+    .find((value): value is string => Boolean(value));
+}
+
+function validateGatewayUrl(value: string, name: string, protocol: "http:" | "https:" | "ws:" | "wss:") {
+  let parsed: URL;
+  try {
+    parsed = new URL(value);
+  } catch {
+    throw new Error(`${name} must be a valid URL.`);
+  }
+
+  if (parsed.protocol !== protocol && !(protocol === "https:" && parsed.protocol === "http:") && !(protocol === "wss:" && parsed.protocol === "ws:")) {
+    throw new Error(`${name} must use ${protocol.replace(":", "")} or its local development equivalent.`);
+  }
+
+  if (parsed.pathname !== "/" || parsed.search || parsed.hash) {
+    throw new Error(`${name} must be a bare gateway URL without a path, query, or hash.`);
+  }
+
+  return parsed.toString().replace(/\/$/, "");
+}
+
+/**
+ * Resolves the two Intelligence transport planes together. Hosted CopilotKit
+ * needs only the API key; its managed API and WebSocket bases are defaults.
+ * A test gateway must provide both bases so REST and realtime never diverge.
+ */
+export function resolveIntelligenceTransportConfiguration(
+  environment: Environment = process.env,
+): IntelligenceTransportConfiguration {
+  const apiKey = firstDefined(environment, [
+    "CPK_INTELLIGENCE_API_KEY",
+    "COPILOTKIT_API_KEY",
+    "INTELLIGENCE_API_KEY",
+  ]);
+
+  if (!apiKey) return { enabled: false };
+
+  const configuredApiUrl = firstDefined(environment, [
+    "INTELLIGENCE_API_URL",
+    "COPILOTKIT_API_URL",
+  ]);
+  const configuredWsUrl = firstDefined(environment, [
+    "INTELLIGENCE_WS_URL",
+    "COPILOTKIT_WS_URL",
+  ]);
+
+  if (Boolean(configuredApiUrl) !== Boolean(configuredWsUrl)) {
+    throw new Error(
+      "Configure INTELLIGENCE_API_URL and INTELLIGENCE_WS_URL together (or their COPILOTKIT_* aliases).",
+    );
+  }
+
+  return {
+    enabled: true,
+    apiKey,
+    ...(configuredApiUrl && configuredWsUrl
+      ? {
+          apiUrl: validateGatewayUrl(configuredApiUrl, "INTELLIGENCE_API_URL", "https:"),
+          wsUrl: validateGatewayUrl(configuredWsUrl, "INTELLIGENCE_WS_URL", "wss:"),
+        }
+      : {}),
+  };
+}
+
+const intelligenceConfiguration = resolveIntelligenceTransportConfiguration();
+
+const intelligence = intelligenceConfiguration.enabled
+  ? new CopilotKitIntelligence({
+      apiKey: intelligenceConfiguration.apiKey,
+      ...(intelligenceConfiguration.apiUrl && intelligenceConfiguration.wsUrl
+        ? {
+            apiUrl: intelligenceConfiguration.apiUrl,
+            wsUrl: intelligenceConfiguration.wsUrl,
+          }
+        : {}),
+      getLearningContainerId: ({ agentId }) =>
+        agentId === "default" || !agentId ? LEARNING_CONTAINER_ID : undefined,
+    })
+  : undefined;
 
 /**
  * TalentScore Voice Transcription Service.
@@ -99,34 +178,30 @@ function createAgentInstance() {
   }
 }
 
-// SSE runtime for reliable local agent execution and chat streaming
-const sseRuntime = new CopilotRuntime({
+const sharedRuntimeOptions = {
   agents: () => ({ default: createAgentInstance() }),
   a2ui: {},
   openGenerativeUI: true,
   transcriptionService,
-});
+};
 
-// Intelligence runtime configured for Learning Inspector and telemetry metadata
-const intelRuntime = new CopilotRuntime({
-  agents: () => ({ default: createAgentInstance() }),
-  intelligence,
-  identifyUser: () => ({
-    id: "recruiter-lead",
-    name: "Recruiting Lead (Marcelo)",
-  }),
-  a2ui: {},
-  openGenerativeUI: true,
-  transcriptionService,
-});
+// Without an Intelligence key the app remains honestly in SSE mode. With one,
+// every runtime route (including agent runs and thread routes) shares the same
+// Intelligence runtime, allowing the client to switch to WebSocket safely.
+const runtime = intelligence
+  ? new CopilotRuntime({
+      ...sharedRuntimeOptions,
+      intelligence,
+      // Replace this demo identity with the authenticated recruiter once auth is added.
+      identifyUser: () => ({
+        id: "recruiter-lead",
+        name: "Recruiting Lead (Marcelo)",
+      }),
+    })
+  : new CopilotRuntime(sharedRuntimeOptions);
 
-const sseApp = createCopilotHonoHandler({
-  runtime: sseRuntime,
-  basePath: "/api/copilotkit",
-});
-
-const intelApp = createCopilotHonoHandler({
-  runtime: intelRuntime,
+const app = createCopilotHonoHandler({
+  runtime,
   basePath: "/api/copilotkit",
 });
 
@@ -207,7 +282,7 @@ export const GET = async (request: Request) => {
   // Serve Inspector learning endpoint
   if (pathname.endsWith("/inspector-learning")) {
     try {
-      const res = await intelApp.fetch(request.clone());
+      const res = await app.fetch(request.clone());
       if (res.status === 200) return res;
     } catch {
       // Fallback to local snapshot
@@ -222,11 +297,7 @@ export const GET = async (request: Request) => {
   }
 
   // Serve runtime info with inspectorLearning enabled
-  if (pathname.endsWith("/info") || pathname.endsWith("/inspector-metadata")) {
-    return intelApp.fetch(request);
-  }
-
-  return sseApp.fetch(request);
+  return app.fetch(request);
 };
 
 export const POST = async (request: Request) => {
@@ -236,7 +307,7 @@ export const POST = async (request: Request) => {
   // Handle client-side learning annotations (e.g. from useLearnFromUserAction)
   if (pathname.endsWith("/annotate")) {
     try {
-      const res = await intelApp.fetch(request.clone());
+      const res = await app.fetch(request.clone());
       if (res.status === 200) return res;
     } catch {
       // Fallback to local acknowledgment
@@ -255,8 +326,7 @@ export const POST = async (request: Request) => {
     );
   }
 
-  // Agent runs and chat streaming execute via local SSE runner
-  return sseApp.fetch(request);
+  return app.fetch(request);
 };
 
-export const OPTIONS = sseApp.fetch;
+export const OPTIONS = app.fetch;

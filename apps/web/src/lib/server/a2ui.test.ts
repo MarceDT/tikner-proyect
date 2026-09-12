@@ -1,6 +1,9 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { GET } from "../../app/api/copilotkit/[[...path]]/route";
+import {
+  GET,
+  resolveIntelligenceTransportConfiguration,
+} from "../../app/api/copilotkit/[[...path]]/route";
 
 const origin = "http://localhost:3100";
 
@@ -26,8 +29,10 @@ test("GET /api/copilotkit/info advertises a2uiEnabled: true and a2ui: { enabled:
   // Assert existing agent and learning capabilities are preserved
   assert.ok(data.agents.default, "Expected default agent to remain available");
   assert.equal(data.agents.default.name, "default");
-  assert.equal(data.inspectorLearning, true, "Expected inspectorLearning to remain true");
-  assert.equal(data.mode, "intelligence");
+  if (resolveIntelligenceTransportConfiguration().enabled) {
+    assert.equal(data.inspectorLearning, true, "Expected inspectorLearning to remain true");
+    assert.equal(data.mode, "intelligence");
+  }
 });
 
 test("A2UI activity message payload structure matches a2ui-surface specification", () => {
