@@ -25,7 +25,8 @@ import {
   type TranscribeFileOptions,
   createCopilotHonoHandler,
 } from "@copilotkit/runtime/v2";
-import { makeAgent } from "agent-core";
+import { createTalentTools, makeAgent } from "agent-core";
+import { getTalentService } from "@/lib/server/talent/runtime";
 
 /**
  * Stable Learning Container ID for TalentScore recruiting workflows.
@@ -164,9 +165,21 @@ export class TalentScoreTranscriptionService extends TranscriptionService {
 
 const transcriptionService = new TalentScoreTranscriptionService();
 
+// Web writes use /api/followups after a browser approval. Never expose raw MCP writes here.
+// Talent tools are read/evaluate only; approval and export live in /api/talent/* behind a human click.
+function talentTools() {
+  try {
+    return createTalentTools(getTalentService());
+  } catch (error) {
+    // Without DATABASE_URL the agent still works for the on-screen candidates; it just lacks the inbox tools.
+    console.warn("[talent] tools not registered:", error instanceof Error ? error.message : error);
+    return [];
+  }
+}
+
 function createAgentInstance() {
   try {
-    return makeAgent(randomUUID(), { workplace: false });
+    return makeAgent(randomUUID(), { workplace: false, tools: talentTools() });
   } catch {
     // Fallback for isolated test environments where AI provider credentials are unset
     const fallback = new BuiltInAgent({
