@@ -1,0 +1,20 @@
+# PostgreSQL local para TalentScore. Uso: docker compose -f db/docker-compose.yml up -d
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: talentscore-postgres
+    environment:
+      POSTGRES_USER: talentscore
+      POSTGRES_PASSWORD: talentscore
+      POSTGRES_DB: talentscore
+    ports:
+      - "127.0.0.1:5432:5432"
+    volumes:
+      - talentscore_pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U talentscore -d talentscore"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+volumes:
+  talentscore_pgdata:

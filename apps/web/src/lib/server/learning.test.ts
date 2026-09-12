@@ -1,7 +1,12 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 import { parseInspectorLearningSnapshotV1 } from "@copilotkit/shared";
-import { GET, POST, LEARNING_CONTAINER_ID } from "../../app/api/copilotkit/[[...path]]/route";
+import {
+  GET,
+  POST,
+  LEARNING_CONTAINER_ID,
+  resolveIntelligenceTransportConfiguration,
+} from "../../app/api/copilotkit/[[...path]]/route";
 
 const origin = "http://localhost:3100";
 
@@ -31,9 +36,13 @@ test("GET /api/copilotkit/info advertises inspectorLearning: true and default ag
     inspectorMetadata?: boolean;
   };
 
-  assert.equal(data.inspectorLearning, true);
-  assert.equal(data.inspectorMetadata, true);
-  assert.equal(data.mode, "intelligence");
+  if (resolveIntelligenceTransportConfiguration().enabled) {
+    assert.equal(data.inspectorLearning, true);
+    assert.equal(data.inspectorMetadata, true);
+    assert.equal(data.mode, "intelligence");
+  } else {
+    assert.equal(data.inspectorLearning, undefined);
+  }
   assert.ok(data.agents.default, "Expected default agent in runtime info");
   assert.equal(data.agents.default.name, "default");
 });

@@ -12,4 +12,6 @@ export {
   isWorkplaceConfigured,
   WORKPLACE_CONTEXT,
 } from "./capabilities/workplace";
+export { createTalentTools, TALENT_TOOL_NAMES } from "./capabilities/talent";
+export type { TalentToolsBackend } from "./capabilities/talent";
 export * from "./shared";

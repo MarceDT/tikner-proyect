@@ -23,6 +23,25 @@ Choose an OpenAI model your account can use. Use a demo workspace you control fo
 
 To add managed conversation persistence, use the [official Intelligence onboarding prompt](../../README.md#copilotkit-onboarding) with `apps/web` as the selected app. It connects this existing Next.js/CopilotKit app; keep the Ambiguous record workflow and page approval. Saving a task in Ambiguous and persisting a conversation in Intelligence are separate capabilities.
 
+## Realtime Sync (Intelligence)
+
+TalentScore uses CopilotKit Intelligence for realtime conversation and thread sync. Add a project-scoped key after selecting an Intelligence project:
+
+```dotenv
+CPK_INTELLIGENCE_API_KEY=cpk_your_project_key
+```
+
+With that key, `GET /api/copilotkit/info` advertises `mode: "intelligence"`, a managed `wss://` URL, and realtime thread metadata. The existing React provider detects this automatically and switches its chat transport from SSE to WebSocket; no frontend transport or server WebSocket upgrade configuration is needed. Voice transcription, A2UI, Open Generative UI, Learning, and the human approval flow remain enabled.
+
+For an isolated test gateway only, provide both transport planes as bare origins (never add `/api`, `/runner`, or `/client`):
+
+```dotenv
+INTELLIGENCE_API_URL=http://127.0.0.1:8788
+INTELLIGENCE_WS_URL=ws://127.0.0.1:8787
+```
+
+`COPILOTKIT_API_URL` and `COPILOTKIT_WS_URL` are supported aliases. Configuring only one URL fails at startup because REST and realtime must target the same dedicated environment. The managed CopilotKit service is the supported production choice; leave both URL variables unset for it. Without an Intelligence key, the endpoint deliberately stays in SSE mode and does not claim realtime sync.
+
 To use OpenRouter, follow the [shared provider settings](../../using-sponsor-tools.md#openrouter): set `MODEL_PROVIDER=openrouter`, `OPENROUTER_API_KEY`, and a `MODEL` slug with tool support. Keep the Ambiguous workspace key; an OpenAI key is not required for OpenRouter chat.
 
 ```bash

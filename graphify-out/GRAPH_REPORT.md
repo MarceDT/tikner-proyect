@@ -1,16 +1,16 @@
 # Graph Report - tinker-proyect  (2026-09-12)
 
 ## Corpus Check
-- 167 files · ~514,859 words
+- 168 files · ~517,617 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 1152 nodes · 1506 edges · 91 communities (79 shown, 9 thin omitted)
-- Extraction: 98% EXTRACTED · 2% INFERRED · 0% AMBIGUOUS · INFERRED: 24 edges (avg confidence: 0.82)
+- 1189 nodes · 1580 edges · 105 communities (90 shown, 12 thin omitted)
+- Extraction: 98% EXTRACTED · 2% INFERRED · 0% AMBIGUOUS · INFERRED: 27 edges (avg confidence: 0.82)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `e7c5200c`
+- Built from commit: `315041d6`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -55,7 +55,7 @@
 - An agent inside your web app
 - Deploy
 - Hackathon overview
-- TEAM_WORKFLOW.md
+- 👥 Integrantes y Responsabilidades
 - Human-in-the-loop patterns
 - CLAUDE.md
 - Choose a model provider
@@ -66,7 +66,7 @@
 - rules/graphify.md
 - voice/page.tsx
 - workflows/graphify.md
-- AGENTS.md
+- 👑 Workspace de Marcelo — Dominio, Human-in-the-Loop & Pitch
 - shared.ts
 - mobile-copilotkit/[[...path]]/route.ts
 - channel/src/agent.ts
@@ -87,8 +87,10 @@
 - Local runtime and agent
 - Slack workspace and app
 - Auth0 protected API recipe
+- candidates.ts
 - Intelligence project, API key, and Channel
 - Intelligence project, API key, and Channel
+- candidates.test.ts
 - CopilotKit CLI
 - CopilotKit
 - Optional live E2E harness
@@ -101,8 +103,20 @@
 - Set up a CopilotKit Channel
 - Inspector pane map
 - Inspector pane map
+- followups.ts
 - Sources
 - Sources
+- FollowupService
+- workplace-followups.tsx
+- FollowupError
+- followups.test.ts
+- workplace.test.ts
+- followup-http.test.ts
+- followup-client.ts
+- 🎨 Workspace de Milena — Frontend & Generative UI
+- amin/README.md
+- Notes for coding agents
+- sponsors.md
 
 ## God Nodes (most connected - your core abstractions)
 1. `Build the Slack template with Channels` - 18 edges
@@ -131,11 +145,11 @@
 ## Import Cycles
 - None detected.
 
-## Communities (91 total, 9 thin omitted)
+## Communities (105 total, 12 thin omitted)
 
 ### Community 0 - "server/workplace.ts"
-Cohesion: 0.05
-Nodes (39): main(), dynamic, GET, handler, POST, runtime, WorkplaceTask, findIncident() (+31 more)
+Cohesion: 0.16
+Nodes (12): main(), dynamic, GET, handler, POST, runtime, closeConnection(), command (+4 more)
 
 ### Community 1 - "candidate-cards.tsx"
 Cohesion: 0.17
@@ -166,8 +180,8 @@ Cohesion: 0.09
 Nodes (21): runDemo(), dependencies, express, express-oauth2-jwt-bearer, devDependencies, jose, engines, node (+13 more)
 
 ### Community 8 - "agent-core/package.json"
-Cohesion: 0.11
-Nodes (18): dependencies, @ai-sdk/openai, @copilotkit/runtime, exa-js, zod, description, exports, ./mobile-finance-prompt (+10 more)
+Cohesion: 0.10
+Nodes (19): dependencies, @ai-sdk/openai, @copilotkit/runtime, exa-js, zod, description, exports, ./mobile-finance-prompt (+11 more)
 
 ### Community 9 - "compilerOptions"
 Cohesion: 0.11
@@ -222,8 +236,8 @@ Cohesion: 0.16
 Nodes (13): createAgentInstance(), createLocalLearningSnapshot(), GET(), intelApp, intelligence, intelRuntime, LEARNING_CONTAINER_ID, OPTIONS (+5 more)
 
 ### Community 23 - "app/page.tsx"
-Cohesion: 0.07
-Nodes (36): Home(), findPopTarget(), onPress(), AppControl(), WorkplaceFollowups(), handleApprove(), handleRejectOrAdjust(), refresh() (+28 more)
+Cohesion: 0.13
+Nodes (8): Home(), findPopTarget(), onPress(), AppControl(), Candidate, candidatesWorkspaceContext(), findCandidate(), getCandidateRanking()
 
 ### Community 24 - "The `PlatformAdapter` contract"
 Cohesion: 0.20
@@ -274,16 +288,16 @@ Cohesion: 0.33
 Nodes (6): An agent inside your web app, Customize these files, Get started, Give this to your coding agent, Try the flow, Verify and limits
 
 ### Community 38 - "Deploy"
-Cohesion: 0.29
+Cohesion: 0.33
 Nodes (6): Deploy, Health checks, Requirements, Scaling, Secrets, The one thing that will bite you
 
 ### Community 39 - "Hackathon overview"
 Cohesion: 0.33
 Nodes (6): Challenge, Choose infrastructure, then make the project yours, Four surfaces, Hackathon overview, Instructions for a coding agent, Judging criteria
 
-### Community 40 - "TEAM_WORKFLOW.md"
-Cohesion: 0.33
-Nodes (5): 🧠 Amin — Backend, CopilotKit Runtime & Tools, 🔒 Contrato de Interfaces Activo, 👥 Integrantes y Responsabilidades, 👑 Marcelo — Dominio, Human-in-the-Loop & Pitch, 🎨 Milena — Frontend, Generative UI & Dashboard
+### Community 40 - "👥 Integrantes y Responsabilidades"
+Cohesion: 0.50
+Nodes (4): 🧠 Amin — Backend, CopilotKit Runtime & Tools, 👥 Integrantes y Responsabilidades, 👑 Marcelo — Dominio, Human-in-the-Loop & Pitch, 🎨 Milena — Frontend, Generative UI & Dashboard
 
 ### Community 41 - "Human-in-the-loop patterns"
 Cohesion: 0.40
@@ -306,28 +320,28 @@ Cohesion: 0.10
 Nodes (20): A Channel has two halves, CopilotKit Channels, Customising a scaffolded Channel, Decide which path you are on first, Deployment shape, Never do these, Online, but silent — a different failure, Online, silent, and nothing in the log at all — a short-scoped Slack token (+12 more)
 
 ### Community 46 - "index.ts"
-Cohesion: 0.24
-Nodes (10): AgentFactoryOptions, makeAgent(), isWorkplaceConfigured(), WORKPLACE_CONTEXT, workplaceMcpServers(), canonicalProvider(), resolveModel(), ORIGINAL_ENV (+2 more)
+Cohesion: 0.27
+Nodes (9): AgentFactoryOptions, makeAgent(), isWorkplaceConfigured(), WORKPLACE_CONTEXT, workplaceMcpServers(), canonicalProvider(), resolveModel(), ORIGINAL_ENV (+1 more)
 
 ### Community 47 - "CopilotKit Channels"
 Cohesion: 0.10
 Nodes (20): A Channel has two halves, CopilotKit Channels, Customising a scaffolded Channel, Decide which path you are on first, Deployment shape, Never do these, Online, but silent — a different failure, Online, silent, and nothing in the log at all — a short-scoped Slack token (+12 more)
 
 ### Community 49 - "voice/page.tsx"
-Cohesion: 0.27
-Nodes (5): searchTheWeb, Status, voiceAgent, REALTIME_MODEL, REALTIME_VOICE
+Cohesion: 0.24
+Nodes (6): searchTheWeb, Status, voiceAgent, REALTIME_MODEL, REALTIME_VOICE, SYSTEM_PROMPT
 
-### Community 51 - "AGENTS.md"
-Cohesion: 0.12
-Nodes (13): 🎯 Current Project: TalentScore (AI Tinkerers Hackathon), Notes for coding agents, 📂 Archivos y Áreas de Trabajo, 📋 Checklist de Tareas, 🎯 Tu Misión en el Hackathon, 📂 Archivos y Áreas de Trabajo, 📋 Checklist de Tareas, 🎯 Tu Misión en el Hackathon (+5 more)
+### Community 51 - "👑 Workspace de Marcelo — Dominio, Human-in-the-Loop & Pitch"
+Cohesion: 0.40
+Nodes (4): 📂 Archivos y Áreas de Trabajo, 📋 Checklist de Tareas, 🎯 Tu Misión en el Hackathon, 👑 Workspace de Marcelo — Dominio, Human-in-the-Loop & Pitch
 
 ### Community 53 - "shared.ts"
-Cohesion: 0.19
-Nodes (12): isSearchConfigured(), SEARCH_TYPE, DEFAULT_MODEL, MODEL_NOTES, ONCALL_ROLE, SURFACE_RULES, SYSTEM_PROMPT, TALENTSCORE_ROLE (+4 more)
+Cohesion: 0.27
+Nodes (8): isSearchConfigured(), SEARCH_TYPE, DEFAULT_MODEL, MODEL_NOTES, SearchHit, SearchWebArgs, searchWebParameters, exa-js
 
 ### Community 54 - "mobile-copilotkit/[[...path]]/route.ts"
-Cohesion: 0.25
-Nodes (7): app, GET, OPTIONS, POST, runtime, MOBILE_FINANCE_PROMPT, MOBILE_FINANCE_ROLE
+Cohesion: 0.18
+Nodes (10): app, GET, OPTIONS, POST, runtime, MOBILE_FINANCE_PROMPT, MOBILE_FINANCE_ROLE, ONCALL_ROLE (+2 more)
 
 ### Community 57 - "channel/src/agent.ts"
 Cohesion: 0.43
@@ -393,6 +407,10 @@ Nodes (9): Assert the Channel is actually online, Configure, Install, Keep it al
 Cohesion: 0.20
 Nodes (9): Create the app from the Channel wizard's manifest, Install it and collect the two credentials, Invite the bot to a test channel, Phase 2 is done when, Pick a workspace, Settings that must stay as the manifest sets them, Slack workspace and app, Understand the approval boundary before promising a timeline (+1 more)
 
+### Community 75 - "candidates.ts"
+Cohesion: 0.09
+Nodes (27): Application, ApplicationAttachment, ApplicationSource, ApplicationStatus, CandidateEvidence, candidateOffers, CandidateRanking, CandidateSkills (+19 more)
+
 ### Community 76 - "Intelligence project, API key, and Channel"
 Cohesion: 0.22
 Nodes (8): If the dashboard cannot do what this phase needs, Intelligence project, API key, and Channel, One consumer per Channel, Reading the status, The four things that must line up, The order to do it in, The wizard, and the labels it actually uses, Things that are not required
@@ -400,6 +418,10 @@ Nodes (8): If the dashboard cannot do what this phase needs, Intelligence projec
 ### Community 77 - "Intelligence project, API key, and Channel"
 Cohesion: 0.22
 Nodes (8): If the dashboard cannot do what this phase needs, Intelligence project, API key, and Channel, One consumer per Channel, Reading the status, The four things that must line up, The order to do it in, The wizard, and the labels it actually uses, Things that are not required
+
+### Community 78 - "candidates.test.ts"
+Cohesion: 0.18
+Nodes (19): approve(), WorkplaceFollowups(), handleApprove(), handleRejectOrAdjust(), refresh(), submitProposal(), approveCandidateOffer(), approveSelectionReport() (+11 more)
 
 ### Community 79 - "CopilotKit CLI"
 Cohesion: 0.29
@@ -449,25 +471,61 @@ Nodes (3): Inspector pane map, Surfaces that do not get the Open Inspector step,
 Cohesion: 0.50
 Nodes (3): Inspector pane map, Surfaces that do not get the Open Inspector step, Unshipped (no Callout)
 
+### Community 91 - "followups.ts"
+Cohesion: 0.21
+Nodes (10): Proposal, WorkplaceStatus, WorkplaceTask, findIncident(), Incident, incidents, workspaceContext(), draftSchema (+2 more)
+
+### Community 94 - "FollowupService"
+Cohesion: 0.25
+Nodes (5): createFollowupHandler(), fileExists(), FollowupService, marker(), Workplace
+
+### Community 95 - "workplace-followups.tsx"
+Cohesion: 0.21
+Nodes (13): SelectionApprovalGate(), exportReport(), reject(), SelectionApprovalGateProps, WorkplaceFollowupsProps, CandidateOffer, ExportFormat, getSelectionReport() (+5 more)
+
+### Community 96 - "FollowupError"
+Cohesion: 0.44
+Nodes (4): FollowupError, AmbiguousWorkplace, payload(), task()
+
+### Community 97 - "followups.test.ts"
+Cohesion: 0.25
+Nodes (4): FakeWorkplace, fixture(), input, session
+
+### Community 98 - "workplace.test.ts"
+Cohesion: 0.25
+Nodes (4): McpConnection, catalog, Connection, task
+
+### Community 100 - "followup-client.ts"
+Cohesion: 0.50
+Nodes (3): createFollowupClient(), Fetcher, requestFollowups
+
+### Community 101 - "🎨 Workspace de Milena — Frontend & Generative UI"
+Cohesion: 0.40
+Nodes (4): 📂 Archivos y Áreas de Trabajo, 📋 Checklist de Tareas, 🎯 Tu Misión en el Hackathon, 🎨 Workspace de Milena — Frontend & Generative UI
+
+### Community 102 - "amin/README.md"
+Cohesion: 0.50
+Nodes (3): 📂 Archivos y Áreas de Trabajo, 📋 Checklist de Tareas, 🎯 Tu Misión en el Hackathon
+
 ## Knowledge Gaps
-- **652 isolated node(s):** `copilotkit`, `exa`, `name`, `version`, `private` (+647 more)
-  These have ≤1 connection - possible missing edges or undocumented components. (Counts symbols only; 745 node(s) total have ≤1 connection when file, concept and rationale nodes are included.)
-- **9 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
+- **668 isolated node(s):** `copilotkit`, `exa`, `name`, `version`, `private` (+663 more)
+  These have ≤1 connection - possible missing edges or undocumented components. (Counts symbols only; 761 node(s) total have ≤1 connection when file, concept and rationale nodes are included.)
+- **12 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
-- **Why does `Troubleshooting` connect `Troubleshooting` to `README.md`?**
-  _High betweenness centrality (0.006) - this node is a cross-community bridge._
-- **Why does `@copilotkit/channels` connect `channel.tsx` to `channel/package.json`?**
-  _High betweenness centrality (0.005) - this node is a cross-community bridge._
+- **Why does `TalentScore — AI Agent in your ATS & Recruiting Dashboard` connect `TalentScore — AI Agent in your ATS & Recruiting Dashboard` to `README.md`?**
+  _High betweenness centrality (0.007) - this node is a cross-community bridge._
+- **Why does `Build the Slack template with Channels` connect `Build the Slack template with Channels` to `README.md`?**
+  _High betweenness centrality (0.007) - this node is a cross-community bridge._
 - **What connects `copilotkit`, `exa`, `name` to the rest of the system?**
-  _652 weakly-connected nodes found - possible documentation gaps or missing edges._
-- **Should `server/workplace.ts` be split into smaller, more focused modules?**
-  _Cohesion score 0.05209274314965372 - nodes in this community are weakly interconnected._
+  _668 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `channel.tsx` be split into smaller, more focused modules?**
   _Cohesion score 0.07908163265306123 - nodes in this community are weakly interconnected._
 - **Should `finance.ts` be split into smaller, more focused modules?**
   _Cohesion score 0.09302325581395349 - nodes in this community are weakly interconnected._
 - **Should `mobile/package.json` be split into smaller, more focused modules?**
   _Cohesion score 0.054878048780487805 - nodes in this community are weakly interconnected._
+- **Should `Build the Slack template with Channels` be split into smaller, more focused modules?**
+  _Cohesion score 0.08333333333333333 - nodes in this community are weakly interconnected._

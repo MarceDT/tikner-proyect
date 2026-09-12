@@ -16,6 +16,12 @@ import {
   saveOfferDraft,
   TARGET_ROLE,
   type CandidateOffer,
+  type ExportFormat,
+  type SelectionReport,
+  approveSelectionReport,
+  getSelectionReport,
+  markSelectionReportExported,
+  rejectSelectionReport,
 } from "@/lib/candidates";
 
 export interface WorkplaceFollowupsProps {
@@ -857,6 +863,173 @@ export function WorkplaceFollowups({
           {notice}
         </p>
       )}
+    </section>
+  );
+}
+
+/**
+ * Reusable second HITL boundary for the recruiting workflow.
+ *
+ * It deliberately receives a report ID rather than candidate data from the UI:
+ * the domain layer owns the frozen ranking snapshot, and an exporter may run
+ * only after the human has approved that snapshot. Milena can mount this next
+ * to the shortlist table without changing the offer flow above.
+ */
+export interface SelectionApprovalGateProps {
+  reportId: string;
+  onExport?: (
+    report: SelectionReport,
+    formats: ExportFormat[],
+  ) => Promise<void> | void;
+}
+
+export function SelectionApprovalGate({
+  reportId,
+  onExport,
+}: SelectionApprovalGateProps) {
+  const [report, setReport] = useState<SelectionReport | undefined>(() =>
+    getSelectionReport(reportId),
+  );
+  const [rejectionReason, setRejectionReason] = useState("");
+  const [error, setError] = useState("");
+  const [notice, setNotice] = useState("");
+  const [busy, setBusy] = useState(false);
+
+  useEffect(() => {
+    setReport(getSelectionReport(reportId));
+    setError("");
+    setNotice("");
+  }, [reportId]);
+
+  if (!report) {
+    return (
+      <p role="alert" className="ck-error">
+        No se encontró la shortlist solicitada. Crea una nueva selección antes de aprobarla.
+      </p>
+    );
+  }
+
+  const currentReport = report;
+  const isPending = currentReport.status === "pending_approval";
+  const isApproved = currentReport.status === "approved";
+
+  function approve() {
+    setError("");
+    try {
+      const approved = approveSelectionReport(currentReport.id, "Recruiting Lead (Marcelo)");
+      setReport(approved);
+      setNotice("Shortlist aprobada. Ya puede solicitarse la exportación de los formatos elegidos.");
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "No se pudo aprobar la shortlist.");
+    }
+  }
+
+  function reject() {
+    setError("");
+    try {
+      const rejected = rejectSelectionReport(
+        currentReport.id,
+        "Recruiting Lead (Marcelo)",
+        rejectionReason,
+      );
+      setReport(rejected);
+      setNotice("Shortlist rechazada. No se habilitó ninguna exportación.");
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "No se pudo rechazar la shortlist.");
+    }
+  }
+
+  async function exportReport() {
+    if (!isApproved || busy) return;
+    setBusy(true);
+    setError("");
+    try {
+      await onExport?.(currentReport, currentReport.requestedFormats);
+      const exported = markSelectionReportExported(currentReport.id, currentReport.requestedFormats);
+      setReport(exported);
+      setNotice(`Exportación registrada: ${exported.exportedFormats?.join(", ").toUpperCase()}.`);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "La exportación no se completó.");
+    } finally {
+      setBusy(false);
+    }
+  }
+
+  return (
+    <section className="ck-followups" aria-labelledby="shortlist-approval-title">
+      <header className="ck-followups-header">
+        <div>
+          <h2 id="shortlist-approval-title">Aprobación de Shortlist y Exportación</h2>
+          <p className="ck-local-note">
+            Human-in-the-Loop: la IA puede recomendar; el reclutador aprueba la
+            selección congelada antes de compartirla o exportarla.
+          </p>
+        </div>
+        <span className="ck-tag">{report.status.replace("_", " ")}</span>
+      </header>
+
+      <div className="ck-approval">
+        <p>
+          <strong>{report.candidateIds.length}</strong> candidato(s) seleccionado(s) ·
+          formatos solicitados: <strong>{report.requestedFormats.join(", ").toUpperCase()}</strong>
+        </p>
+        <ul className="ck-task-list">
+          {report.rankings.map((ranking) => (
+            <li key={ranking.candidateId}>
+              <span aria-hidden="true">○</span>
+              <div>
+                <strong>{ranking.candidateName}</strong>
+                <p className="ck-local-note">
+                  Score: {ranking.score}/100 · evidencia evaluada: {ranking.evaluatedWeight}%
+                  {ranking.unknownWeight > 0 ? ` · ${ranking.unknownWeight}% pendiente de revisión` : ""}
+                </p>
+              </div>
+            </li>
+          ))}
+        </ul>
+        <p className="ck-local-note"><strong>Justificación:</strong> {report.reason}</p>
+
+        {isPending && (
+          <>
+            <label htmlFor={`shortlist-reason-${report.id}`}>
+              Motivo si devolvés la selección para ajustes
+            </label>
+            <textarea
+              id={`shortlist-reason-${report.id}`}
+              value={rejectionReason}
+              onChange={(event) => setRejectionReason(event.target.value)}
+              maxLength={500}
+              rows={2}
+              placeholder="Ej.: falta validar disponibilidad o presupuesto"
+            />
+            <div className="ck-approval-actions">
+              <button type="button" className="ck-btn ck-btn--primary" onClick={approve}>
+                ✓ Aprobar Shortlist
+              </button>
+              <button type="button" className="ck-btn" onClick={reject}>
+                Devolver para Ajustes
+              </button>
+            </div>
+          </>
+        )}
+
+        {isApproved && (
+          <div className="ck-approval-actions">
+            <button type="button" className="ck-btn ck-btn--primary" disabled={busy} onClick={exportReport}>
+              {busy ? "Preparando exportación…" : "Exportar selección aprobada"}
+            </button>
+          </div>
+        )}
+
+        {report.status === "exported" && (
+          <p role="status" className="ck-notice">
+            Exportación registrada el {report.exportedAt ? new Date(report.exportedAt).toLocaleString() : "ahora"}.
+          </p>
+        )}
+      </div>
+
+      {error && <p role="alert" className="ck-error">{error}</p>}
+      {notice && <p role="status" className="ck-notice">{notice}</p>}
     </section>
   );
 }

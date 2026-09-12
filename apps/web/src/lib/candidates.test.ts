@@ -13,6 +13,15 @@ import {
   rejectCandidateOffer,
   resetCandidateOffersForTesting,
   candidatesWorkspaceContext,
+  getCandidateRanking,
+  getRankedCandidates,
+  createSelectionReport,
+  getSelectionReport,
+  approveSelectionReport,
+  rejectSelectionReport,
+  markSelectionReportExported,
+  requiresHumanApprovalForStatus,
+  isAgentAllowedCandidateStatus,
 } from "./candidates";
 import {
   formatOfferDescription,
@@ -115,9 +124,12 @@ test("candidatesWorkspaceContext provides target position, candidate data, and H
   assert.match(context.humanInTheLoopPolicy.boundaryDescription, /confirmación humana explícita/);
   assert.deepEqual(context.humanInTheLoopPolicy.allowedActions, [
     "review_offer",
-    "approve_and_extend_offer",
-    "reject_or_adjust_offer",
+    "propose_offer_for_human_review",
+    "propose_shortlist_for_human_review",
+    "propose_export_for_human_review",
   ]);
+  assert.equal(context.selectedCandidate.application.source, "simulated_email");
+  assert.equal(context.selectedCandidateRanking.candidateId, "CAND-101");
 });
 
 test("formatOfferDescription and parseOfferDescription round-trip structured offer data", () => {
@@ -230,3 +242,84 @@ test("saveOfferDraft registers pending status in candidate offers and workspace 
   assert.equal(ctx.humanInTheLoopPolicy.status, "pending_approval");
 });
 
+test("ranking uses the published weights and keeps missing CV evidence as unknown", () => {
+  const sofia = getCandidateRanking("CAND-101");
+  const lucas = getCandidateRanking("CAND-102");
+  const elena = getCandidateRanking("CAND-103");
+
+  assert.equal(sofia.evaluatedWeight, 100);
+  assert.equal(sofia.unknownWeight, 0);
+  assert.ok(sofia.score > lucas.score);
+  assert.equal(lucas.requiresHumanReview, false);
+  assert.equal(elena.requiresHumanReview, true);
+  assert.equal(elena.unknownWeight, 25);
+  assert.match(lucas.criteria.find((criterion) => criterion.key === "budgetAlignment")?.evidence[0] ?? "", /supera el tope/);
+
+  const ranked = getRankedCandidates();
+  assert.equal(ranked[0].candidateId, "CAND-101");
+  assert.equal(ranked.length, 3);
+
+  const originalMissingFields = [...findCandidate("CAND-101").application.missingFields];
+  try {
+    findCandidate("CAND-101").application.missingFields.push("skills");
+    const incomplete = getCandidateRanking("CAND-101");
+    const skills = incomplete.criteria.find((criterion) => criterion.key === "requiredSkills");
+    assert.equal(incomplete.requiresHumanReview, true);
+    assert.equal(skills?.status, "unknown");
+    assert.equal(skills?.score, null);
+  } finally {
+    findCandidate("CAND-101").application.missingFields = originalMissingFields;
+  }
+});
+
+test("shortlist and export each require an explicit human approval", () => {
+  const report = createSelectionReport(
+    ["CAND-101", "CAND-103"],
+    "Ambas candidatas muestran evidencia suficiente para avanzar a entrevista final.",
+  );
+  assert.equal(report.status, "pending_approval");
+  assert.deepEqual(report.requestedFormats, ["pdf", "docx", "xlsx"]);
+  assert.equal(findCandidate("CAND-101").shortlistStatus, "pending_approval");
+  assert.equal(findCandidate("CAND-101").application.status, "shortlist_pending");
+  assert.throws(
+    () => markSelectionReportExported(report.id, ["pdf"]),
+    /aprobación humana previa/,
+  );
+
+  const approved = approveSelectionReport(report.id, "Marcelo (Product & Recruiting Lead)");
+  assert.equal(approved.status, "approved");
+  assert.equal(approved.approvedBy, "Marcelo (Product & Recruiting Lead)");
+  assert.equal(findCandidate("CAND-103").shortlistStatus, "shortlisted");
+
+  const exported = markSelectionReportExported(report.id, ["pdf", "xlsx"]);
+  assert.equal(exported.status, "exported");
+  assert.deepEqual(exported.exportedFormats, ["pdf", "xlsx"]);
+  assert.equal(getSelectionReport(report.id)?.status, "exported");
+  assert.equal(findCandidate("CAND-101").application.status, "exported");
+});
+
+test("rejected shortlist returns candidates to ranked state and captures the reason", () => {
+  const report = createSelectionReport(
+    ["CAND-102"],
+    "Se solicita una excepción presupuestaria para evaluar su perfil técnico.",
+    ["xlsx"],
+  );
+  const rejected = rejectSelectionReport(
+    report.id,
+    "Marcelo (Product & Recruiting Lead)",
+    "No se aprobó la excepción presupuestaria.",
+  );
+
+  assert.equal(rejected.status, "rejected");
+  assert.match(rejected.rejectionReason ?? "", /excepción presupuestaria/);
+  assert.equal(findCandidate("CAND-102").shortlistStatus, "not_selected");
+  assert.equal(findCandidate("CAND-102").application.status, "ranked");
+});
+
+test("critical hiring transitions are never agent-initiated", () => {
+  assert.equal(requiresHumanApprovalForStatus("Offer Extended"), true);
+  assert.equal(requiresHumanApprovalForStatus("Hired"), true);
+  assert.equal(isAgentAllowedCandidateStatus("Finalist"), true);
+  assert.equal(isAgentAllowedCandidateStatus("Offer Extended"), false);
+  assert.equal(isAgentAllowedCandidateStatus("Hired"), false);
+});
