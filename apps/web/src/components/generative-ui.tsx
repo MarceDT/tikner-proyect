@@ -1,107 +1,170 @@
 "use client";
 
 /**
- * Generative UI, controlled tier.
+ * TalentScore — Generative UI (Workspace de Milena)
  *
- * `useComponent` gives the agent a catalog of *your* React components and lets
- * it choose one and fill in the props. The interface stays on-brand and
- * pixel-perfect because you wrote it — the agent only decides what to show.
- *
- * These are deliberately the same two components the Slack surface registers
- * with `defineChannelComponent`. Same agent, same intent, native rendering on
- * each surface — which is the whole claim this kit is making.
- *
- * Renderers receive streamed partial arguments before schema defaults apply.
+ * Registra componentes visuales ricos que el agente Copilot puede invocar
+ * dinámicamente en el chat o en la pantalla.
  */
 import { useComponent, useHumanInTheLoop } from "@copilotkit/react-core/v2";
 import { z } from "zod";
 
-import { IncidentCard, Timeline } from "./streamed-cards";
+import {
+  CandidateComparisonCard,
+  OfferProposalCard,
+} from "./candidate-cards";
+
+function ShieldLockIcon({ className }: { className?: string }) {
+  return (
+    <svg className={className} width="12" height="12" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
+      <path fillRule="evenodd" d="M8 .5c-.27 0-.528.14-.675.372l-5 8A.75.75 0 003 10h2.25v4.25a.75.75 0 001.5 0V10h2.5a.75.75 0 00.675-1.128l-1.25-2 1.25-2A.75.75 0 009.425 4H8.75V1.25A.75.75 0 008 .5z" />
+      <path d="M8 1a5 5 0 00-5 5v1h10V6a5 5 0 00-5-5zm-3.5 6V6a3.5 3.5 0 117 0v1h-7z" />
+    </svg>
+  );
+}
+
+function CheckIcon({ className }: { className?: string }) {
+  return (
+    <svg className={className} width="12" height="12" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
+      <path d="M13.78 4.22a.75.75 0 010 1.06l-7.25 7.25a.75.75 0 01-1.06 0L2.22 9.28a.75.75 0 011.06-1.06L6 10.94l6.72-6.72a.75.75 0 011.06 0z" />
+    </svg>
+  );
+}
+
+function CloseIcon({ className }: { className?: string }) {
+  return (
+    <svg className={className} width="12" height="12" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
+      <path d="M3.72 3.72a.75.75 0 011.06 0L8 6.94l3.22-3.22a.75.75 0 111.06 1.06L9.06 8l3.22 3.22a.75.75 0 11-1.06 1.06L8 9.06l-3.22 3.22a.75.75 0 01-1.06-1.06L6.94 8 3.72 4.78a.75.75 0 010-1.06z" />
+    </svg>
+  );
+}
 
 export function GenerativeUI() {
+  /**
+   * 1. candidate_comparison:
+   * Permite al agente proyectar una matriz comparativa entre varios candidatos,
+   * evaluando sus pretensiones salariales frente al budget de $95k, fortalezas y veredicto.
+   */
   useComponent({
-    name: "incident_card",
+    name: "candidate_comparison",
     description:
-      "Draw the current state of the incident as a card. Call this once you have read the context, and again when the picture changes.",
+      "Dibuja una matriz comparativa visual entre candidatos para el rol objetivo. Invócalo cuando el usuario pida comparar candidatos, analizar opciones o revisar quién encaja mejor con el presupuesto y requisitos.",
     parameters: z.object({
-      headline: z.string().describe("What is broken, in under ten words."),
-      summary: z.string().describe("Who or what is affected."),
-      facts: z.array(z.object({ label: z.string(), value: z.string() })).max(4).default([]),
-      nextSteps: z.array(z.string()).max(3).default([]),
-      tone: z.enum(["neutral", "good", "attention"]).default("neutral"),
+      title: z.string().default("Comparativa de Candidatos vs Rol Objetivo"),
+      roleTarget: z.string().default("Lead Fullstack & AI Systems Engineer"),
+      budgetCap: z.string().default("$95,000 USD"),
+      candidates: z.array(
+        z.object({
+          name: z.string().describe("Nombre completo del candidato"),
+          matchScore: z.number().min(0).max(100).optional().describe("Porcentaje estimado de match (0-100)"),
+          salary: z.string().describe("Pretensión salarial (ej. $92,000 / año)"),
+          withinBudget: z.boolean().describe("true si está dentro del tope de $95k, false si lo excede"),
+          strengths: z.array(z.string()).describe("1 a 3 fortalezas técnicas o de equipo"),
+          concerns: z.array(z.string()).describe("Riesgos, banderas rojas o diferencias presupuestarias"),
+          verdict: z.string().describe("Veredicto o síntesis del agente para este candidato"),
+        })
+      ),
+      recommendation: z.string().optional().describe("Recomendación final consolidada del agente"),
     }),
-    render: IncidentCard,
-  });
-
-  useComponent({
-    name: "timeline",
-    description:
-      "Draw an ordered timeline of what happened when. Call this when there are three or more events worth ordering.",
-    parameters: z.object({
-      title: z.string().optional(),
-      columns: z.array(z.string()).min(1).max(4),
-      rows: z.array(z.array(z.string())),
-    }),
-    render: Timeline,
+    render: CandidateComparisonCard,
   });
 
   /**
-   * The approval gate, web idiom.
-   *
-   * Same contract as `confirm_action` in the Slack surface: the agent must ask
-   * before anything irreversible, and cannot proceed past a refusal.
-   *
-   * `respond` is a function ONLY while the tool call is executing — narrowing on
-   * its presence is safer than importing the ToolCallStatus enum from
-   * @copilotkit/core, which is only a transitive dependency here.
+   * 2. offer_proposal:
+   * Permite al agente proyectar una propuesta formal de oferta para el candidato seleccionado,
+   * con desglose financiero, beneficios y justificación antes de enviarla.
+   */
+  useComponent({
+    name: "offer_proposal",
+    description:
+      "Dibuja un desglose detallado de propuesta de oferta formal para un candidato (salario base, bono de firma, equity, beneficios y fecha de inicio). Invócalo al preparar o sugerir una oferta.",
+    parameters: z.object({
+      candidateName: z.string().describe("Nombre del candidato a quien se le ofrece la posición"),
+      roleTitle: z.string().default("Lead Fullstack & AI Systems Engineer"),
+      department: z.string().default("Product Engineering"),
+      baseSalary: z.string().describe("Salario base anual propuesto (ej. $92,000 USD / año)"),
+      salaryVsBudget: z.string().describe("Comparativa con el presupuesto (ej. Dentro del presupuesto (-$3,000))"),
+      signingBonus: z.string().optional().describe("Bono único de firma si aplica"),
+      equity: z.string().optional().describe("Porcentaje de acciones o stock options"),
+      startDate: z.string().optional().describe("Fecha tentativa de inicio"),
+      benefits: z.array(z.string()).optional().describe("Beneficios destacados incluidos"),
+      justification: z.string().optional().describe("Justificación técnica y económica de la oferta"),
+    }),
+    render: OfferProposalCard,
+  });
+
+  /**
+   * 3. propose_action (Human-in-the-Loop):
+   * Compuerta de aprobación para acciones críticas de contratación.
+   * El agente NUNCA ejecuta una oferta o cambio legal sin la confirmación explícita del reclutador.
    */
   useHumanInTheLoop({
     name: "propose_action",
     description:
-      "Ask for approval before anything that touches production. Call this FIRST and only continue if it returns approval.",
+      "Solicita aprobación humana antes de realizar cualquier acción crítica (enviar oferta formal, cambiar estado a contratado o rechazar). Invócalo siempre antes de emitir decisiones.",
     parameters: z.object({
-      action: z.string().describe("What you are about to do, in one plain sentence."),
-      blastRadius: z.string().describe("What this affects if it goes wrong."),
+      action: z.string().describe("La acción crítica que se va a ejecutar en una frase clara."),
+      candidateName: z.string().optional().describe("Candidato afectado por la acción."),
+      impact: z.string().describe("Consecuencias de la acción (financieras, legales o de pipeline)."),
     }),
     render: ({ args, respond, result }) => {
       if (!respond) {
         return (
-          <article className="ck-card ck-card--gate">
-            <p className="ck-gate-done">{result ? String(result) : "Esperando…"}</p>
-          </article>
+          <div className="ts-gate-card ts-gate-completed">
+            <span className="ts-gate-icon">
+              <CheckIcon />
+            </span>
+            <div>
+              <strong>Acción confirmada:</strong>
+              <p style={{ margin: "2px 0 0", color: "var(--text-secondary)" }}>
+                {result ? String(result) : "Completada por el reclutador."}
+              </p>
+            </div>
+          </div>
         );
       }
       return (
-        <article className="ck-card ck-card--gate">
-          <h3>{args.action ?? "Confirmar esta acción"}</h3>
-          <p>{args.blastRadius}</p>
-          <div className="ck-actions">
+        <div className="ts-gate-card">
+          <div className="ts-gate-badge">
+            <span style={{ display: "inline-flex", alignItems: "center", gap: "4px" }}>
+              <ShieldLockIcon /> Human-in-the-Loop Gate
+            </span>
+          </div>
+          <h4 className="ts-gate-title">{args.action ?? "Confirmar decisión de contratación"}</h4>
+          {args.candidateName && (
+            <p className="ts-gate-target">
+              Candidato evaluado: <strong>{args.candidateName}</strong>
+            </p>
+          )}
+          <div className="ts-gate-impact">
+            <strong>Impacto en Pipeline:</strong> {args.impact}
+          </div>
+          <div className="ts-gate-actions">
             <button
               type="button"
-              className="ck-btn ck-btn--primary"
+              className="ts-btn ts-btn-primary"
               onClick={() =>
-                respond("Aprobado por el usuario. Procede y reporta el resultado.")
+                respond("Aprobado por el reclutador. Emite la oferta formal y actualiza el estado en el sistema.")
               }
             >
-              Aprobar
+              <CheckIcon /> Aprobar y Emitir Oferta Formal
             </button>
             <button
               type="button"
-              className="ck-btn"
+              className="ts-btn ts-btn-outline"
               onClick={() =>
                 respond(
-                  "El usuario canceló la acción. No ejecutes cambios y notifica que se mantuvo el estado previo.",
+                  "El reclutador declinó la acción. No modifiques ningún registro ni envíes comunicaciones, y explica qué cambios se requieren."
                 )
               }
             >
-              Cancelar
+              <CloseIcon /> Rechazar o Ajustar
             </button>
           </div>
-        </article>
+        </div>
       );
     },
   });
 
-  // Hooks register into the chat stream, so this component renders nothing.
   return null;
 }

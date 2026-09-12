@@ -1,6 +1,6 @@
 # Submission Checklist — TalentScore
 
-**Project Name:** TalentScore — Context-Aware AI Recruiting Agent & Human-in-the-Loop Offer Gate  
+**Project Name:** TalentScore — Context-Aware CV Triage, Shortlist & Human-in-the-Loop Recruiting
 **Hackathon:** AI Tinkerers Global Hackathon (Agents, Everywhere)  
 **Team Members:**  
 - **Marcelo** — Product Lead, Domain Modeling, Human-in-the-Loop & Pitch  
@@ -24,25 +24,27 @@
 - **Human-in-the-Loop (HITL) Security Gate (`apps/web/src/components/workplace-followups.tsx`)**: An interactive compensation review and formal offer issuance gate. The AI agent recommends and structures offer terms, but cannot legally extend or persist offers autonomously. The recruiter reviews the exact package (candidate, role, proposed salary vs budget cap, equity, start date) and explicitly executes either **"Aprobar y Emitir Oferta Formal"** or **"Rechazar / Ajustar"**.
 - **Structured Offer Protocol & Serialization (`apps/web/src/lib/followup-types.ts`)**: Type-safe offer drafting (`JobOfferDetails`), budget variance evaluation, metadata extraction, and round-trip serialization between agent proposals and UI cards.
 - **Context Injection & Governance (`candidatesWorkspaceContext`)**: Feeds active candidate scorecards, compensation limits, and HITL security policies into CopilotKit's `useAgentContext`, giving the agent real-time situational awareness.
-- **Automated Verification Suite (`apps/web/src/lib/candidates.test.ts`)**: 45 unit and integration tests passing with 100% success rate, validating offer creation, budget boundaries, approval transitions, CRLF resilience, and serialization.
+- **CV provenance & explainable ranking (`apps/web/src/lib/candidates.ts`)**: Added three clearly labeled simulated email applications, attachment metadata, extraction confidence, evidence snippets, missing-field tracking, and a fixed 45/25/15/10/5 ranking rubric. Missing CV data is reported as unknown, never fabricated as a negative signal.
+- **Shortlist & export governance (`SelectionReport`)**: A frozen ranking snapshot is created before a recruiter may approve a shortlist. PDF, DOCX and XLSX export requests must match that approved snapshot; the domain policy rejects export before explicit human approval.
+- **Automated Verification Suite (`apps/web/src/lib/candidates.test.ts`)**: Domain tests cover offers, ranking, CV provenance, shortlist approval/rejection, export gating, and critical-status authorization.
 
 ---
 
 ## Title and description
 
-**Title:** TalentScore: Context-Aware AI Recruiting Dashboard with Human-in-the-Loop Governance
+**Title:** TalentScore: Context-Aware CV Triage and Governed Shortlisting
 
 **What you built**
-TalentScore embeds an autonomous yet strictly governed AI agent directly inside an ATS (Applicant Tracking System) dashboard. The agent evaluates technical interview notes, compares candidate strengths against the job description and salary budget, highlights compensation discrepancies (such as candidates exceeding the $95,000 USD cap), and drafts formal offer proposals. Through a dedicated **Human-in-the-Loop Security Gate**, the human recruiter maintains absolute control over legally binding actions: the recruiter inspects the financial breakdown, adjusts equity or salary in real time, and must click **"Aprobar y Emitir Oferta Formal"** to transition the candidate to `Offer Extended` and persist the record.
+TalentScore embeds a governed AI agent directly inside an ATS. It starts with a labeled inbox of CV applications, preserves the CV/email provenance and extraction gaps, compares candidates against an explicit role rubric and salary budget, then proposes—not executes—a shortlist. The recruiter must approve the exact, frozen ranking snapshot before it can be exported as PDF, DOCX or XLSX. Formal offers remain a separate, stricter approval workflow.
 
 **Who it is for**
 Technical Recruiters, Hiring Managers, and Heads of Talent who make high-stakes hiring decisions under tight deadlines and strict compensation budgets.
 
 **Why the context matters**
-A generic chatbot in a separate tab cannot see candidate interview scores, does not know the department's authorized budget ceiling ($95,000 USD), and cannot execute auditable status changes. Because TalentScore lives directly inside the ATS surface:
-1. It continuously observes the active candidate profile, interview sentiment (e.g. 3x "Strong Yes" for Sofía Albarracín), and compensation expectations.
-2. It detects budget risks before offers are drafted (e.g. flagging Lucas Varela as $30,000 over budget).
-3. It projects interactive Generative UI and approval gates directly where the recruiter works.
+A generic chatbot cannot see the inbound application source, evaluate candidates against the organization’s exact rubric, preserve missing-data warnings, or hold a recruiter at the approval boundary. Because TalentScore lives directly inside the ATS surface:
+1. It connects every decision to the selected candidate’s CV evidence, email metadata, interview signal and compensation expectation.
+2. It highlights budget risk (Lucas is $30,000 above the $95,000 cap) without erasing his technical strengths.
+3. It renders the shortlist and approval gate where the recruiter makes the decision, keeping the model from silently exporting or changing critical hiring states.
 
 **Sponsor technologies used**
 - **CopilotKit**: Powers the in-app conversational agent, Generative UI hooks (`useComponent`, `useHumanInTheLoop`), front-end tools (`useFrontendTool`), and live context synchronization (`useAgentContext`).
@@ -57,10 +59,10 @@ Judges score each of the four official criteria from 1–5:
 
 | Official criterion | Show in your project and demo | TalentScore Implementation Evidence |
 |---|---|---|
-| **1. Core Requirements & Functionality** | Run one complete workflow in the intended environment, from user request through tools to a verified result. Repeat with live integrations. | **Complete End-to-End Workflow:**<br>1. Recruiter selects candidate `Sofía Albarracín (CAND-101)`.<br>2. Recruiter asks the agent: *"¿Es Sofía adecuada para el puesto de Lead Fullstack y cómo se compara con el presupuesto?"*<br>3. Agent reads interview notes (3x Strong Yes), validates her $92,000 expectation against the $95,000 cap, and proposes a formal offer package.<br>4. The HITL Review Gate renders with real-time budget comparison (+$3,000 USD available margin, green indicator).<br>5. Recruiter clicks **"Aprobar y Emitir Oferta Formal"**.<br>6. Candidate status immediately updates to `Offer Extended`, an auditable timestamp and reviewer signature are recorded, and persisted. |
-| **2. Innovation & Theme Alignment** | Show surrounding context before prompt, explain original interaction. Compare with context removed. | **True "Agents Everywhere" Surface Integration:**<br>Without surface context, a standalone LLM requires tedious copy-pasting of resumes, interview feedback, and budget sheets. With TalentScore, switching between candidates (`CAND-101`, `CAND-102`, `CAND-103`) dynamically updates the agent's context. When inspecting Lucas Varela, the agent instantly sounds the alarm on his $125k expectation vs $95k budget, preventing costly recruitment errors. |
-| **3. Technical Execution & Integration** | Show how tools, data, and environment connect. Demonstrate failure/cancellation path, recovery, persistence. | **Fail-Safe HITL Architecture & Edge Case Handling:**<br>- **Safety Boundary:** The AI agent *cannot* execute writes or extend offers directly; attempts to bypass the UI gate fail.<br>- **Rejection/Adjustment Path:** Clicking **"Rechazar / Ajustar"** safely dismisses the proposal, prevents writes, and allows modifying salary/equity.<br>- **Deterministic Formatting:** Locale-independent currency and number parsers (`en-US` formatting with regex fallbacks and CRLF support).<br>- **Type Safety & Testing:** 45 automated tests (`npm test`) verify zero regressions; `npm run typecheck` passes with zero errors across all workspaces. |
-| **4. Usefulness & Agentic Experience** | Identify user and problem, show meaningful action, clear feedback, appropriate control. | **High-Value Enterprise Impact:**<br>- Eliminates manual offer letter preparation and cross-referencing between interview tools and compensation spreadsheets.<br>- Prevents compliance and budget violations with real-time visual variance banners (green for within budget, red alert for over budget).<br>- Recruiter retains 100% agency: clear feedback states (`Offer Extended`, approval signatures, rejection justifications). |
+| **1. Core Requirements & Functionality** | Run one complete workflow in the intended environment, from user request through tools to a verified result. Repeat with live integrations. | **Workflow to demonstrate:** inbox entry → extracted profile → explainable ranking → agent comparison → recruiter-approved shortlist → export. The supplied dataset is a simulated inbox; any live inbox or generated files must be shown and labeled separately. |
+| **2. Innovation & Theme Alignment** | Show surrounding context before prompt, explain original interaction. Compare with context removed. | **True ATS context:** TalentScore gives the agent the current candidate, CV provenance, missing fields, interview evidence, rubric and budget. Without that surface context, a chatbot cannot produce an auditable shortlist. |
+| **3. Technical Execution & Integration** | Show how tools, data, and environment connect. Demonstrate failure/cancellation path, recovery, persistence. | **Fail-safe policy:** critical statuses (`Offer Extended`, `Hired`), shortlist approval and export all require a human. A rejected shortlist returns candidates to ranked state, and an export attempt before approval is rejected by the domain layer. |
+| **4. Usefulness & Agentic Experience** | Identify user and problem, show meaningful action, clear feedback, appropriate control. | **Recruiter value:** a transparent ranking removes spreadsheet triage while showing the evidence, uncertainty and budget implications needed to make a defensible hiring decision. |
 
 - [x] We can point to visible evidence for every criterion.
 - [x] We distinguish live services, sample data, session-only state, and standalone recipes.
@@ -80,21 +82,21 @@ Judges score each of the four official criteria from 1–5:
 
 ## Two-minute demo video script
 
-1. **0:00 – 0:30 | The Problem & Context:**
-   - Show the ATS Dashboard with candidate scorecards (`Sofía Albarracín`, `Lucas Varela`, `Elena Rostova`).
-   - Point out the departmental budget limit: `$95,000 USD` for the `Lead Fullstack & AI Systems Engineer` role.
-   - Explain the danger of unassisted or un-governed AI: either recruiters spend hours preparing offer packages, or autonomous agents risk sending unauthorized compensation commitments.
-2. **0:30 – 1:15 | The Agentic Evaluation & Generative UI:**
-   - Select Sofía Albarracín. Ask TalentScore to evaluate her cultural and technical fit and formulate an offer.
-   - The agent reads her 3 rounds of interviews (Marcelo, Amin, Milena: all "Strong Yes"), confirms her $92k salary expectation fits within the $95k budget, and structures an offer proposal.
-3. **1:15 – 1:45 | The Human-in-the-Loop Security Gate:**
-   - Highlight the **Human-in-the-Loop Approval Gate** rendered in the dashboard.
-   - Show the budget variance comparison: `+$3,000 USD (+3.2% margen disponible)`.
-   - Contrast with Lucas Varela ($125,000 USD), showing the red alert warning: `⚠️ Excede el presupuesto en $30,000 USD`.
-   - Click **"Aprobar y Emitir Oferta Formal"**.
-4. **1:45 – 2:00 | Verified Outcome & Sponsor Credits:**
-   - Show candidate status instantly changing to `Offer Extended` with verified timestamp and reviewer audit trail.
-   - Credit **CopilotKit** for conversational runtime & HITL primitives, and **AI Tinkerers** for the hackathon framework.
+1. **0:00 – 0:25 | CVs in context:**
+   - Open the inbox labeled **“Datos de demostración: emails simulados”** and show the three received CVs: Sofía, Lucas and Elena.
+   - Show the target role, its `$95,000 USD` cap and the extracted CV evidence/missing-field indicators.
+2. **0:25 – 1:05 | Explainable agentic evaluation:**
+   - Ask: *“¿Quiénes deben pasar a shortlist y qué evidencia respalda la decisión?”*
+   - The agent reads the selected ATS context and renders the comparison using the published weights: skills 45%, experience 25%, architecture/agentes 15%, liderazgo/comunicación 10% and presupuesto 5%.
+   - Contrast Sofía’s strong, in-budget profile with Lucas’s technical strengths and `$30k` budget risk; show Elena as a complementary option with a transparent backend-experience caveat.
+3. **1:05 – 1:40 | Human-in-the-Loop shortlist:**
+   - Select Sofía and Elena. Show the frozen score snapshot, evidence coverage and the request for PDF, DOCX and XLSX.
+   - Click **“Aprobar Shortlist”**. Explain that neither the model nor a chat response can approve, export, hire or extend an offer.
+   - Optionally show the decline path: a missing justification blocks rejection, while a valid rejection returns candidates to ranked state.
+4. **1:40 – 2:00 | Verified output & disclosure:**
+   - Trigger the approved export and show the resulting report(s) when the export integration is configured.
+   - State accurately whether the inbox and persistence are simulated or live in this build; never present sample CVs as real applicants.
+   - Credit CopilotKit for the in-app conversational/HITL experience and AI Tinkerers for the hackathon framework.
 
 ---
 

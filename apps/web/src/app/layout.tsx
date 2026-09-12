@@ -15,8 +15,24 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="es">
+    <html lang="es" data-theme="light" suppressHydrationWarning>
       <head>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `(function(){
+              try {
+                var saved = localStorage.getItem("talentscore_theme");
+                if (saved === "dark" || saved === "light") {
+                  document.documentElement.setAttribute("data-theme", saved);
+                } else {
+                  document.documentElement.setAttribute("data-theme", "light");
+                }
+              } catch(e) {
+                document.documentElement.setAttribute("data-theme", "light");
+              }
+            })();`,
+          }}
+        />
         <link
           href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Spline+Sans+Mono:wght@400;500;600&display=swap"
           rel="stylesheet"
