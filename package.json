@@ -21,7 +21,9 @@
     "typecheck": "npm run typecheck --workspaces --if-present",
     "dev:web": "npm run dev --workspace web",
     "test": "npm run test --workspaces --if-present",
-    "verify": "npm run typecheck && npm test"
+    "verify": "npm run typecheck && npm test",
+    "db:migrate": "node --env-file-if-exists=.env db/migrate.mjs",
+    "demo:talent": "npm run demo:talent --workspace web"
   },
   "overrides": {
     "@ag-ui/client": "0.0.59"
@@ -30,5 +32,8 @@
     "@types/node": "^22.10.0",
     "tsx": "^4.23.1",
     "typescript": "^5.7.0"
+  },
+  "dependencies": {
+    "pg": "^8.16.0"
   }
 }

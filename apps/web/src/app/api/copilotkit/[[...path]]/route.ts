@@ -21,11 +21,23 @@ import {
   CopilotRuntime,
   createCopilotHonoHandler,
 } from "@copilotkit/runtime/v2";
-import { makeAgent } from "agent-core";
+import { createTalentTools, makeAgent } from "agent-core";
+import { getTalentService } from "@/lib/server/talent/runtime";
 
 // Web writes use /api/followups after a browser approval. Never expose raw MCP writes here.
+// Talent tools are read/evaluate only; approval and export live in /api/talent/* behind a human click.
+function talentTools() {
+  try {
+    return createTalentTools(getTalentService());
+  } catch (error) {
+    // Without DATABASE_URL the agent still works for the on-screen candidates; it just lacks the inbox tools.
+    console.warn("[talent] tools not registered:", error instanceof Error ? error.message : error);
+    return [];
+  }
+}
+
 const runtime = new CopilotRuntime({
-  agents: () => ({ default: makeAgent(randomUUID(), { workplace: false }) }),
+  agents: () => ({ default: makeAgent(randomUUID(), { workplace: false, tools: talentTools() }) }),
 });
 
 const app = createCopilotHonoHandler({

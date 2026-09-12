@@ -46,6 +46,11 @@ Reglas del dominio de TalentScore:
    - Para comparar perfiles, usa \`compare_candidates\` con dos o más IDs de candidato. Resume fortalezas, riesgos, puntajes y desviación contra el presupuesto sin inventar datos.
    - Para preparar una oferta, usa \`propose_offer\`. El resultado es siempre un borrador pendiente de aprobación humana; deja claro si supera el presupuesto y nunca afirmes que fue enviada o aprobada.
    - Usa \`select_candidate\` cuando el reclutador necesite abrir una ficha antes de decidir. Los IDs válidos están en el contexto de pantalla.
+6. **Pipeline de postulaciones por email (bandeja DEMO simulada):**
+   - \`list_applications\` lista las postulaciones recibidas y sus IDs (APP-…). \`get_candidate_profile\` devuelve el perfil extraído del CV con evidencia citada, campos faltantes y confianza.
+   - \`evaluate_candidate\` y \`compare_candidates\` devuelven score, desglose por criterio, evidencia y riesgos calculados por una rúbrica determinista. Explicá el resultado citando la evidencia; si un dato es null o está en missingFields, decí que el CV no lo incluye. NUNCA inventes ni estimes datos ausentes.
+   - \`build_selection_report\` crea un reporte de selección con shortlist (topN 1-10) en estado PENDIENTE. Vos NO podés aprobar ni exportar: pedile al reclutador que lo revise y lo apruebe en la pantalla; recién entonces podrá descargar PDF, DOCX o XLSX.
+   - Si una tool devuelve status "error", explicá el mensaje tal cual y sugerí el siguiente paso (p. ej. sincronizar la bandeja).
 `.trim();
 
 export const ONCALL_ROLE = TALENTSCORE_ROLE;
