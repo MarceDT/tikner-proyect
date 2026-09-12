@@ -1,16 +1,72 @@
 /* ==========================================================================
    TalentScore — Enterprise ATS & Recruiting Intelligence Design System
-   Corporate, polished, accessible, and responsive visual system
+   Dual-Theme System (Light & Dark) with CopilotKit Layout Overrides
    ========================================================================== */
 
-:root {
-  /* ── Core Color Palette (Executive Slate & Corporate Blue) ─────────────── */
+/* ── Light Mode Tokens (Default) ─────────────────────────────────────────── */
+:root,
+[data-theme="light"] {
+  --ground: #f8fafc;
+  --navbar-bg: rgba(255, 255, 255, 0.94);
+  --surface: #ffffff;
+  --surface-card: #f8fafc;
+  --surface-raised: #f1f5f9;
+  --surface-hover: #e2e8f0;
+
+  --border: #cbd5e1;
+  --border-subtle: #e2e8f0;
+  --border-focus: #2563eb;
+  --ring: rgba(37, 99, 235, 0.25);
+
+  --text: #0f172a;
+  --text-secondary: #475569;
+  --muted: #64748b;
+
+  --primary: #2563eb;
+  --primary-hover: #1d4ed8;
+  --primary-light: #2563eb;
+  --primary-subtle: #eff6ff;
+  --primary-border: #bfdbfe;
+  --primary-fg: #ffffff;
+
+  --emerald: #059669;
+  --emerald-bg: #ecfdf5;
+  --emerald-border: #a7f3d0;
+  --emerald-text: #065f46;
+
+  --amber: #d97706;
+  --amber-bg: #fffbeb;
+  --amber-border: #fde68a;
+  --amber-text: #92400e;
+
+  --rose: #e11d48;
+  --rose-bg: #fff1f2;
+  --rose-border: #fecdd3;
+  --rose-text: #9f1239;
+
+  --radius-xs: 4px;
+  --radius-sm: 6px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-xl: 16px;
+  --radius-full: 9999px;
+
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.07), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.08), 0 4px 6px -4px rgba(0, 0, 0, 0.04);
+
+  color-scheme: light;
+}
+
+/* ── Dark Mode Tokens ───────────────────────────────────────────────────── */
+[data-theme="dark"] {
   --ground: #0a0e17;
+  --navbar-bg: rgba(17, 24, 39, 0.94);
   --surface: #111827;
   --surface-card: #151f32;
   --surface-raised: #1c283f;
   --surface-hover: #22324f;
-  
+
   --border: #23324d;
   --border-subtle: #192438;
   --border-focus: #3b82f6;
@@ -20,14 +76,13 @@
   --text-secondary: #94a3b8;
   --muted: #64748b;
 
-  /* ── Primary Accent (One Focused Corporate Accent) ───────────────────────── */
-  --primary: #2563eb;
-  --primary-hover: #1d4ed8;
+  --primary: #3b82f6;
+  --primary-hover: #2563eb;
   --primary-light: #60a5fa;
-  --primary-subtle: rgba(37, 99, 235, 0.1);
+  --primary-subtle: rgba(59, 130, 246, 0.12);
   --primary-border: rgba(59, 130, 246, 0.3);
+  --primary-fg: #ffffff;
 
-  /* ── Semantic Status Colors (Muted, High Contrast, Non-Neon) ────────────── */
   --emerald: #10b981;
   --emerald-bg: rgba(16, 185, 129, 0.08);
   --emerald-border: rgba(16, 185, 129, 0.25);
@@ -43,18 +98,6 @@
   --rose-border: rgba(244, 63, 94, 0.25);
   --rose-text: #fb7185;
 
-  --slate-bg: rgba(148, 163, 184, 0.08);
-  --slate-border: rgba(148, 163, 184, 0.2);
-
-  /* ── Spacing & Radii ────────────────────────────────────────────────────── */
-  --radius-xs: 4px;
-  --radius-sm: 6px;
-  --radius-md: 8px;
-  --radius-lg: 12px;
-  --radius-xl: 16px;
-  --radius-full: 9999px;
-
-  /* ── Restrained Shadows ─────────────────────────────────────────────────── */
   --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.25);
   --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -2px rgba(0, 0, 0, 0.2);
   --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.35), 0 4px 6px -4px rgba(0, 0, 0, 0.25);
@@ -83,6 +126,7 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   min-height: 100vh;
+  transition: background-color 0.2s ease, color 0.2s ease;
 }
 
 /* ── Accessibility & Focus States ────────────────────────────────────────── */
@@ -112,7 +156,7 @@ time {
 
 /* ── Top Navigation Bar ─────────────────────────────────────────────────── */
 .ts-navbar {
-  background: rgba(17, 24, 39, 0.92);
+  background: var(--navbar-bg);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   border-bottom: 1px solid var(--border);
@@ -120,6 +164,7 @@ time {
   top: 0;
   z-index: 50;
   padding: 10px 24px;
+  transition: background-color 0.2s ease, border-color 0.2s ease;
 }
 
 .ts-navbar-inner {
@@ -159,7 +204,7 @@ time {
   font-size: 17px;
   font-weight: 700;
   letter-spacing: -0.02em;
-  color: #ffffff;
+  color: var(--text);
   margin: 0;
   line-height: 1.2;
 }
@@ -214,7 +259,36 @@ time {
 .ts-nav-actions {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 10px;
+}
+
+/* Theme Toggle Button */
+.ts-theme-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 12px;
+  border-radius: var(--radius-full);
+  background: var(--surface-card);
+  border: 1px solid var(--border);
+  color: var(--text-secondary);
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  min-height: 32px;
+}
+
+.ts-theme-toggle:hover {
+  background: var(--surface-hover);
+  color: var(--text);
+  border-color: var(--border-focus);
+}
+
+.ts-theme-toggle svg {
+  width: 14px;
+  height: 14px;
+  color: currentColor;
 }
 
 .ts-user-badge {
@@ -230,8 +304,8 @@ time {
 }
 
 .ts-user-avatar {
-  width: 24px;
-  height: 24px;
+  width: 22px;
+  height: 22px;
   border-radius: 50%;
   background: var(--surface-raised);
   border: 1px solid var(--border);
@@ -239,7 +313,7 @@ time {
   align-items: center;
   justify-content: center;
   font-size: 11px;
-  color: var(--primary-light);
+  color: var(--primary);
   font-weight: 600;
 }
 
@@ -300,13 +374,13 @@ time {
 .ts-prompt-chip:hover {
   background: var(--surface-hover);
   color: var(--text);
-  border-color: var(--primary-light);
+  border-color: var(--primary);
 }
 
 .ts-prompt-chip.is-active {
   background: var(--primary-subtle);
   border-color: var(--primary);
-  color: var(--primary-light);
+  color: var(--primary);
   font-weight: 600;
 }
 
@@ -370,6 +444,7 @@ time {
   border-radius: var(--radius-lg);
   overflow: hidden;
   box-shadow: var(--shadow-sm);
+  transition: background-color 0.2s ease, border-color 0.2s ease;
 }
 
 .ts-panel-header {
@@ -507,7 +582,7 @@ time {
 
 .ts-status-interviewing {
   background: var(--primary-subtle);
-  color: var(--primary-light);
+  color: var(--primary);
   border: 1px solid var(--primary-border);
 }
 
@@ -519,8 +594,12 @@ time {
 
 .ts-status-offer {
   background: rgba(168, 85, 247, 0.1);
-  color: #c084fc;
+  color: #9333ea;
   border: 1px solid rgba(168, 85, 247, 0.3);
+}
+
+[data-theme="dark"] .ts-status-offer {
+  color: #c084fc;
 }
 
 /* ── Center Column: Candidate Deep Dive ─────────────────────────────────── */
@@ -537,6 +616,7 @@ time {
   border-radius: var(--radius-lg);
   padding: 20px;
   box-shadow: var(--shadow-sm);
+  transition: background-color 0.2s ease, border-color 0.2s ease;
 }
 
 .ts-hero-top {
@@ -578,7 +658,7 @@ time {
 
 .ts-hero-title {
   font-size: 13.5px;
-  color: var(--primary-light);
+  color: var(--primary);
   font-weight: 500;
   margin-bottom: 8px;
 }
@@ -614,6 +694,9 @@ time {
   margin-bottom: 14px;
   line-height: 1.55;
   font-style: italic;
+  border-top: 1px solid var(--border-subtle);
+  border-right: 1px solid var(--border-subtle);
+  border-bottom: 1px solid var(--border-subtle);
 }
 
 /* Compensation vs Budget Banner */
@@ -675,13 +758,13 @@ time {
 }
 
 .is-ok .ts-budget-pill-large {
-  background: rgba(16, 185, 129, 0.15);
+  background: var(--surface);
   color: var(--emerald-text);
   border: 1px solid var(--emerald-border);
 }
 
 .is-over .ts-budget-pill-large {
-  background: rgba(244, 63, 94, 0.15);
+  background: var(--surface);
   color: var(--rose-text);
   border: 1px solid var(--rose-border);
 }
@@ -732,6 +815,7 @@ time {
   border-radius: var(--radius-lg);
   padding: 18px 20px;
   box-shadow: var(--shadow-sm);
+  transition: background-color 0.2s ease, border-color 0.2s ease;
 }
 
 .ts-card-title {
@@ -936,6 +1020,7 @@ time {
   top: 76px;
   overflow: hidden;
   box-shadow: var(--shadow-sm);
+  transition: background-color 0.2s ease, border-color 0.2s ease;
 }
 
 .ts-copilot-header {
@@ -960,7 +1045,7 @@ time {
   border-radius: var(--radius-sm);
   background: var(--primary-subtle);
   border: 1px solid var(--primary-border);
-  color: var(--primary-light);
+  color: var(--primary);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -989,9 +1074,13 @@ time {
   gap: 5px;
 }
 
-/* ── CopilotChat Full Integration & Layout Fixes ────────────────────────── */
+/* ==========================================================================
+   CopilotKit Chat DOM Overrides & Layout Integration
+   Eliminates floating window framing and contains cpk:w-full cleanly
+   ========================================================================== */
+
 .ts-copilot-chat {
-  flex: 1;
+  flex: 1 1 0%;
   min-height: 0;
   min-width: 0;
   width: 100%;
@@ -999,68 +1088,88 @@ time {
   flex-direction: column;
   position: relative;
   overflow: hidden;
+  background: transparent;
 }
 
-/* CopilotChat Root */
-.copilotKitChat,
-[data-testid="copilot-chat"] {
+/* Root CopilotChat Container Override */
+.ts-copilot-panel [data-copilotkit],
+.ts-copilot-panel .copilotKitChat,
+.ts-copilot-panel [data-testid="copilot-chat"] {
   background: transparent !important;
   color: var(--text) !important;
   height: 100% !important;
   min-height: 0 !important;
   min-width: 0 !important;
   width: 100% !important;
+  max-width: 100% !important;
   display: flex !important;
   flex-direction: column !important;
   position: relative !important;
   overflow: hidden !important;
+  border: none !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
 }
 
-/* Safe wrap across all chat elements to prevent layout explosions */
-.copilotKitChat *,
-[data-testid="copilot-chat"] * {
-  box-sizing: border-box;
+/* Override cpk:w-full to prevent horizontal layout overflow */
+.ts-copilot-panel .cpk\:w-full {
+  min-width: 0 !important;
+  max-width: 100% !important;
+  box-sizing: border-box !important;
 }
 
-/* Messages Scroll Container */
-[data-testid="copilot-scroll-content"],
-.copilotKitMessages {
-  padding: 14px 14px 20px !important;
+/* Override cpk:max-w-3xl inside the panel */
+.ts-copilot-panel .cpk\:max-w-3xl {
+  max-width: 100% !important;
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+  width: 100% !important;
   min-width: 0 !important;
 }
 
-/* Safe wrapping for long messages, URLs, continuous code strings */
-.copilotKitChat a,
-.copilotKitChat p,
-.copilotKitChat span,
-.copilotKitChat li,
-.copilotKitChat h1,
-.copilotKitChat h2,
-.copilotKitChat h3,
-.copilotKitChat h4 {
-  overflow-wrap: anywhere !important;
-  word-break: break-word !important;
-  hyphens: auto;
+/* Messages Scroll Container Override */
+.ts-copilot-panel [data-testid="copilot-scroll-content"],
+.ts-copilot-panel .copilotKitMessages {
+  padding: 14px 14px 16px !important;
+  min-width: 0 !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  flex: 1 1 auto !important;
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
+  box-sizing: border-box !important;
 }
 
-.copilotKitChat pre,
-.copilotKitChat code {
+/* Safe wrapping across all chat textual elements */
+.ts-copilot-panel a,
+.ts-copilot-panel p,
+.ts-copilot-panel span,
+.ts-copilot-panel li,
+.ts-copilot-panel h1,
+.ts-copilot-panel h2,
+.ts-copilot-panel h3,
+.ts-copilot-panel h4 {
+  overflow-wrap: anywhere !important;
+  word-break: break-word !important;
+}
+
+.ts-copilot-panel pre,
+.ts-copilot-panel code {
   max-width: 100% !important;
   overflow-x: auto !important;
   white-space: pre-wrap !important;
   word-break: break-word !important;
 }
 
-/* ── User Message Bubble Styling ────────────────────────────────────────── */
-.copilotKitUserMessage,
-[data-testid="copilot-user-message"] {
+/* ── User Message Bubble Override ───────────────────────────────────────── */
+.ts-copilot-panel .copilotKitUserMessage,
+.ts-copilot-panel [data-testid="copilot-user-message"] {
   background: transparent !important;
   border: none !important;
   box-shadow: none !important;
-  padding-top: 10px !important;
-  padding-bottom: 4px !important;
-  padding-left: 0 !important;
-  padding-right: 0 !important;
+  padding: 4px 0 !important;
   margin: 0 !important;
   width: 100% !important;
   max-width: 100% !important;
@@ -1069,10 +1178,10 @@ time {
   align-items: flex-end !important;
 }
 
-/* Target the user message renderer (actual bubble) */
-.copilotKitUserMessage > div:not([data-testid="copilot-user-toolbar"]),
-.copilotKitUserMessage .cpk\:prose,
-[data-testid="copilot-user-message"] > div:first-of-type {
+/* The actual user message bubble */
+.ts-copilot-panel .copilotKitUserMessage > div:not([data-testid="copilot-user-toolbar"]),
+.ts-copilot-panel .copilotKitUserMessage .cpk\:prose,
+.ts-copilot-panel [data-testid="copilot-user-message"] > div:first-of-type {
   background: var(--primary) !important;
   color: #ffffff !important;
   border: 1px solid rgba(255, 255, 255, 0.15) !important;
@@ -1086,30 +1195,26 @@ time {
   box-shadow: var(--shadow-sm) !important;
 }
 
-/* User Message Toolbar */
-[data-testid="copilot-user-toolbar"] {
+.ts-copilot-panel [data-testid="copilot-user-toolbar"] {
   margin-top: 4px !important;
   opacity: 0.7;
 }
 
-/* ── Assistant Message Bubble Styling ───────────────────────────────────── */
-.copilotKitAssistantMessage,
-[data-testid="copilot-assistant-message"] {
+/* ── Assistant Message Bubble Override ──────────────────────────────────── */
+.ts-copilot-panel .copilotKitAssistantMessage,
+.ts-copilot-panel [data-testid="copilot-assistant-message"] {
   background: transparent !important;
   border: none !important;
   box-shadow: none !important;
-  padding-top: 8px !important;
-  padding-bottom: 4px !important;
-  padding-left: 0 !important;
-  padding-right: 0 !important;
+  padding: 4px 0 !important;
   margin: 0 !important;
   width: 100% !important;
   max-width: 100% !important;
 }
 
-/* Target assistant prose text block */
-.copilotKitAssistantMessage > div.cpk\:prose,
-[data-testid="copilot-assistant-message"] > div.cpk\:prose {
+/* The assistant message bubble card */
+.ts-copilot-panel .copilotKitAssistantMessage > div.cpk\:prose,
+.ts-copilot-panel [data-testid="copilot-assistant-message"] > div.cpk\:prose {
   background: var(--surface-card) !important;
   color: var(--text) !important;
   border: 1px solid var(--border) !important;
@@ -1123,33 +1228,46 @@ time {
   box-shadow: var(--shadow-sm) !important;
 }
 
-.copilotKitAssistantMessage p {
+.ts-copilot-panel .copilotKitAssistantMessage p {
   margin: 0 0 8px !important;
 }
 
-.copilotKitAssistantMessage p:last-child {
+.ts-copilot-panel .copilotKitAssistantMessage p:last-child {
   margin-bottom: 0 !important;
 }
 
-/* ── Copilot Input Overlay & Field ──────────────────────────────────────── */
-[data-testid="copilot-input-overlay"] {
+/* ── Copilot Input Overlay & Field Override (Flattening Window Frame) ───── */
+.ts-copilot-panel [data-testid="copilot-input-overlay"] {
   background: var(--surface) !important;
   border-top: 1px solid var(--border) !important;
   pointer-events: auto !important;
   padding: 10px 14px !important;
   position: relative !important;
+  bottom: auto !important;
+  left: auto !important;
+  right: auto !important;
   flex-shrink: 0 !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  min-width: 0 !important;
+  box-sizing: border-box !important;
 }
 
-.copilotKitInput {
+/* Remove default rounded-[28px], white shadow, and box border */
+.ts-copilot-panel .copilotKitInput {
   background: transparent !important;
   border: none !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
   padding: 0 !important;
+  margin: 0 !important;
   width: 100% !important;
+  max-width: 100% !important;
+  min-width: 0 !important;
 }
 
-.copilotKitInput textarea,
-[data-testid="copilot-chat"] textarea {
+.ts-copilot-panel .copilotKitInput textarea,
+.ts-copilot-panel [data-testid="copilot-chat"] textarea {
   background: var(--surface-card) !important;
   border: 1px solid var(--border) !important;
   color: var(--text) !important;
@@ -1160,18 +1278,26 @@ time {
   transition: border-color 0.15s ease, box-shadow 0.15s ease !important;
   min-height: 42px !important;
   resize: none !important;
-}
-
-.copilotKitInput textarea:focus,
-[data-testid="copilot-chat"] textarea:focus {
-  border-color: var(--border-focus) !important;
-  box-shadow: 0 0 0 2px var(--ring) !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  box-sizing: border-box !important;
   outline: none !important;
 }
 
-.copilotKitInput textarea::placeholder {
+.ts-copilot-panel .copilotKitInput textarea:focus,
+.ts-copilot-panel [data-testid="copilot-chat"] textarea:focus {
+  border-color: var(--border-focus) !important;
+  box-shadow: 0 0 0 2px var(--ring) !important;
+}
+
+.ts-copilot-panel .copilotKitInput textarea::placeholder {
   color: var(--muted) !important;
   font-size: 12.5px !important;
+}
+
+/* Copilot Suggestion Pills */
+.ts-copilot-panel [data-copilotkit] button {
+  color: var(--text);
 }
 
 /* ── Generative UI Cards Injected by Agent ──────────────────────────────── */
@@ -1199,7 +1325,7 @@ time {
   letter-spacing: 0.06em;
   font-weight: 700;
   background: var(--primary-subtle);
-  color: var(--primary-light);
+  color: var(--primary);
   border: 1px solid var(--primary-border);
   padding: 2px 7px;
   border-radius: var(--radius-full);
@@ -1274,7 +1400,7 @@ time {
   font-size: 11px;
   font-weight: 700;
   background: var(--primary-subtle);
-  color: var(--primary-light);
+  color: var(--primary);
   border: 1px solid var(--primary-border);
   padding: 2px 6px;
   border-radius: var(--radius-full);
@@ -1462,7 +1588,7 @@ time {
   text-transform: uppercase;
   letter-spacing: 0.08em;
   font-weight: 700;
-  color: var(--primary-light);
+  color: var(--primary);
   margin-bottom: 4px;
 }
 
@@ -1595,7 +1721,8 @@ time {
   }
 
   .ts-nav-actions {
-    display: none;
+    width: 100%;
+    justify-content: space-between;
   }
 
   .ts-mobile-tabs {
@@ -1666,14 +1793,14 @@ time {
     text-align: center;
   }
 
-  .copilotKitUserMessage > div:not([data-testid="copilot-user-toolbar"]),
-  .copilotKitUserMessage .cpk\:prose,
-  [data-testid="copilot-user-message"] > div:first-of-type {
+  .ts-copilot-panel .copilotKitUserMessage > div:not([data-testid="copilot-user-toolbar"]),
+  .ts-copilot-panel .copilotKitUserMessage .cpk\:prose,
+  .ts-copilot-panel [data-testid="copilot-user-message"] > div:first-of-type {
     max-width: 92% !important;
   }
 
-  .copilotKitAssistantMessage > div.cpk\:prose,
-  [data-testid="copilot-assistant-message"] > div.cpk\:prose {
+  .ts-copilot-panel .copilotKitAssistantMessage > div.cpk\:prose,
+  .ts-copilot-panel [data-testid="copilot-assistant-message"] > div.cpk\:prose {
     max-width: 100% !important;
   }
 
