@@ -1,4 +1,4 @@
-﻿/**
+/**
  * TalentScore — Candidate Data Model & Domain Definitions (Idea 5: HR Tech)
  * Shared contract for Amin (Agent Backend) and Milena (Frontend & Generative UI).
  */

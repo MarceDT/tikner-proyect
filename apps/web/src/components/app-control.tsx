@@ -2,103 +2,81 @@
 
 import { useFrontendTool, useAgentContext } from "@copilotkit/react-core/v2";
 import { z } from "zod";
-import { findIncident, workspaceContext } from "@/lib/incidents";
-import type { WorkplaceControls } from "@/lib/use-workplace";
-
-async function toolResult<T>(action: () => Promise<T>) {
-  try {
-    return await action();
-  } catch (error) {
-    return {
-      status: "error",
-      message:
-        error instanceof Error
-          ? error.message
-          : "Workplace operation failed. Check the page for setup details.",
-    };
-  }
-}
+import {
+  candidates,
+  findCandidate,
+  candidatesWorkspaceContext,
+  Candidate,
+} from "@/lib/candidates";
 
 export function AppControl({
   selectedId,
-  selectIncident,
-  workplace,
+  selectCandidate,
+  onUpdateStatus,
 }: {
   selectedId: string;
-  selectIncident: (id: string) => void;
-  workplace: WorkplaceControls;
+  selectCandidate: (id: string) => void;
+  onUpdateStatus?: (id: string, status: Candidate["status"]) => void;
 }) {
-  const { status, propose, retrieve } = workplace;
-
+  // Give the Copilot agent real-time eyes on the selected candidate, target role, and pipeline.
   useAgentContext({
     description:
-      "The incident workspace currently visible to the user, including sample timeline and Ambiguous follow-ups. CRITICAL: propose_followup only prepares a proposal. Only the user's approval button saves it; prose/chat approval never executes a write. Use retrieve_followup or refresh_followups for real reads. Never claim a task was saved without a provider record. Never invent record links.",
-    value: {
-      ...workspaceContext(
-        selectedId,
-        status?.status === "connected" ? status.tasks : [],
-      ),
-      workplace: status?.status ?? "unavailable",
-      workplaceError: workplace.error,
-      proposal: workplace.proposal ?? null,
-      lastResult: workplace.notice,
-    },
+      "TalentScore ATS Workspace activo. Contiene el candidato seleccionado en pantalla, la lista completa de candidatos, los requisitos del puesto objetivo (Lead Fullstack & AI Systems Engineer) y el presupuesto tope ($95,000 USD). Utiliza esta información para responder preguntas, comparar perfiles y justificar decisiones salariales.",
+    value: candidatesWorkspaceContext(selectedId) as any,
   });
 
+  // Frontend tool: Allows the agent to switch the active candidate on the dashboard screen.
   useFrontendTool(
     {
-      name: "select_incident",
+      name: "select_candidate",
       description:
-        "Open an existing sample incident in the workspace. Use an ID from availableIncidents.",
-      parameters: z.object({ incidentId: z.string() }),
-      handler: async ({ incidentId }) => {
-        const incident = findIncident(incidentId);
-        selectIncident(incident.id);
-        return `Opened ${incident.id}: ${incident.title}. The visible details and agent context now show this incident.`;
+        "Abre y selecciona un candidato en el dashboard para que el usuario lo vea en la pantalla central. Usa uno de los IDs disponibles: CAND-101 (Sofía Albarracín), CAND-102 (Lucas Varela), CAND-103 (Elena Rostova).",
+      parameters: z.object({
+        candidateId: z.string().describe("ID del candidato (ej: CAND-101, CAND-102, CAND-103)"),
+      }),
+      handler: async ({ candidateId }) => {
+        try {
+          const candidate = findCandidate(candidateId);
+          selectCandidate(candidate.id);
+          return `Se ha abierto en pantalla el perfil de ${candidate.name} (${candidate.id}), puesto actual: ${candidate.currentTitle}. El reclutador ahora está viendo sus detalles y métricas.`;
+        } catch (error) {
+          return `Error al seleccionar candidato: ${error instanceof Error ? error.message : "ID no válido"}`;
+        }
       },
     },
-    [selectIncident],
+    [selectCandidate]
   );
 
+  // Frontend tool: Allows the agent or human to update a candidate's status in the recruiting funnel.
   useFrontendTool(
     {
-      name: "propose_followup",
+      name: "update_candidate_status",
       description:
-        "Prepare an Ambiguous task from the selected incident context. Show the exact title and details for the user's approval button. Does not save anything. CRITICAL: wait for the user to click Approve & save to Ambiguous in the page.",
+        "Actualiza la etapa o estado del candidato en el pipeline de TalentScore (Review, Interviewing, Finalist, Offer Extended, Hired, Rejected).",
       parameters: z.object({
-        incidentId: z.string(),
-        title: z.string().trim().min(1).max(200),
-        details: z.string().trim().min(1).max(4000),
+        candidateId: z.string().describe("ID del candidato"),
+        newStatus: z.enum([
+          "Review",
+          "Interviewing",
+          "Finalist",
+          "Offer Extended",
+          "Hired",
+          "Rejected",
+        ]),
       }),
-      handler: async (draft) =>
-        toolResult(async () => ({
-          status: "pending_approval",
-          proposal: await propose(draft),
-        })),
+      handler: async ({ candidateId, newStatus }) => {
+        try {
+          const candidate = findCandidate(candidateId);
+          if (onUpdateStatus) {
+            onUpdateStatus(candidateId, newStatus);
+          }
+          return `El estado de ${candidate.name} se actualizó exitosamente a "${newStatus}".`;
+        } catch (error) {
+          return `No se pudo actualizar el estado: ${error instanceof Error ? error.message : "Error desconocido"}`;
+        }
+      },
     },
-    [propose],
-  );
-
-  useFrontendTool(
-    {
-      name: "retrieve_followup",
-      description:
-        "Retrieve an existing Ambiguous task by its actual ID. Read-only; never creates a duplicate.",
-      parameters: z.object({ id: z.uuid() }),
-      handler: async ({ id }) => toolResult(() => retrieve(id)),
-    },
-    [retrieve],
-  );
-
-  useFrontendTool(
-    {
-      name: "refresh_followups",
-      description:
-        "Read saved follow-ups for the currently selected incident from Ambiguous. Use after approval or browser refresh to verify persistence.",
-      parameters: z.object({}),
-      handler: async () => toolResult(() => workplace.refresh()),
-    },
-    [workplace.refresh],
+    [onUpdateStatus]
   );
 
   return null;
