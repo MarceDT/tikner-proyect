@@ -59,6 +59,7 @@ function createAgentInstance() {
 // SSE runtime for reliable local agent execution and chat streaming
 const sseRuntime = new CopilotRuntime({
   agents: () => ({ default: createAgentInstance() }),
+  a2ui: {},
 });
 
 // Intelligence runtime configured for Learning Inspector and telemetry metadata
@@ -69,6 +70,7 @@ const intelRuntime = new CopilotRuntime({
     id: "recruiter-lead",
     name: "Recruiting Lead (Marcelo)",
   }),
+  a2ui: {},
 });
 
 const sseApp = createCopilotHonoHandler({

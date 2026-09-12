@@ -1,16 +1,16 @@
 # Graph Report - tinker-proyect  (2026-09-12)
 
 ## Corpus Check
-- 164 files · ~513,776 words
+- 165 files · ~514,033 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 1143 nodes · 1492 edges · 88 communities (76 shown, 9 thin omitted)
+- 1144 nodes · 1494 edges · 91 communities (77 shown, 11 thin omitted)
 - Extraction: 99% EXTRACTED · 1% INFERRED · 0% AMBIGUOUS · INFERRED: 22 edges (avg confidence: 0.82)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `11f59792`
+- Built from commit: `e6f51a18`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -19,7 +19,7 @@
 - candidate-cards.tsx
 - channel.tsx
 - finance.ts
-- mobile/package.json
+- dependencies
 - Build the Slack template with Channels
 - package.json
 - auth0/package.json
@@ -43,7 +43,7 @@
 - metro.config.js
 - .mcp.json
 - channels-ui component reference
-- auth0/README.md
+- Surface map
 - React Native agent
 - A complete incident demo
 - Using sponsor tools
@@ -55,7 +55,7 @@
 - An agent inside your web app
 - Deploy
 - Hackathon overview
-- TEAM_WORKFLOW.md
+- 👥 Integrantes y Responsabilidades
 - Human-in-the-loop patterns
 - CLAUDE.md
 - Choose a model provider
@@ -78,12 +78,15 @@
 - Intelligence Landing Page
 - Inspector Workbench
 - Intelligence Landing Page
+- scripts
+- Auth0 protected API recipe
 - Inspector Docs Callouts
 - Local runtime and agent
 - Slack workspace and app
 - Inspector Docs Callouts
 - Local runtime and agent
 - Slack workspace and app
+- sponsors.md
 - Intelligence project, API key, and Channel
 - Intelligence project, API key, and Channel
 - CopilotKit CLI
@@ -128,7 +131,7 @@
 ## Import Cycles
 - None detected.
 
-## Communities (88 total, 9 thin omitted)
+## Communities (91 total, 11 thin omitted)
 
 ### Community 0 - "server/workplace.ts"
 Cohesion: 0.05
@@ -140,15 +143,15 @@ Nodes (6): CandidateComparisonCard(), CandidateComparisonItem, CandidateComparis
 
 ### Community 2 - "channel.tsx"
 Cohesion: 0.08
-Nodes (27): channel, tools, IncidentCard, SEVERITY, baseIncident, ctx, Timeline, welcomeMessage() (+19 more)
+Nodes (29): channel, tools, IncidentCard, SEVERITY, baseIncident, ctx, Timeline, welcomeMessage() (+21 more)
 
 ### Community 3 - "finance.ts"
-Cohesion: 0.09
-Nodes (31): isSafeAssistantLink(), AssistantMarkdown(), AssistantMarkdownProps, markdownStyles, monospace, ChatScreen(), Account, addExpense() (+23 more)
+Cohesion: 0.06
+Nodes (49): App(), devDependencies, @types/react, typescript, react, @types/react, typescript, zod (+41 more)
 
-### Community 4 - "mobile/package.json"
-Cohesion: 0.05
-Nodes (37): App(), dependencies, @copilotkit/react-native, expo, expo-status-bar, react, react-native, react-native-get-random-values (+29 more)
+### Community 4 - "dependencies"
+Cohesion: 0.18
+Nodes (11): dependencies, @copilotkit/react-native, expo, expo-status-bar, react, react-native, react-native-get-random-values, react-native-markdown-renderer (+3 more)
 
 ### Community 5 - "Build the Slack template with Channels"
 Cohesion: 0.08
@@ -171,8 +174,8 @@ Cohesion: 0.11
 Nodes (18): compilerOptions, allowJs, esModuleInterop, incremental, isolatedModules, jsx, lib, module (+10 more)
 
 ### Community 10 - "agent-factory.test.tsx"
-Cohesion: 0.11
-Nodes (9): ChannelAgentFactory, ChannelRunAgent, ControlledInnerAgent, demoTool, FakeModel, FakeStreamOptions, ObjectLanguageModel, StreamController (+1 more)
+Cohesion: 0.13
+Nodes (7): ChannelRunAgent, ControlledInnerAgent, demoTool, FakeModel, FakeStreamOptions, ObjectLanguageModel, StreamController
 
 ### Community 11 - "compilerOptions"
 Cohesion: 0.15
@@ -230,9 +233,9 @@ Nodes (9): Agent streaming, Capabilities, Decoding & lookup, Egress — render t
 Cohesion: 0.22
 Nodes (8): Call `Modal(...)`, don't write `<Modal>`, channels-ui component reference, Choosing components, Durability of handlers, Handler context (onClick / onSelect / onSubmit / onReaction), Interactive components, Layout & content components, Modal components
 
-### Community 28 - "auth0/README.md"
-Cohesion: 0.27
-Nodes (5): Auth0 protected API recipe, Source and verification, Launch commands, Slack to Teams, Surface map
+### Community 28 - "Surface map"
+Cohesion: 0.67
+Nodes (3): Launch commands, Slack to Teams, Surface map
 
 ### Community 29 - "React Native agent"
 Cohesion: 0.22
@@ -251,7 +254,7 @@ Cohesion: 0.29
 Nodes (6): Channels, Claim-based delivery, Delivery is two legs, and neither is Socket Mode, Status is not health, Turn routing is not symmetric, What the managed path does and does not deliver
 
 ### Community 33 - "React Native template walkthrough"
-Cohesion: 0.29
+Cohesion: 0.25
 Nodes (7): 1. Start the runtime and Expo, 2. Render app state in chat, 3. Approve a local write, 4. Cancel a second write, 5. Check formatted assistant output, Evidence boundary, React Native template walkthrough
 
 ### Community 34 - "Tools, native UI, and approval gates"
@@ -271,16 +274,16 @@ Cohesion: 0.33
 Nodes (6): An agent inside your web app, Customize these files, Get started, Give this to your coding agent, Try the flow, Verify and limits
 
 ### Community 38 - "Deploy"
-Cohesion: 0.29
+Cohesion: 0.33
 Nodes (6): Deploy, Health checks, Requirements, Scaling, Secrets, The one thing that will bite you
 
 ### Community 39 - "Hackathon overview"
 Cohesion: 0.33
 Nodes (6): Challenge, Choose infrastructure, then make the project yours, Four surfaces, Hackathon overview, Instructions for a coding agent, Judging criteria
 
-### Community 40 - "TEAM_WORKFLOW.md"
-Cohesion: 0.33
-Nodes (5): 🧠 Amin — Backend, CopilotKit Runtime & Tools, 🔒 Contrato de Interfaces Activo, 👥 Integrantes y Responsabilidades, 👑 Marcelo — Dominio, Human-in-the-Loop & Pitch, 🎨 Milena — Frontend, Generative UI & Dashboard
+### Community 40 - "👥 Integrantes y Responsabilidades"
+Cohesion: 0.50
+Nodes (4): 🧠 Amin — Backend, CopilotKit Runtime & Tools, 👥 Integrantes y Responsabilidades, 👑 Marcelo — Dominio, Human-in-the-Loop & Pitch, 🎨 Milena — Frontend, Generative UI & Dashboard
 
 ### Community 41 - "Human-in-the-loop patterns"
 Cohesion: 0.40
@@ -316,7 +319,7 @@ Nodes (3): 📂 Archivos y Áreas de Trabajo, 📋 Checklist de Tareas, 🎯 Tu 
 
 ### Community 53 - "index.ts"
 Cohesion: 0.05
-Nodes (46): createAgentInstance(), createLocalLearningSnapshot(), GET(), intelApp, intelligence, intelRuntime, LEARNING_CONTAINER_ID, OPTIONS (+38 more)
+Nodes (46): ChannelAgentFactory, makeChannelAgent(), createAgentInstance(), createLocalLearningSnapshot(), GET(), intelApp, intelligence, intelRuntime (+38 more)
 
 ### Community 57 - "Hackathon rules for coding agents"
 Cohesion: 0.50
@@ -353,6 +356,10 @@ Nodes (10): Decision Tree, Default host, Error Handling, Inspector Workbench, Pr
 ### Community 65 - "Intelligence Landing Page"
 Cohesion: 0.18
 Nodes (10): Decision Tree, Error Handling, Intelligence Landing Page, Landing sources, Procedure 1: Add a feature or docs page, Procedure 2: Rename or move a page, Procedure 3: Remove a feature or page, Procedures (+2 more)
+
+### Community 66 - "scripts"
+Cohesion: 0.25
+Nodes (8): scripts, android, bundle:android, bundle:ios, ios, start, test, typecheck
 
 ### Community 68 - "Inspector Docs Callouts"
 Cohesion: 0.20
@@ -437,7 +444,7 @@ Nodes (3): Inspector pane map, Surfaces that do not get the Open Inspector step,
 ## Knowledge Gaps
 - **651 isolated node(s):** `copilotkit`, `exa`, `name`, `version`, `private` (+646 more)
   These have ≤1 connection - possible missing edges or undocumented components. (Counts symbols only; 742 node(s) total have ≤1 connection when file, concept and rationale nodes are included.)
-- **9 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
+- **11 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
@@ -446,13 +453,13 @@ _Questions this graph is uniquely positioned to answer:_
   _High betweenness centrality (0.006) - this node is a cross-community bridge._
 - **Why does `TalentScore — AI Agent in your ATS & Recruiting Dashboard` connect `TalentScore — AI Agent in your ATS & Recruiting Dashboard` to `README.md`?**
   _High betweenness centrality (0.005) - this node is a cross-community bridge._
-- **Why does `Build the Slack template with Channels` connect `Build the Slack template with Channels` to `README.md`?**
-  _High betweenness centrality (0.005) - this node is a cross-community bridge._
 - **What connects `copilotkit`, `exa`, `name` to the rest of the system?**
   _651 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `server/workplace.ts` be split into smaller, more focused modules?**
   _Cohesion score 0.051425213047311194 - nodes in this community are weakly interconnected._
 - **Should `channel.tsx` be split into smaller, more focused modules?**
-  _Cohesion score 0.08405797101449275 - nodes in this community are weakly interconnected._
+  _Cohesion score 0.07908163265306123 - nodes in this community are weakly interconnected._
 - **Should `finance.ts` be split into smaller, more focused modules?**
-  _Cohesion score 0.09302325581395349 - nodes in this community are weakly interconnected._
+  _Cohesion score 0.05547785547785548 - nodes in this community are weakly interconnected._
+- **Should `Build the Slack template with Channels` be split into smaller, more focused modules?**
+  _Cohesion score 0.08333333333333333 - nodes in this community are weakly interconnected._
