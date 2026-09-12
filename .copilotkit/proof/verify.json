@@ -1,4 +1,4 @@
-﻿{
+{
   "checks": [
     {
       "detail": "No readable hosted project is recorded in .copilotkit/project.json, searching from C:\\xampp\\htdocs\\tinker-proyect up to the repository root. Run `copilotkit project select` to choose one.",
@@ -25,15 +25,15 @@
       "title": "The API key authenticates against Intelligence"
     },
     {
-      "detail": "A server answered with status 500 but not with a CopilotKit runtime /info payload. Check that --runtime-url names the route the CopilotKit runtime is mounted on.",
+      "detail": "CopilotKit runtime 1.70.3 answered.",
       "id": "runtime_reachable",
-      "status": "fail",
+      "status": "pass",
       "title": "The CopilotKit runtime responds"
     },
     {
-      "detail": "Not attempted: the runtime did not answer. Fix the check above first.",
+      "detail": "Declares 1: default (BuiltInAgent).",
       "id": "runtime_agents_declared",
-      "status": "undetermined",
+      "status": "pass",
       "title": "The runtime declares at least one agent"
     },
     {
@@ -43,7 +43,7 @@
       "title": "The runtime actually uses the Intelligence credential"
     },
     {
-      "detail": "Not attempted: the runtime did not answer, so it reported no routes either way.",
+      "detail": "Not attempted: the runtime reports no Intelligence entitlement, so it has no Intelligence routes to serve. The check above names that.",
       "id": "intelligence_thread_routes",
       "status": "undetermined",
       "title": "The runtime serves the Intelligence thread routes"
@@ -61,15 +61,20 @@
       "title": "The runtime accepts the frontend origin"
     },
     {
-      "detail": "Not attempted: the runtime did not report a version.",
+      "detail": "The runtime reports 1.70.3, but this project has @copilotkit/core@1.70.1, @copilotkit/react-core@1.70.1. Install the same version across every CopilotKit package.",
       "id": "package_versions_aligned",
-      "status": "undetermined",
+      "status": "fail",
       "title": "The installed packages match the runtime"
     }
   ],
   "facts": {
-    "frameworks": [],
-    "intelligenceGatewayWired": false
+    "frameworks": [
+      "BuiltInAgent"
+    ],
+    "generativeUiEnabled": false,
+    "intelligenceGatewayWired": false,
+    "runtimeVersion": "1.70.3",
+    "transcriptionEnabled": false
   },
   "ok": false,
   "frontendUrl": "http://127.0.0.1:3100",

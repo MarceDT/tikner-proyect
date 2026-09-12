@@ -1,1 +1,34 @@
-﻿{"error":"Failed to retrieve runtime information","message":"OPENAI_API_KEY is required for openai."}
+﻿{
+    "version":  "1.70.3",
+    "agents":  {
+                   "default":  {
+                                   "name":  "default",
+                                   "description":  "",
+                                   "className":  "BuiltInAgent",
+                                   "capabilities":  {
+                                                        "tools":  {
+                                                                      "supported":  true,
+                                                                      "clientProvided":  true
+                                                                  },
+                                                        "transport":  {
+                                                                          "streaming":  true
+                                                                      },
+                                                        "humanInTheLoop":  {
+                                                                               "interrupts":  true
+                                                                           }
+                                                    }
+                               }
+               },
+    "audioFileTranscriptionEnabled":  false,
+    "mode":  "sse",
+    "threadEndpoints":  {
+                            "list":  true,
+                            "inspect":  true,
+                            "mutations":  false,
+                            "realtimeMetadata":  false
+                        },
+    "suggestions":  true,
+    "a2uiEnabled":  false,
+    "openGenerativeUIEnabled":  false,
+    "telemetryDisabled":  false
+}

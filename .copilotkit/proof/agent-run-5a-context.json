@@ -1,10 +1,428 @@
-﻿HTTP/1.1 500 Internal Server Error
-vary: rsc, next-router-state-tree, next-router-prefetch, next-router-segment-prefetch
-access-control-allow-origin: *
-content-type: application/json
-Date: Sat, 12 Sep 2026 16:04:07 GMT
-Connection: keep-alive
-Keep-Alive: timeout=5
-Transfer-Encoding: chunked
+data: {"type":"RUN_STARTED","threadId":"9cd13214-224f-461c-b324-cd21d1475c7c","runId":"96aeda6e-a1e4-4a71-8c9a-8164cf575516","input":{"threadId":"9cd13214-224f-461c-b324-cd21d1475c7c","runId":"96aeda6e-a1e4-4a71-8c9a-8164cf575516","messages":[{"id":"308f418d-f033-458b-9392-b1f7e1300d5c","role":"user","content":"Analiza a Sofía Albarracín para el puesto de Lead Fullstack. ¿Cómo se comparan sus pretensiones salariales con el presupuesto de $95k y cuál es el feedback de las entrevistas?"}],"tools":[{"name":"incident_card","description":"Draw the current state of the incident as a card. Call this once you have read the context, and again when the picture changes.","parameters":{"type":"object","properties":{"headline":{"type":"string","description":"What is broken, in under ten words."},"summary":{"type":"string","description":"Who or what is affected."},"facts":{"type":"array","items":{"type":"object","properties":{"label":{"type":"string"},"value":{"type":"string"}},"required":["label","value"]},"maxItems":4},"nextSteps":{"type":"array","items":{"type":"string"},"maxItems":3},"tone":{"type":"string","enum":["neutral","good","attention"]}},"required":["headline","summary"]}},{"name":"timeline","description":"Draw an ordered timeline of what happened when. Call this when there are three or more events worth ordering.","parameters":{"type":"object","properties":{"title":{"type":"string"},"columns":{"type":"array","items":{"type":"string"}},"rows":{"type":"array","items":{"type":"array","items":{"type":"string"}}}},"required":["columns","rows"]}},{"name":"propose_action","description":"Ask for approval before anything that touches production. Call this FIRST and only continue if it returns approval.","parameters":{"type":"object","properties":{"action":{"type":"string","description":"What you are about to do, in one plain sentence."},"blastRadius":{"type":"string","description":"What this affects if it goes wrong."}},"required":["action","blastRadius"]}},{"name":"select_candidate","description":"Abre la ficha de un candidato en el panel de TalentScore. Usa uno de los IDs disponibles: CAND-101 (Sofía), CAND-102 (Lucas), o CAND-103 (Elena).","parameters":{"type":"object","properties":{"candidateId":{"type":"string"}},"required":["candidateId"]}},{"name":"select_incident","description":"Alias para seleccionar un candidato o registro en la vista.","parameters":{"type":"object","properties":{"incidentId":{"type":"string"}},"required":["incidentId"]}},{"name":"propose_followup","description":"Prepara una propuesta de oferta salarial o acción de seguimiento para el candidato seleccionado. No guarda nada hasta que el usuario pulse 'Aprobar' en la pantalla.","parameters":{"type":"object","properties":{"incidentId":{"type":"string"},"title":{"type":"string"},"details":{"type":"string"}},"required":["incidentId","title","details"]}},{"name":"retrieve_followup","description":"Recupera una propuesta de seguimiento o borrador de oferta previamente preparado.","parameters":{"type":"object","properties":{"incidentId":{"type":"string"}},"required":["incidentId"]}}],"context":[{"description":"Contexto del espacio de trabajo de TalentScore. Contiene la información del candidato seleccionado actualmente, el puesto al que aplica (Lead Fullstack & AI Systems Engineer, presupuesto $95k USD), notas de entrevistas de Marcelo, Amin y Milena, y las políticas de aprobación. Solo el botón del reclutador en la pantalla puede formalizar una oferta.","value":"{\"activeCandidate\":{\"id\":\"CAND-101\",\"name\":\"Sofía Albarracín\",\"avatar\":\"https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=150&auto=format&fit=crop&q=80\",\"currentTitle\":\"Senior Fullstack Architect\",\"appliedRole\":\"Lead Fullstack & AI Systems Engineer\",\"experienceYears\":7,\"salaryExpectation\":\"$92,000 / año\",\"salaryNumber\":92000,\"location\":\"Remoto (LatAm / UTC-3)\",\"status\":\"Finalist\",\"headline\":\"Especialista en escalabilidad de plataformas web y orquestación de agentes con TypeScript.\",\"summary\":\"7 años liderando squads técnicos en startups de alto crecimiento. Fuerte perfil de liderazgo pedagógico, diseño modular y foco en performance.\",\"skills\":[\"TypeScript\",\"Next.js\",\"Python\",\"CopilotKit\",\"PostgreSQL\",\"Docker\",\"System Design\"],\"ratings\":{\"systemDesign\":9,\"coding\":9,\"architecture\":9,\"leadership\":8,\"communication\":9},\"pros\":[\"Dentro del presupuesto ($92k vs $95k tope)\",\"Experiencia demostrada en producción con Next.js y arquitecturas de agentes\",\"Calificación de 'Strong Yes' en entrevistas técnicas y de cultura\",\"Alta capacidad comunicativa para liderar equipos interdisciplinarios\"],\"redFlags\":[\"Poco tiempo trabajando con infraestructura Kubernetes en bare-metal, aunque domina contenedores y ECS/Docker\"],\"interviewNotes\":[{\"round\":\"Cultura & Visión\",\"interviewer\":\"Marcelo (Product Lead)\",\"rating\":\"Strong Yes\",\"date\":\"10 Sep 2026\",\"notes\":\"Excelente alineación con el ritmo de entrega y valores del equipo. Empática, orientada a resultados y con mentalidad de ownership.\"},{\"round\":\"System Design & Agents\",\"interviewer\":\"Amin (Tech Lead)\",\"rating\":\"Strong Yes\",\"date\":\"11 Sep 2026\",\"notes\":\"Diseñó una arquitectura resiliente para streaming de eventos de LLMs con circuit breaker y colas asíncronas sin vacilar.\"},{\"round\":\"Frontend Architecture & UX\",\"interviewer\":\"Milena (Design Systems Engineer)\",\"rating\":\"Strong Yes\",\"date\":\"12 Sep 2026\",\"notes\":\"Código limpio y modular en React 19. Prioriza accesibilidad y patrones de estado predecibles.\"}]},\"workspace\":{\"targetPosition\":{\"title\":\"Lead Fullstack & AI Systems Engineer\",\"department\":\"Product Engineering\",\"budgetMaxSalary\":95000,\"currency\":\"USD\",\"requiredSkills\":[\"Next.js\",\"TypeScript\",\"Python / Agents\",\"System Design\",\"Distributed Systems\"]},\"availableCandidates\":[{\"id\":\"CAND-101\",\"name\":\"Sofía Albarracín\",\"appliedRole\":\"Lead Fullstack & AI Systems Engineer\",\"status\":\"Finalist\",\"salaryExpectation\":\"$92,000 / año\",\"ratings\":{\"systemDesign\":9,\"coding\":9,\"architecture\":9,\"leadership\":8,\"communication\":9}},{\"id\":\"CAND-102\",\"name\":\"Lucas Varela\",\"appliedRole\":\"Lead Fullstack & AI Systems Engineer\",\"status\":\"Interviewing\",\"salaryExpectation\":\"$125,000 / año\",\"ratings\":{\"systemDesign\":10,\"coding\":9,\"architecture\":10,\"leadership\":6,\"communication\":5}},{\"id\":\"CAND-103\",\"name\":\"Elena Rostova\",\"appliedRole\":\"Lead Fullstack & AI Systems Engineer\",\"status\":\"Review\",\"salaryExpectation\":\"$80,000 / año\",\"ratings\":{\"systemDesign\":7,\"coding\":8,\"architecture\":7,\"leadership\":7,\"communication\":10}}],\"selectedCandidate\":{\"id\":\"CAND-101\",\"name\":\"Sofía Albarracín\",\"avatar\":\"https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=150&auto=format&fit=crop&q=80\",\"currentTitle\":\"Senior Fullstack Architect\",\"appliedRole\":\"Lead Fullstack & AI Systems Engineer\",\"experienceYears\":7,\"salaryExpectation\":\"$92,000 / año\",\"salaryNumber\":92000,\"location\":\"Remoto (LatAm / UTC-3)\",\"status\":\"Finalist\",\"headline\":\"Especialista en escalabilidad de plataformas web y orquestación de agentes con TypeScript.\",\"summary\":\"7 años liderando squads técnicos en startups de alto crecimiento. Fuerte perfil de liderazgo pedagógico, diseño modular y foco en performance.\",\"skills\":[\"TypeScript\",\"Next.js\",\"Python\",\"CopilotKit\",\"PostgreSQL\",\"Docker\",\"System Design\"],\"ratings\":{\"systemDesign\":9,\"coding\":9,\"architecture\":9,\"leadership\":8,\"communication\":9},\"pros\":[\"Dentro del presupuesto ($92k vs $95k tope)\",\"Experiencia demostrada en producción con Next.js y arquitecturas de agentes\",\"Calificación de 'Strong Yes' en entrevistas técnicas y de cultura\",\"Alta capacidad comunicativa para liderar equipos interdisciplinarios\"],\"redFlags\":[\"Poco tiempo trabajando con infraestructura Kubernetes en bare-metal, aunque domina contenedores y ECS/Docker\"],\"interviewNotes\":[{\"round\":\"Cultura & Visión\",\"interviewer\":\"Marcelo (Product Lead)\",\"rating\":\"Strong Yes\",\"date\":\"10 Sep 2026\",\"notes\":\"Excelente alineación con el ritmo de entrega y valores del equipo. Empática, orientada a resultados y con mentalidad de ownership.\"},{\"round\":\"System Design & Agents\",\"interviewer\":\"Amin (Tech Lead)\",\"rating\":\"Strong Yes\",\"date\":\"11 Sep 2026\",\"notes\":\"Diseñó una arquitectura resiliente para streaming de eventos de LLMs con circuit breaker y colas asíncronas sin vacilar.\"},{\"round\":\"Frontend Architecture & UX\",\"interviewer\":\"Milena (Design Systems Engineer)\",\"rating\":\"Strong Yes\",\"date\":\"12 Sep 2026\",\"notes\":\"Código limpio y modular en React 19. Prioriza accesibilidad y patrones de estado predecibles.\"}]},\"activeOffer\":null,\"humanInTheLoopPolicy\":{\"status\":\"none\",\"approvalRequired\":true,\"boundaryDescription\":\"Las ofertas formales y modificaciones salariales requieren confirmación humana explícita antes de emitirse legalmente.\",\"allowedActions\":[\"review_offer\",\"approve_and_extend_offer\",\"reject_or_adjust_offer\"]},\"rubricEvaluationTip\":\"Considera presupuesto ($95k max), balance técnico vs liderazgo y feedback de las entrevistas.\"},\"workplaceStatus\":\"disponible\",\"proposalAwaitingApproval\":null}"}]}}
 
-{"error":"Failed to run agent","message":"OPENAI_API_KEY is required for openai."}
+data: {"type":"TEXT_MESSAGE_START","messageId":"3b756912-ece7-4ddf-acf5-cf88a2698f94","role":"assistant"}
+
+data: {"type":"TEXT_MESSAGE_CONTENT","messageId":"3b756912-ece7-4ddf-acf5-cf88a2698f94","delta":"S"}
+
+data: {"type":"TEXT_MESSAGE_CONTENT","messageId":"3b756912-ece7-4ddf-acf5-cf88a2698f94","delta":"of"}
+
+data: {"type":"TEXT_MESSAGE_CONTENT","messageId":"3b756912-ece7-4ddf-acf5-cf88a2698f94","delta":"ía"}
+
+data: {"type":"TEXT_MESSAGE_CONTENT","messageId":"3b756912-ece7-4ddf-acf5-cf88a2698f94","delta":" Alb"}
+
+data: {"type":"TEXT_MESSAGE_CONTENT","messageId":"3b756912-ece7-4ddf-acf5-cf88a2698f94","delta":"arr"}
+
+data: {"type":"TEXT_MESSAGE_CONTENT","messageId":"3b756912-ece7-4ddf-acf5-cf88a2698f94","delta":"ac"}
+
+data: {"type":"TEXT_MESSAGE_CONTENT","messageId":"3b756912-ece7-4ddf-acf5-cf88a2698f94","delta":"ín"}
+
+data: {"type":"TEXT_MESSAGE_CONTENT","messageId":"3b756912-ece7-4ddf-acf5-cf88a2698f94","delta":" tiene"}
+
+data: {"type":"TEXT_MESSAGE_CONTENT","messageId":"3b756912-ece7-4ddf-acf5-cf88a2698f94","delta":" una"}
+
+data: {"type":"TEXT_MESSAGE_CONTENT","messageId":"3b756912-ece7-4ddf-acf5-cf88a2698f94","delta":" pret"}
+
+data: {"type":"TEXT_MESSAGE_CONTENT","messageId":"3b756912-ece7-4ddf-acf5-cf88a2698f94","delta":"ensión"}
+
+data: {"type":"TEXT_MESSAGE_CONTENT","messageId":"3b756912-ece7-4ddf-acf5-cf88a2698f94","delta":" salarial"}
+
+data: {"type":"TEXT_MESSAGE_CONTENT","messageId":"3b756912-ece7-4ddf-acf5-cf88a2698f94","delta":" de"}
+
+data: {"type":"TEXT_MESSAGE_CONTENT","messageId":"3b756912-ece7-4ddf-acf5-cf88a2698f94","delta":" $"}
+
+data: {"type":"TEXT_MESSAGE_CONTENT","messageId":"3b756912-ece7-4ddf-acf5-cf88a2698f94","delta":"92"}
+
+data: {"type":"TEXT_MESSAGE_CONTENT","messageId":"3b756912-ece7-4ddf-acf5-cf88a2698f94","delta":","}
+
+data: {"type":"TEXT_MESSAGE_CONTENT","messageId":"3b756912-ece7-4ddf-acf5-cf88a2698f94","delta":"000"}
+
+data: {"type":"TEXT_MESSAGE_CONTENT","messageId":"3b756912-ece7-4ddf-acf5-cf88a2698f94","delta":" an"}
+
+data: {"type":"TEXT_MESSAGE_CONTENT","messageId":"3b756912-ece7-4ddf-acf5-cf88a2698f94","delta":"uales"}
+
+data: {"type":"TEXT_MESSAGE_CONTENT","messageId":"3b756912-ece7-4ddf-acf5-cf88a2698f94","delta":","}
+
+data: {"type":"TEXT_MESSAGE_CONTENT","messageId":"3b756912-ece7-4ddf-acf5-cf88a2698f94","delta":" lo"}
+
+data: {"type":"TEXT_MESSAGE_CONTENT","messageId":"3b756912-ece7-4ddf-acf5-cf88a2698f94","delta":" cual"}
+
+data: {"type":"TEXT_MESSAGE_CONTENT","messageId":"3b756912-ece7-4ddf-acf5-cf88a2698f94","delta":" está"}
+
+data: {"type":"TEXT_MESSAGE_CONTENT","messageId":"3b756912-ece7-4ddf-acf5-cf88a2698f94","delta":" dentro"}
+
+data: {"type":"TEXT_MESSAGE_CONTENT","messageId":"3b756912-ece7-4ddf-acf5-cf88a2698f94","delta":" del"}
+
+data: {"type":"TEXT_MESSAGE_CONTENT","messageId":"3b756912-ece7-4ddf-acf5-cf88a2698f94","delta":" presupuesto"}
+
+data: {"type":"TEXT_MESSAGE_CONTENT","messageId":"3b756912-ece7-4ddf-acf5-cf88a2698f94","delta":" máximo"}
+
+data: {"type":"TEXT_MESSAGE_CONTENT","messageId":"3b756912-ece7-4ddf-acf5-cf88a2698f94","delta":" de"}
+
+data: {"type":"TEXT_MESSAGE_CONTENT","messageId":"3b756912-ece7-4ddf-acf5-cf88a2698f94","delta":" $"}
+
+data: {"type":"TEXT_MESSAGE_CONTENT","messageId":"3b756912-ece7-4ddf-acf5-cf88a2698f94","delta":"95"}
+
+data: {"type":"TEXT_MESSAGE_CONTENT","messageId":"3b756912-ece7-4ddf-acf5-cf88a2698f94","delta":","}
+
+data: {"type":"TEXT_MESSAGE_CONTENT","messageId":"3b756912-ece7-4ddf-acf5-cf88a2698f94","delta":"000"}
+
+data: {"type":"TEXT_MESSAGE_CONTENT","messageId":"3b756912-ece7-4ddf-acf5-cf88a2698f94","delta":"."}
+
+data: {"type":"TEXT_MESSAGE_CONTENT","messageId":"3b756912-ece7-4ddf-acf5-cf88a2698f94","delta":" Esto"}
+
+data: {"type":"TEXT_MESSAGE_CONTENT","messageId":"3b756912-ece7-4ddf-acf5-cf88a2698f94","delta":" deja"}
+
+data: {"type":"TEXT_MESSAGE_CONTENT","messageId":"3b756912-ece7-4ddf-acf5-cf88a2698f94","delta":" un"}
+
+data: {"type":"TEXT_MESSAGE_CONTENT","messageId":"3b756912-ece7-4ddf-acf5-cf88a2698f94","delta":" margen"}
+
+data: {"type":"TEXT_MESSAGE_CONTENT","messageId":"3b756912-ece7-4ddf-acf5-cf88a2698f94","delta":" de"}
+
+data: {"type":"TEXT_MESSAGE_CONTENT","messageId":"3b756912-ece7-4ddf-acf5-cf88a2698f94","delta":" $"}
+
+data: {"type":"TEXT_MESSAGE_CONTENT","messageId":"3b756912-ece7-4ddf-acf5-cf88a2698f94","delta":"3"}
+
+data: {"type":"TEXT_MESSAGE_CONTENT","messageId":"3b756912-ece7-4ddf-acf5-cf88a2698f94","delta":","}
+
+data: {"type":"TEXT_MESSAGE_CONTENT","messageId":"3b756912-ece7-4ddf-acf5-cf88a2698f94","delta":"000"}
+
+data: {"type":"TEXT_MESSAGE_CONTENT","messageId":"3b756912-ece7-4ddf-acf5-cf88a2698f94","delta":" a"}
+
+data: {"type":"TEXT_MESSAGE_CONTENT","messageId":"3b756912-ece7-4ddf-acf5-cf88a2698f94","delta":" favor"}
+
+data: {"type":"TEXT_MESSAGE_CONTENT","messageId":"3b756912-ece7-4ddf-acf5-cf88a2698f94","delta":".\n\n"}
+
+data: {"type":"TEXT_MESSAGE_CONTENT","messageId":"3b756912-ece7-4ddf-acf5-cf88a2698f94","delta":"**"}
+
+data: {"type":"TEXT_MESSAGE_CONTENT","messageId":"3b756912-ece7-4ddf-acf5-cf88a2698f94","delta":"Feedback"}
+
+data: {"type":"TEXT_MESSAGE_CONTENT","messageId":"3b756912-ece7-4ddf-acf5-cf88a2698f94","delta":" de"}
+
+data: {"type":"TEXT_MESSAGE_CONTENT","messageId":"3b756912-ece7-4ddf-acf5-cf88a2698f94","delta":" las"}
+
+data: {"type":"TEXT_MESSAGE_CONTENT","messageId":"3b756912-ece7-4ddf-acf5-cf88a2698f94","delta":" entrevistas"}
+
+data: {"type":"TEXT_MESSAGE_CONTENT","messageId":"3b756912-ece7-4ddf-acf5-cf88a2698f94","delta":":"}
+
+data: {"type":"TEXT_MESSAGE_CONTENT","messageId":"3b756912-ece7-4ddf-acf5-cf88a2698f94","delta":"**\n"}
+
+data: {"type":"TEXT_MESSAGE_CONTENT","messageId":"3b756912-ece7-4ddf-acf5-cf88a2698f94","delta":"-"}
+
+data: {"type":"TEXT_MESSAGE_CONTENT","messageId":"3b756912-ece7-4ddf-acf5-cf88a2698f94","delta":" **"}
+
+data: {"type":"TEXT_MESSAGE_CONTENT","messageId":"3b756912-ece7-4ddf-acf5-cf88a2698f94","delta":"C"}
+
+data: {"type":"TEXT_MESSAGE_CONTENT","messageId":"3b756912-ece7-4ddf-acf5-cf88a2698f94","delta":"ultura"}
+
+data: {"type":"TEXT_MESSAGE_CONTENT","messageId":"3b756912-ece7-4ddf-acf5-cf88a2698f94","delta":" &"}
+
+data: {"type":"TEXT_MESSAGE_CONTENT","messageId":"3b756912-ece7-4ddf-acf5-cf88a2698f94","delta":" Vis"}
+
+data: {"type":"TEXT_MESSAGE_CONTENT","messageId":"3b756912-ece7-4ddf-acf5-cf88a2698f94","delta":"ión"}
+
+data: {"type":"TEXT_MESSAGE_CONTENT","messageId":"3b756912-ece7-4ddf-acf5-cf88a2698f94","delta":" ("}
+
+data: {"type":"TEXT_MESSAGE_CONTENT","messageId":"3b756912-ece7-4ddf-acf5-cf88a2698f94","delta":"Marc"}
+
+data: {"type":"TEXT_MESSAGE_CONTENT","messageId":"3b756912-ece7-4ddf-acf5-cf88a2698f94","delta":"elo"}
+
+data: {"type":"TEXT_MESSAGE_CONTENT","messageId":"3b756912-ece7-4ddf-acf5-cf88a2698f94","delta":"):"}
+
+data: {"type":"TEXT_MESSAGE_CONTENT","messageId":"3b756912-ece7-4ddf-acf5-cf88a2698f94","delta":"**"}
+
+data: {"type":"TEXT_MESSAGE_CONTENT","messageId":"3b756912-ece7-4ddf-acf5-cf88a2698f94","delta":" Cal"}
+
+data: {"type":"TEXT_MESSAGE_CONTENT","messageId":"3b756912-ece7-4ddf-acf5-cf88a2698f94","delta":"ificación"}
+
+data: {"type":"TEXT_MESSAGE_CONTENT","messageId":"3b756912-ece7-4ddf-acf5-cf88a2698f94","delta":" de"}
+
+data: {"type":"TEXT_MESSAGE_CONTENT","messageId":"3b756912-ece7-4ddf-acf5-cf88a2698f94","delta":" \""}
+
+data: {"type":"TEXT_MESSAGE_CONTENT","messageId":"3b756912-ece7-4ddf-acf5-cf88a2698f94","delta":"Strong"}
+
+data: {"type":"TEXT_MESSAGE_CONTENT","messageId":"3b756912-ece7-4ddf-acf5-cf88a2698f94","delta":" Yes"}
+
+data: {"type":"TEXT_MESSAGE_CONTENT","messageId":"3b756912-ece7-4ddf-acf5-cf88a2698f94","delta":"\"."}
+
+data: {"type":"TEXT_MESSAGE_CONTENT","messageId":"3b756912-ece7-4ddf-acf5-cf88a2698f94","delta":" Sof"}
+
+data: {"type":"TEXT_MESSAGE_CONTENT","messageId":"3b756912-ece7-4ddf-acf5-cf88a2698f94","delta":"ía"}
+
+data: {"type":"TEXT_MESSAGE_CONTENT","messageId":"3b756912-ece7-4ddf-acf5-cf88a2698f94","delta":" muestra"}
+
+data: {"type":"TEXT_MESSAGE_CONTENT","messageId":"3b756912-ece7-4ddf-acf5-cf88a2698f94","delta":" excelente"}
+
+data: {"type":"TEXT_MESSAGE_CONTENT","messageId":"3b756912-ece7-4ddf-acf5-cf88a2698f94","delta":" aline"}
+
+data: {"type":"TEXT_MESSAGE_CONTENT","messageId":"3b756912-ece7-4ddf-acf5-cf88a2698f94","delta":"ación"}
+
+data: {"type":"TEXT_MESSAGE_CONTENT","messageId":"3b756912-ece7-4ddf-acf5-cf88a2698f94","delta":" con"}
+
+data: {"type":"TEXT_MESSAGE_CONTENT","messageId":"3b756912-ece7-4ddf-acf5-cf88a2698f94","delta":" los"}
+
+data: {"type":"TEXT_MESSAGE_CONTENT","messageId":"3b756912-ece7-4ddf-acf5-cf88a2698f94","delta":" valores"}
+
+data: {"type":"TEXT_MESSAGE_CONTENT","messageId":"3b756912-ece7-4ddf-acf5-cf88a2698f94","delta":" del"}
+
+data: {"type":"TEXT_MESSAGE_CONTENT","messageId":"3b756912-ece7-4ddf-acf5-cf88a2698f94","delta":" equipo"}
+
+data: {"type":"TEXT_MESSAGE_CONTENT","messageId":"3b756912-ece7-4ddf-acf5-cf88a2698f94","delta":","}
+
+data: {"type":"TEXT_MESSAGE_CONTENT","messageId":"3b756912-ece7-4ddf-acf5-cf88a2698f94","delta":" es"}
+
+data: {"type":"TEXT_MESSAGE_CONTENT","messageId":"3b756912-ece7-4ddf-acf5-cf88a2698f94","delta":" emp"}
+
+data: {"type":"TEXT_MESSAGE_CONTENT","messageId":"3b756912-ece7-4ddf-acf5-cf88a2698f94","delta":"ática"}
+
+data: {"type":"TEXT_MESSAGE_CONTENT","messageId":"3b756912-ece7-4ddf-acf5-cf88a2698f94","delta":","}
+
+data: {"type":"TEXT_MESSAGE_CONTENT","messageId":"3b756912-ece7-4ddf-acf5-cf88a2698f94","delta":" orient"}
+
+data: {"type":"TEXT_MESSAGE_CONTENT","messageId":"3b756912-ece7-4ddf-acf5-cf88a2698f94","delta":"ada"}
+
+data: {"type":"TEXT_MESSAGE_CONTENT","messageId":"3b756912-ece7-4ddf-acf5-cf88a2698f94","delta":" a"}
+
+data: {"type":"TEXT_MESSAGE_CONTENT","messageId":"3b756912-ece7-4ddf-acf5-cf88a2698f94","delta":" resultados"}
+
+data: {"type":"TEXT_MESSAGE_CONTENT","messageId":"3b756912-ece7-4ddf-acf5-cf88a2698f94","delta":" y"}
+
+data: {"type":"TEXT_MESSAGE_CONTENT","messageId":"3b756912-ece7-4ddf-acf5-cf88a2698f94","delta":" posee"}
+
+data: {"type":"TEXT_MESSAGE_CONTENT","messageId":"3b756912-ece7-4ddf-acf5-cf88a2698f94","delta":" una"}
+
+data: {"type":"TEXT_MESSAGE_CONTENT","messageId":"3b756912-ece7-4ddf-acf5-cf88a2698f94","delta":" mental"}
+
+data: {"type":"TEXT_MESSAGE_CONTENT","messageId":"3b756912-ece7-4ddf-acf5-cf88a2698f94","delta":"idad"}
+
+data: {"type":"TEXT_MESSAGE_CONTENT","messageId":"3b756912-ece7-4ddf-acf5-cf88a2698f94","delta":" de"}
+
+data: {"type":"TEXT_MESSAGE_CONTENT","messageId":"3b756912-ece7-4ddf-acf5-cf88a2698f94","delta":" ownership"}
+
+data: {"type":"TEXT_MESSAGE_CONTENT","messageId":"3b756912-ece7-4ddf-acf5-cf88a2698f94","delta":".\n"}
+
+data: {"type":"TEXT_MESSAGE_CONTENT","messageId":"3b756912-ece7-4ddf-acf5-cf88a2698f94","delta":"-"}
+
+data: {"type":"TEXT_MESSAGE_CONTENT","messageId":"3b756912-ece7-4ddf-acf5-cf88a2698f94","delta":" **"}
+
+data: {"type":"TEXT_MESSAGE_CONTENT","messageId":"3b756912-ece7-4ddf-acf5-cf88a2698f94","delta":"System"}
+
+data: {"type":"TEXT_MESSAGE_CONTENT","messageId":"3b756912-ece7-4ddf-acf5-cf88a2698f94","delta":" Design"}
+
+data: {"type":"TEXT_MESSAGE_CONTENT","messageId":"3b756912-ece7-4ddf-acf5-cf88a2698f94","delta":" &"}
+
+data: {"type":"TEXT_MESSAGE_CONTENT","messageId":"3b756912-ece7-4ddf-acf5-cf88a2698f94","delta":" Agents"}
+
+data: {"type":"TEXT_MESSAGE_CONTENT","messageId":"3b756912-ece7-4ddf-acf5-cf88a2698f94","delta":" ("}
+
+data: {"type":"TEXT_MESSAGE_CONTENT","messageId":"3b756912-ece7-4ddf-acf5-cf88a2698f94","delta":"A"}
+
+data: {"type":"TEXT_MESSAGE_CONTENT","messageId":"3b756912-ece7-4ddf-acf5-cf88a2698f94","delta":"min"}
+
+data: {"type":"TEXT_MESSAGE_CONTENT","messageId":"3b756912-ece7-4ddf-acf5-cf88a2698f94","delta":"):"}
+
+data: {"type":"TEXT_MESSAGE_CONTENT","messageId":"3b756912-ece7-4ddf-acf5-cf88a2698f94","delta":"**"}
+
+data: {"type":"TEXT_MESSAGE_CONTENT","messageId":"3b756912-ece7-4ddf-acf5-cf88a2698f94","delta":" Cal"}
+
+data: {"type":"TEXT_MESSAGE_CONTENT","messageId":"3b756912-ece7-4ddf-acf5-cf88a2698f94","delta":"ificación"}
+
+data: {"type":"TEXT_MESSAGE_CONTENT","messageId":"3b756912-ece7-4ddf-acf5-cf88a2698f94","delta":" de"}
+
+data: {"type":"TEXT_MESSAGE_CONTENT","messageId":"3b756912-ece7-4ddf-acf5-cf88a2698f94","delta":" \""}
+
+data: {"type":"TEXT_MESSAGE_CONTENT","messageId":"3b756912-ece7-4ddf-acf5-cf88a2698f94","delta":"Strong"}
+
+data: {"type":"TEXT_MESSAGE_CONTENT","messageId":"3b756912-ece7-4ddf-acf5-cf88a2698f94","delta":" Yes"}
+
+data: {"type":"TEXT_MESSAGE_CONTENT","messageId":"3b756912-ece7-4ddf-acf5-cf88a2698f94","delta":"\"."}
+
+data: {"type":"TEXT_MESSAGE_CONTENT","messageId":"3b756912-ece7-4ddf-acf5-cf88a2698f94","delta":" Dest"}
+
+data: {"type":"TEXT_MESSAGE_CONTENT","messageId":"3b756912-ece7-4ddf-acf5-cf88a2698f94","delta":"ac"}
+
+data: {"type":"TEXT_MESSAGE_CONTENT","messageId":"3b756912-ece7-4ddf-acf5-cf88a2698f94","delta":"ó"}
+
+data: {"type":"TEXT_MESSAGE_CONTENT","messageId":"3b756912-ece7-4ddf-acf5-cf88a2698f94","delta":" por"}
+
+data: {"type":"TEXT_MESSAGE_CONTENT","messageId":"3b756912-ece7-4ddf-acf5-cf88a2698f94","delta":" diseñ"}
+
+data: {"type":"TEXT_MESSAGE_CONTENT","messageId":"3b756912-ece7-4ddf-acf5-cf88a2698f94","delta":"ar"}
+
+data: {"type":"TEXT_MESSAGE_CONTENT","messageId":"3b756912-ece7-4ddf-acf5-cf88a2698f94","delta":" una"}
+
+data: {"type":"TEXT_MESSAGE_CONTENT","messageId":"3b756912-ece7-4ddf-acf5-cf88a2698f94","delta":" arquitectura"}
+
+data: {"type":"TEXT_MESSAGE_CONTENT","messageId":"3b756912-ece7-4ddf-acf5-cf88a2698f94","delta":" resil"}
+
+data: {"type":"TEXT_MESSAGE_CONTENT","messageId":"3b756912-ece7-4ddf-acf5-cf88a2698f94","delta":"iente"}
+
+data: {"type":"TEXT_MESSAGE_CONTENT","messageId":"3b756912-ece7-4ddf-acf5-cf88a2698f94","delta":" para"}
+
+data: {"type":"TEXT_MESSAGE_CONTENT","messageId":"3b756912-ece7-4ddf-acf5-cf88a2698f94","delta":" el"}
+
+data: {"type":"TEXT_MESSAGE_CONTENT","messageId":"3b756912-ece7-4ddf-acf5-cf88a2698f94","delta":" streaming"}
+
+data: {"type":"TEXT_MESSAGE_CONTENT","messageId":"3b756912-ece7-4ddf-acf5-cf88a2698f94","delta":" de"}
+
+data: {"type":"TEXT_MESSAGE_CONTENT","messageId":"3b756912-ece7-4ddf-acf5-cf88a2698f94","delta":" eventos"}
+
+data: {"type":"TEXT_MESSAGE_CONTENT","messageId":"3b756912-ece7-4ddf-acf5-cf88a2698f94","delta":" con"}
+
+data: {"type":"TEXT_MESSAGE_CONTENT","messageId":"3b756912-ece7-4ddf-acf5-cf88a2698f94","delta":" L"}
+
+data: {"type":"TEXT_MESSAGE_CONTENT","messageId":"3b756912-ece7-4ddf-acf5-cf88a2698f94","delta":"LM"}
+
+data: {"type":"TEXT_MESSAGE_CONTENT","messageId":"3b756912-ece7-4ddf-acf5-cf88a2698f94","delta":"s"}
+
+data: {"type":"TEXT_MESSAGE_CONTENT","messageId":"3b756912-ece7-4ddf-acf5-cf88a2698f94","delta":".\n"}
+
+data: {"type":"TEXT_MESSAGE_CONTENT","messageId":"3b756912-ece7-4ddf-acf5-cf88a2698f94","delta":"-"}
+
+data: {"type":"TEXT_MESSAGE_CONTENT","messageId":"3b756912-ece7-4ddf-acf5-cf88a2698f94","delta":" **"}
+
+data: {"type":"TEXT_MESSAGE_CONTENT","messageId":"3b756912-ece7-4ddf-acf5-cf88a2698f94","delta":"Frontend"}
+
+data: {"type":"TEXT_MESSAGE_CONTENT","messageId":"3b756912-ece7-4ddf-acf5-cf88a2698f94","delta":" Architecture"}
+
+data: {"type":"TEXT_MESSAGE_CONTENT","messageId":"3b756912-ece7-4ddf-acf5-cf88a2698f94","delta":" &"}
+
+data: {"type":"TEXT_MESSAGE_CONTENT","messageId":"3b756912-ece7-4ddf-acf5-cf88a2698f94","delta":" UX"}
+
+data: {"type":"TEXT_MESSAGE_CONTENT","messageId":"3b756912-ece7-4ddf-acf5-cf88a2698f94","delta":" ("}
+
+data: {"type":"TEXT_MESSAGE_CONTENT","messageId":"3b756912-ece7-4ddf-acf5-cf88a2698f94","delta":"Mil"}
+
+data: {"type":"TEXT_MESSAGE_CONTENT","messageId":"3b756912-ece7-4ddf-acf5-cf88a2698f94","delta":"ena"}
+
+data: {"type":"TEXT_MESSAGE_CONTENT","messageId":"3b756912-ece7-4ddf-acf5-cf88a2698f94","delta":"):"}
+
+data: {"type":"TEXT_MESSAGE_CONTENT","messageId":"3b756912-ece7-4ddf-acf5-cf88a2698f94","delta":"**"}
+
+data: {"type":"TEXT_MESSAGE_CONTENT","messageId":"3b756912-ece7-4ddf-acf5-cf88a2698f94","delta":" Cal"}
+
+data: {"type":"TEXT_MESSAGE_CONTENT","messageId":"3b756912-ece7-4ddf-acf5-cf88a2698f94","delta":"ificación"}
+
+data: {"type":"TEXT_MESSAGE_CONTENT","messageId":"3b756912-ece7-4ddf-acf5-cf88a2698f94","delta":" de"}
+
+data: {"type":"TEXT_MESSAGE_CONTENT","messageId":"3b756912-ece7-4ddf-acf5-cf88a2698f94","delta":" \""}
+
+data: {"type":"TEXT_MESSAGE_CONTENT","messageId":"3b756912-ece7-4ddf-acf5-cf88a2698f94","delta":"Strong"}
+
+data: {"type":"TEXT_MESSAGE_CONTENT","messageId":"3b756912-ece7-4ddf-acf5-cf88a2698f94","delta":" Yes"}
+
+data: {"type":"TEXT_MESSAGE_CONTENT","messageId":"3b756912-ece7-4ddf-acf5-cf88a2698f94","delta":"\"."}
+
+data: {"type":"TEXT_MESSAGE_CONTENT","messageId":"3b756912-ece7-4ddf-acf5-cf88a2698f94","delta":" Su"}
+
+data: {"type":"TEXT_MESSAGE_CONTENT","messageId":"3b756912-ece7-4ddf-acf5-cf88a2698f94","delta":" código"}
+
+data: {"type":"TEXT_MESSAGE_CONTENT","messageId":"3b756912-ece7-4ddf-acf5-cf88a2698f94","delta":" fue"}
+
+data: {"type":"TEXT_MESSAGE_CONTENT","messageId":"3b756912-ece7-4ddf-acf5-cf88a2698f94","delta":" evalu"}
+
+data: {"type":"TEXT_MESSAGE_CONTENT","messageId":"3b756912-ece7-4ddf-acf5-cf88a2698f94","delta":"ado"}
+
+data: {"type":"TEXT_MESSAGE_CONTENT","messageId":"3b756912-ece7-4ddf-acf5-cf88a2698f94","delta":" como"}
+
+data: {"type":"TEXT_MESSAGE_CONTENT","messageId":"3b756912-ece7-4ddf-acf5-cf88a2698f94","delta":" limpio"}
+
+data: {"type":"TEXT_MESSAGE_CONTENT","messageId":"3b756912-ece7-4ddf-acf5-cf88a2698f94","delta":" y"}
+
+data: {"type":"TEXT_MESSAGE_CONTENT","messageId":"3b756912-ece7-4ddf-acf5-cf88a2698f94","delta":" modular"}
+
+data: {"type":"TEXT_MESSAGE_CONTENT","messageId":"3b756912-ece7-4ddf-acf5-cf88a2698f94","delta":","}
+
+data: {"type":"TEXT_MESSAGE_CONTENT","messageId":"3b756912-ece7-4ddf-acf5-cf88a2698f94","delta":" con"}
+
+data: {"type":"TEXT_MESSAGE_CONTENT","messageId":"3b756912-ece7-4ddf-acf5-cf88a2698f94","delta":" prioridad"}
+
+data: {"type":"TEXT_MESSAGE_CONTENT","messageId":"3b756912-ece7-4ddf-acf5-cf88a2698f94","delta":" en"}
+
+data: {"type":"TEXT_MESSAGE_CONTENT","messageId":"3b756912-ece7-4ddf-acf5-cf88a2698f94","delta":" acces"}
+
+data: {"type":"TEXT_MESSAGE_CONTENT","messageId":"3b756912-ece7-4ddf-acf5-cf88a2698f94","delta":"ibilidad"}
+
+data: {"type":"TEXT_MESSAGE_CONTENT","messageId":"3b756912-ece7-4ddf-acf5-cf88a2698f94","delta":" y"}
+
+data: {"type":"TEXT_MESSAGE_CONTENT","messageId":"3b756912-ece7-4ddf-acf5-cf88a2698f94","delta":" patrones"}
+
+data: {"type":"TEXT_MESSAGE_CONTENT","messageId":"3b756912-ece7-4ddf-acf5-cf88a2698f94","delta":" de"}
+
+data: {"type":"TEXT_MESSAGE_CONTENT","messageId":"3b756912-ece7-4ddf-acf5-cf88a2698f94","delta":" estado"}
+
+data: {"type":"TEXT_MESSAGE_CONTENT","messageId":"3b756912-ece7-4ddf-acf5-cf88a2698f94","delta":" pre"}
+
+data: {"type":"TEXT_MESSAGE_CONTENT","messageId":"3b756912-ece7-4ddf-acf5-cf88a2698f94","delta":"dec"}
+
+data: {"type":"TEXT_MESSAGE_CONTENT","messageId":"3b756912-ece7-4ddf-acf5-cf88a2698f94","delta":"ibles"}
+
+data: {"type":"TEXT_MESSAGE_CONTENT","messageId":"3b756912-ece7-4ddf-acf5-cf88a2698f94","delta":".\n\n"}
+
+data: {"type":"TEXT_MESSAGE_CONTENT","messageId":"3b756912-ece7-4ddf-acf5-cf88a2698f94","delta":"**"}
+
+data: {"type":"TEXT_MESSAGE_CONTENT","messageId":"3b756912-ece7-4ddf-acf5-cf88a2698f94","delta":"Resumen"}
+
+data: {"type":"TEXT_MESSAGE_CONTENT","messageId":"3b756912-ece7-4ddf-acf5-cf88a2698f94","delta":":"}
+
+data: {"type":"TEXT_MESSAGE_CONTENT","messageId":"3b756912-ece7-4ddf-acf5-cf88a2698f94","delta":"**\n"}
+
+data: {"type":"TEXT_MESSAGE_CONTENT","messageId":"3b756912-ece7-4ddf-acf5-cf88a2698f94","delta":"S"}
+
+data: {"type":"TEXT_MESSAGE_CONTENT","messageId":"3b756912-ece7-4ddf-acf5-cf88a2698f94","delta":"of"}
+
+data: {"type":"TEXT_MESSAGE_CONTENT","messageId":"3b756912-ece7-4ddf-acf5-cf88a2698f94","delta":"ía"}
+
+data: {"type":"TEXT_MESSAGE_CONTENT","messageId":"3b756912-ece7-4ddf-acf5-cf88a2698f94","delta":" es"}
+
+data: {"type":"TEXT_MESSAGE_CONTENT","messageId":"3b756912-ece7-4ddf-acf5-cf88a2698f94","delta":" una"}
+
+data: {"type":"TEXT_MESSAGE_CONTENT","messageId":"3b756912-ece7-4ddf-acf5-cf88a2698f94","delta":" candidata"}
+
+data: {"type":"TEXT_MESSAGE_CONTENT","messageId":"3b756912-ece7-4ddf-acf5-cf88a2698f94","delta":" sólida"}
+
+data: {"type":"TEXT_MESSAGE_CONTENT","messageId":"3b756912-ece7-4ddf-acf5-cf88a2698f94","delta":","}
+
+data: {"type":"TEXT_MESSAGE_CONTENT","messageId":"3b756912-ece7-4ddf-acf5-cf88a2698f94","delta":" con"}
+
+data: {"type":"TEXT_MESSAGE_CONTENT","messageId":"3b756912-ece7-4ddf-acf5-cf88a2698f94","delta":" una"}
+
+data: {"type":"TEXT_MESSAGE_CONTENT","messageId":"3b756912-ece7-4ddf-acf5-cf88a2698f94","delta":" buena"}
+
+data: {"type":"TEXT_MESSAGE_CONTENT","messageId":"3b756912-ece7-4ddf-acf5-cf88a2698f94","delta":" aline"}
+
+data: {"type":"TEXT_MESSAGE_CONTENT","messageId":"3b756912-ece7-4ddf-acf5-cf88a2698f94","delta":"ación"}
+
+data: {"type":"TEXT_MESSAGE_CONTENT","messageId":"3b756912-ece7-4ddf-acf5-cf88a2698f94","delta":" cultural"}
+
+data: {"type":"TEXT_MESSAGE_CONTENT","messageId":"3b756912-ece7-4ddf-acf5-cf88a2698f94","delta":" y"}
+
+data: {"type":"TEXT_MESSAGE_CONTENT","messageId":"3b756912-ece7-4ddf-acf5-cf88a2698f94","delta":" técnica"}
+
+data: {"type":"TEXT_MESSAGE_CONTENT","messageId":"3b756912-ece7-4ddf-acf5-cf88a2698f94","delta":","}
+
+data: {"type":"TEXT_MESSAGE_CONTENT","messageId":"3b756912-ece7-4ddf-acf5-cf88a2698f94","delta":" y"}
+
+data: {"type":"TEXT_MESSAGE_CONTENT","messageId":"3b756912-ece7-4ddf-acf5-cf88a2698f94","delta":" su"}
+
+data: {"type":"TEXT_MESSAGE_CONTENT","messageId":"3b756912-ece7-4ddf-acf5-cf88a2698f94","delta":" pret"}
+
+data: {"type":"TEXT_MESSAGE_CONTENT","messageId":"3b756912-ece7-4ddf-acf5-cf88a2698f94","delta":"ensión"}
+
+data: {"type":"TEXT_MESSAGE_CONTENT","messageId":"3b756912-ece7-4ddf-acf5-cf88a2698f94","delta":" salarial"}
+
+data: {"type":"TEXT_MESSAGE_CONTENT","messageId":"3b756912-ece7-4ddf-acf5-cf88a2698f94","delta":" se"}
+
+data: {"type":"TEXT_MESSAGE_CONTENT","messageId":"3b756912-ece7-4ddf-acf5-cf88a2698f94","delta":" encuentra"}
+
+data: {"type":"TEXT_MESSAGE_CONTENT","messageId":"3b756912-ece7-4ddf-acf5-cf88a2698f94","delta":" dentro"}
+
+data: {"type":"TEXT_MESSAGE_CONTENT","messageId":"3b756912-ece7-4ddf-acf5-cf88a2698f94","delta":" del"}
+
+data: {"type":"TEXT_MESSAGE_CONTENT","messageId":"3b756912-ece7-4ddf-acf5-cf88a2698f94","delta":" presupuesto"}
+
+data: {"type":"TEXT_MESSAGE_CONTENT","messageId":"3b756912-ece7-4ddf-acf5-cf88a2698f94","delta":"."}
+
+data: {"type":"TEXT_MESSAGE_END","messageId":"3b756912-ece7-4ddf-acf5-cf88a2698f94"}
+
+data: {"type":"RUN_FINISHED","threadId":"9cd13214-224f-461c-b324-cd21d1475c7c","runId":"96aeda6e-a1e4-4a71-8c9a-8164cf575516","finishReason":"stop","usage":[{"provider":"openai.chat","model":"openai/gpt-4o-mini","inputTokens":2662,"outputTokens":211,"totalTokens":2873,"reasoningTokens":0,"cachedInputTokens":0}]}
+

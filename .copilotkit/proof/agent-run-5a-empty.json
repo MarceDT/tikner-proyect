@@ -1,10 +1,150 @@
-﻿HTTP/1.1 500 Internal Server Error
-vary: rsc, next-router-state-tree, next-router-prefetch, next-router-segment-prefetch
-access-control-allow-origin: *
-content-type: application/json
-Date: Sat, 12 Sep 2026 16:04:12 GMT
-Connection: keep-alive
-Keep-Alive: timeout=5
-Transfer-Encoding: chunked
+data: {"type":"RUN_STARTED","threadId":"f6ddd61d-dbb8-47b1-b033-9216c7b9d3f4","runId":"bb939a0c-b698-4a26-9ecd-7c5e99770710","input":{"threadId":"f6ddd61d-dbb8-47b1-b033-9216c7b9d3f4","runId":"bb939a0c-b698-4a26-9ecd-7c5e99770710","messages":[{"id":"91acd4e1-e9dd-471d-9ed5-4d3e938eb29e","role":"user","content":"Analiza a Sofía Albarracín para el puesto de Lead Fullstack. ¿Cómo se comparan sus pretensiones salariales con el presupuesto de $95k y cuál es el feedback de las entrevistas?"}],"tools":[{"name":"incident_card","description":"Draw the current state of the incident as a card. Call this once you have read the context, and again when the picture changes.","parameters":{"type":"object","properties":{"headline":{"type":"string","description":"What is broken, in under ten words."},"summary":{"type":"string","description":"Who or what is affected."},"facts":{"type":"array","items":{"type":"object","properties":{"label":{"type":"string"},"value":{"type":"string"}},"required":["label","value"]},"maxItems":4},"nextSteps":{"type":"array","items":{"type":"string"},"maxItems":3},"tone":{"type":"string","enum":["neutral","good","attention"]}},"required":["headline","summary"]}},{"name":"timeline","description":"Draw an ordered timeline of what happened when. Call this when there are three or more events worth ordering.","parameters":{"type":"object","properties":{"title":{"type":"string"},"columns":{"type":"array","items":{"type":"string"}},"rows":{"type":"array","items":{"type":"array","items":{"type":"string"}}}},"required":["columns","rows"]}},{"name":"propose_action","description":"Ask for approval before anything that touches production. Call this FIRST and only continue if it returns approval.","parameters":{"type":"object","properties":{"action":{"type":"string","description":"What you are about to do, in one plain sentence."},"blastRadius":{"type":"string","description":"What this affects if it goes wrong."}},"required":["action","blastRadius"]}},{"name":"select_candidate","description":"Abre la ficha de un candidato en el panel de TalentScore. Usa uno de los IDs disponibles: CAND-101 (Sofía), CAND-102 (Lucas), o CAND-103 (Elena).","parameters":{"type":"object","properties":{"candidateId":{"type":"string"}},"required":["candidateId"]}},{"name":"select_incident","description":"Alias para seleccionar un candidato o registro en la vista.","parameters":{"type":"object","properties":{"incidentId":{"type":"string"}},"required":["incidentId"]}},{"name":"propose_followup","description":"Prepara una propuesta de oferta salarial o acción de seguimiento para el candidato seleccionado. No guarda nada hasta que el usuario pulse 'Aprobar' en la pantalla.","parameters":{"type":"object","properties":{"incidentId":{"type":"string"},"title":{"type":"string"},"details":{"type":"string"}},"required":["incidentId","title","details"]}},{"name":"retrieve_followup","description":"Recupera una propuesta de seguimiento o borrador de oferta previamente preparado.","parameters":{"type":"object","properties":{"incidentId":{"type":"string"}},"required":["incidentId"]}}],"context":[]}}
 
-{"error":"Failed to run agent","message":"OPENAI_API_KEY is required for openai."}
+data: {"type":"TOOL_CALL_START","parentMessageId":"e5c606f3-0776-4a14-8eb2-38e1fb083142","toolCallId":"call_jrvWBFkpoe9SUB3CamEUQyCz","toolCallName":"select_candidate"}
+
+data: {"type":"TOOL_CALL_ARGS","toolCallId":"call_jrvWBFkpoe9SUB3CamEUQyCz","delta":""}
+
+data: {"type":"TOOL_CALL_ARGS","toolCallId":"call_jrvWBFkpoe9SUB3CamEUQyCz","delta":"{\"ca"}
+
+data: {"type":"TOOL_CALL_ARGS","toolCallId":"call_jrvWBFkpoe9SUB3CamEUQyCz","delta":"ndida"}
+
+data: {"type":"TOOL_CALL_ARGS","toolCallId":"call_jrvWBFkpoe9SUB3CamEUQyCz","delta":"teId\":"}
+
+data: {"type":"TOOL_CALL_ARGS","toolCallId":"call_jrvWBFkpoe9SUB3CamEUQyCz","delta":" \"CA"}
+
+data: {"type":"TOOL_CALL_ARGS","toolCallId":"call_jrvWBFkpoe9SUB3CamEUQyCz","delta":"ND-10"}
+
+data: {"type":"TOOL_CALL_ARGS","toolCallId":"call_jrvWBFkpoe9SUB3CamEUQyCz","delta":"1\"}"}
+
+data: {"type":"TOOL_CALL_START","parentMessageId":"e5c606f3-0776-4a14-8eb2-38e1fb083142","toolCallId":"call_10edNmyL31kcAT3KbAUnuxbm","toolCallName":"propose_followup"}
+
+data: {"type":"TOOL_CALL_ARGS","toolCallId":"call_10edNmyL31kcAT3KbAUnuxbm","delta":""}
+
+data: {"type":"TOOL_CALL_ARGS","toolCallId":"call_10edNmyL31kcAT3KbAUnuxbm","delta":"{\"in"}
+
+data: {"type":"TOOL_CALL_ARGS","toolCallId":"call_10edNmyL31kcAT3KbAUnuxbm","delta":"ciden"}
+
+data: {"type":"TOOL_CALL_ARGS","toolCallId":"call_10edNmyL31kcAT3KbAUnuxbm","delta":"tId\": "}
+
+data: {"type":"TOOL_CALL_ARGS","toolCallId":"call_10edNmyL31kcAT3KbAUnuxbm","delta":"\"CAN"}
+
+data: {"type":"TOOL_CALL_ARGS","toolCallId":"call_10edNmyL31kcAT3KbAUnuxbm","delta":"D-101"}
+
+data: {"type":"TOOL_CALL_ARGS","toolCallId":"call_10edNmyL31kcAT3KbAUnuxbm","delta":"\", \"ti"}
+
+data: {"type":"TOOL_CALL_ARGS","toolCallId":"call_10edNmyL31kcAT3KbAUnuxbm","delta":"tle\""}
+
+data: {"type":"TOOL_CALL_ARGS","toolCallId":"call_10edNmyL31kcAT3KbAUnuxbm","delta":": \"Of"}
+
+data: {"type":"TOOL_CALL_ARGS","toolCallId":"call_10edNmyL31kcAT3KbAUnuxbm","delta":"erta S"}
+
+data: {"type":"TOOL_CALL_ARGS","toolCallId":"call_10edNmyL31kcAT3KbAUnuxbm","delta":"alar"}
+
+data: {"type":"TOOL_CALL_ARGS","toolCallId":"call_10edNmyL31kcAT3KbAUnuxbm","delta":"ial S"}
+
+data: {"type":"TOOL_CALL_ARGS","toolCallId":"call_10edNmyL31kcAT3KbAUnuxbm","delta":"ofía A"}
+
+data: {"type":"TOOL_CALL_ARGS","toolCallId":"call_10edNmyL31kcAT3KbAUnuxbm","delta":"lbar"}
+
+data: {"type":"TOOL_CALL_ARGS","toolCallId":"call_10edNmyL31kcAT3KbAUnuxbm","delta":"racín"}
+
+data: {"type":"TOOL_CALL_ARGS","toolCallId":"call_10edNmyL31kcAT3KbAUnuxbm","delta":"\", \"de"}
+
+data: {"type":"TOOL_CALL_ARGS","toolCallId":"call_10edNmyL31kcAT3KbAUnuxbm","delta":"tail"}
+
+data: {"type":"TOOL_CALL_ARGS","toolCallId":"call_10edNmyL31kcAT3KbAUnuxbm","delta":"s\": \""}
+
+data: {"type":"TOOL_CALL_ARGS","toolCallId":"call_10edNmyL31kcAT3KbAUnuxbm","delta":"Sofía "}
+
+data: {"type":"TOOL_CALL_ARGS","toolCallId":"call_10edNmyL31kcAT3KbAUnuxbm","delta":"tien"}
+
+data: {"type":"TOOL_CALL_ARGS","toolCallId":"call_10edNmyL31kcAT3KbAUnuxbm","delta":"e una"}
+
+data: {"type":"TOOL_CALL_ARGS","toolCallId":"call_10edNmyL31kcAT3KbAUnuxbm","delta":" prete"}
+
+data: {"type":"TOOL_CALL_ARGS","toolCallId":"call_10edNmyL31kcAT3KbAUnuxbm","delta":"nsió"}
+
+data: {"type":"TOOL_CALL_ARGS","toolCallId":"call_10edNmyL31kcAT3KbAUnuxbm","delta":"n sal"}
+
+data: {"type":"TOOL_CALL_ARGS","toolCallId":"call_10edNmyL31kcAT3KbAUnuxbm","delta":"arial "}
+
+data: {"type":"TOOL_CALL_ARGS","toolCallId":"call_10edNmyL31kcAT3KbAUnuxbm","delta":"de $"}
+
+data: {"type":"TOOL_CALL_ARGS","toolCallId":"call_10edNmyL31kcAT3KbAUnuxbm","delta":"92k, "}
+
+data: {"type":"TOOL_CALL_ARGS","toolCallId":"call_10edNmyL31kcAT3KbAUnuxbm","delta":"lo que"}
+
+data: {"type":"TOOL_CALL_ARGS","toolCallId":"call_10edNmyL31kcAT3KbAUnuxbm","delta":" est"}
+
+data: {"type":"TOOL_CALL_ARGS","toolCallId":"call_10edNmyL31kcAT3KbAUnuxbm","delta":"á den"}
+
+data: {"type":"TOOL_CALL_ARGS","toolCallId":"call_10edNmyL31kcAT3KbAUnuxbm","delta":"tro de"}
+
+data: {"type":"TOOL_CALL_ARGS","toolCallId":"call_10edNmyL31kcAT3KbAUnuxbm","delta":"l pr"}
+
+data: {"type":"TOOL_CALL_ARGS","toolCallId":"call_10edNmyL31kcAT3KbAUnuxbm","delta":"esupu"}
+
+data: {"type":"TOOL_CALL_ARGS","toolCallId":"call_10edNmyL31kcAT3KbAUnuxbm","delta":"esto d"}
+
+data: {"type":"TOOL_CALL_ARGS","toolCallId":"call_10edNmyL31kcAT3KbAUnuxbm","delta":"e $9"}
+
+data: {"type":"TOOL_CALL_ARGS","toolCallId":"call_10edNmyL31kcAT3KbAUnuxbm","delta":"5k, d"}
+
+data: {"type":"TOOL_CALL_ARGS","toolCallId":"call_10edNmyL31kcAT3KbAUnuxbm","delta":"ejando"}
+
+data: {"type":"TOOL_CALL_ARGS","toolCallId":"call_10edNmyL31kcAT3KbAUnuxbm","delta":" un "}
+
+data: {"type":"TOOL_CALL_ARGS","toolCallId":"call_10edNmyL31kcAT3KbAUnuxbm","delta":"marge"}
+
+data: {"type":"TOOL_CALL_ARGS","toolCallId":"call_10edNmyL31kcAT3KbAUnuxbm","delta":"n de $"}
+
+data: {"type":"TOOL_CALL_ARGS","toolCallId":"call_10edNmyL31kcAT3KbAUnuxbm","delta":"3k a"}
+
+data: {"type":"TOOL_CALL_ARGS","toolCallId":"call_10edNmyL31kcAT3KbAUnuxbm","delta":" favo"}
+
+data: {"type":"TOOL_CALL_ARGS","toolCallId":"call_10edNmyL31kcAT3KbAUnuxbm","delta":"r. Sus"}
+
+data: {"type":"TOOL_CALL_ARGS","toolCallId":"call_10edNmyL31kcAT3KbAUnuxbm","delta":" not"}
+
+data: {"type":"TOOL_CALL_ARGS","toolCallId":"call_10edNmyL31kcAT3KbAUnuxbm","delta":"as de"}
+
+data: {"type":"TOOL_CALL_ARGS","toolCallId":"call_10edNmyL31kcAT3KbAUnuxbm","delta":" entre"}
+
+data: {"type":"TOOL_CALL_ARGS","toolCallId":"call_10edNmyL31kcAT3KbAUnuxbm","delta":"vist"}
+
+data: {"type":"TOOL_CALL_ARGS","toolCallId":"call_10edNmyL31kcAT3KbAUnuxbm","delta":"a son"}
+
+data: {"type":"TOOL_CALL_ARGS","toolCallId":"call_10edNmyL31kcAT3KbAUnuxbm","delta":" posit"}
+
+data: {"type":"TOOL_CALL_ARGS","toolCallId":"call_10edNmyL31kcAT3KbAUnuxbm","delta":"ivas"}
+
+data: {"type":"TOOL_CALL_ARGS","toolCallId":"call_10edNmyL31kcAT3KbAUnuxbm","delta":", des"}
+
+data: {"type":"TOOL_CALL_ARGS","toolCallId":"call_10edNmyL31kcAT3KbAUnuxbm","delta":"tacand"}
+
+data: {"type":"TOOL_CALL_ARGS","toolCallId":"call_10edNmyL31kcAT3KbAUnuxbm","delta":"o ha"}
+
+data: {"type":"TOOL_CALL_ARGS","toolCallId":"call_10edNmyL31kcAT3KbAUnuxbm","delta":"bilid"}
+
+data: {"type":"TOOL_CALL_ARGS","toolCallId":"call_10edNmyL31kcAT3KbAUnuxbm","delta":"ades t"}
+
+data: {"type":"TOOL_CALL_ARGS","toolCallId":"call_10edNmyL31kcAT3KbAUnuxbm","delta":"écni"}
+
+data: {"type":"TOOL_CALL_ARGS","toolCallId":"call_10edNmyL31kcAT3KbAUnuxbm","delta":"cas y"}
+
+data: {"type":"TOOL_CALL_ARGS","toolCallId":"call_10edNmyL31kcAT3KbAUnuxbm","delta":" aline"}
+
+data: {"type":"TOOL_CALL_ARGS","toolCallId":"call_10edNmyL31kcAT3KbAUnuxbm","delta":"ació"}
+
+data: {"type":"TOOL_CALL_ARGS","toolCallId":"call_10edNmyL31kcAT3KbAUnuxbm","delta":"n cul"}
+
+data: {"type":"TOOL_CALL_ARGS","toolCallId":"call_10edNmyL31kcAT3KbAUnuxbm","delta":"tural."}
+
+data: {"type":"TOOL_CALL_ARGS","toolCallId":"call_10edNmyL31kcAT3KbAUnuxbm","delta":"\"}"}
+
+data: {"type":"TOOL_CALL_END","toolCallId":"call_jrvWBFkpoe9SUB3CamEUQyCz"}
+
+data: {"type":"TOOL_CALL_END","toolCallId":"call_10edNmyL31kcAT3KbAUnuxbm"}
+
+data: {"type":"RUN_FINISHED","threadId":"f6ddd61d-dbb8-47b1-b033-9216c7b9d3f4","runId":"bb939a0c-b698-4a26-9ecd-7c5e99770710","finishReason":"tool-calls","usage":[{"provider":"openai.chat","model":"openai/gpt-4o-mini","inputTokens":1266,"outputTokens":119,"totalTokens":1385,"reasoningTokens":0,"cachedInputTokens":1152}]}
+
