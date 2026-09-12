@@ -68,9 +68,16 @@ export interface Application {
 }
 
 export interface RankingCriterion {
-  criterion: "skills" | "experience" | "budget" | "completeness";
+  criterion:
+    | "requiredSkills"
+    | "relevantExperience"
+    | "architectureAndAgents"
+    | "leadershipAndCommunication"
+    | "budgetAlignment";
   weight: number; // suma 100
-  score: number; // 0..100
+  /** null means unknown: it is excluded from the normalized total, never treated as a zero. */
+  score: number | null; // 0..100 when evidence exists
+  status: "assessed" | "unknown";
   reasoning: string;
   evidence: string[];
 }
@@ -80,6 +87,8 @@ export interface CandidateRanking {
   candidateName: string;
   rank: number; // 1 = mejor
   score: number; // 0..100, ponderado
+  evaluatedWeight: number;
+  unknownWeight: number;
   breakdown: RankingCriterion[];
   risks: string[];
   missingData: string[];
@@ -113,6 +122,108 @@ export interface SelectionReport {
   rankings: CandidateRanking[]; // ranking completo, ordenado
   shortlistApplicationIds: string[]; // los topN primeros
   approval: ReportApproval;
+  /** Proposals and confirmed schedules linked to the frozen shortlist. */
+  interviewProposalIds: string[];
+  plannedInterviews: Interview[];
+}
+
+export type InterviewType = "screening" | "technical" | "culture" | "panel" | "final";
+export type InterviewModality = "video" | "phone" | "onsite";
+export type InterviewProposalStatus =
+  | "pending_human_approval"
+  | "scheduled"
+  | "rejected"
+  | "provider_error";
+export type InterviewStatus = "scheduled" | "provider_error";
+
+/** Evidence may come from a real integration later; today it is deliberately simulated. */
+export interface InterviewAvailabilityEvidence {
+  source: "simulated_published_availability" | "unknown";
+  description: string;
+  startsAt?: string;
+  endsAt?: string;
+  checkedAt: string;
+}
+
+export interface InterviewConflict {
+  type: "candidate_unavailable" | "interviewer_busy" | "missing_data";
+  severity: "warning" | "blocking";
+  description: string;
+}
+
+export interface InterviewAuditEvent {
+  at: string;
+  actor: string;
+  action: "proposed" | "approved_and_scheduled" | "rejected" | "provider_error";
+  detail: string;
+}
+
+export interface InterviewProposal {
+  id: string;
+  reportId: string;
+  candidateApplicationId: string;
+  candidateName: string;
+  type: InterviewType;
+  startsAt: string;
+  durationMinutes: number;
+  timezone: string;
+  interviewers: string[];
+  modality: InterviewModality;
+  locationOrMeetingUrl: string | null;
+  agenda: string[];
+  availabilityEvidence: InterviewAvailabilityEvidence[];
+  conflicts: InterviewConflict[];
+  recommendationReason: string;
+  missingData: string[];
+  status: InterviewProposalStatus;
+  createdBy: "ai";
+  createdAt: string;
+  auditTrail: InterviewAuditEvent[];
+}
+
+export interface Interview {
+  id: string;
+  proposalId: string;
+  reportId: string;
+  candidateApplicationId: string;
+  candidateName: string;
+  type: InterviewType;
+  startsAt: string;
+  durationMinutes: number;
+  timezone: string;
+  interviewers: string[];
+  modality: InterviewModality;
+  locationOrMeetingUrl: string | null;
+  agenda: string[];
+  status: InterviewStatus;
+  availabilityEvidence: InterviewAvailabilityEvidence[];
+  /** This demo stores a local simulated provider reference; it sends no invitations. */
+  provider: "simulated_local";
+  createdBy: string;
+  createdAt: string;
+  auditTrail: InterviewAuditEvent[];
+}
+
+/** Every field must be visibly reviewed by a person before scheduling. */
+export interface InterviewHumanApproval {
+  approvedBy: string;
+  consentConfirmed: true;
+  reviewed: {
+    candidate: true;
+    dateAndTime: true;
+    timezone: true;
+    interviewers: true;
+    modality: true;
+  };
+}
+
+export interface InterviewScheduleResult {
+  proposalId: string;
+  interviewId?: string;
+  status: "scheduled" | "rejected" | "provider_error";
+  confirmedAt: string;
+  provider: "simulated_local";
+  providerError?: string;
 }
 
 export type ExportFormat = "pdf" | "docx" | "xlsx";

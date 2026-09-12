@@ -1,6 +1,6 @@
 # Base de datos (PostgreSQL) — TalentScore
 
-Persistencia real de la app: postulaciones, reportes de selección y eventos de exportación.
+Persistencia real de la app: postulaciones, reportes de selección, entrevistas y eventos de exportación.
 Todos usamos el mismo esquema; los scripts son idempotentes.
 
 ## Levantar en 3 pasos
@@ -24,11 +24,12 @@ Sin Docker: instalá PostgreSQL 14+, creá una base y apuntá `DATABASE_URL` a e
 |---|---|
 | `001_candidates.sql` | Tablas `candidates`, `interview_notes`, `offers` + seed de los 3 candidatos de `candidates.ts` (Marcelo). |
 | `002_talent.sql` | Tablas `talent_applications`, `talent_selection_reports`, `talent_export_events` (pipeline de Amin). |
+| `003_interviews.sql` | Propuestas de entrevista y agendas confirmadas por una persona. El adaptador actual es local simulado; no crea eventos en Google/Outlook ni envía correos. |
 | `migrate.mjs` | Aplica todos los `*.sql` en orden. |
 
 ## Qué es persistente y qué es demo
 
-- **Persistente (Postgres):** postulaciones procesadas, perfiles extraídos, reportes, decisiones de aprobación y eventos de exportación.
+- **Persistente (Postgres):** postulaciones procesadas, perfiles extraídos, reportes, propuestas de entrevista, confirmaciones humanas, auditoría y eventos de exportación.
 - **Demo (código):** la bandeja de entrada simulada (`apps/web/src/lib/server/talent/demo-inbox.ts`). No hay Gmail ni parsing real de PDF; cada `sync` reinserta solo los mensajes que faltan (dedupe por `message_id`).
 
 ## Reset

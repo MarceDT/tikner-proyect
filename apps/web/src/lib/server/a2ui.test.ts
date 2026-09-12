@@ -2,8 +2,8 @@ import assert from "node:assert/strict";
 import test from "node:test";
 import {
   GET,
-  resolveIntelligenceTransportConfiguration,
 } from "../../app/api/copilotkit/[[...path]]/route";
+import { resolveIntelligenceTransportConfiguration } from "./intelligence-transport";
 
 const origin = "http://localhost:3100";
 

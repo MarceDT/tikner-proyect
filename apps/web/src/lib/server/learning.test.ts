@@ -4,9 +4,11 @@ import { parseInspectorLearningSnapshotV1 } from "@copilotkit/shared";
 import {
   GET,
   POST,
+} from "../../app/api/copilotkit/[[...path]]/route";
+import {
   LEARNING_CONTAINER_ID,
   resolveIntelligenceTransportConfiguration,
-} from "../../app/api/copilotkit/[[...path]]/route";
+} from "./intelligence-transport";
 
 const origin = "http://localhost:3100";
 

@@ -4,7 +4,13 @@
  * escalares existen para filtrar/ordenar sin deserializar.
  */
 import { Pool, type PoolConfig } from "pg";
-import type { Application, ExportEvent, SelectionReport } from "@/lib/talent-types";
+import type {
+  Application,
+  ExportEvent,
+  Interview,
+  InterviewProposal,
+  SelectionReport,
+} from "@/lib/talent-types";
 import { NotConfiguredError } from "./errors";
 import type { TalentStore } from "./store";
 
@@ -58,7 +64,17 @@ export class PgTalentStore implements TalentStore {
       rankings: r.rankings as SelectionReport["rankings"],
       shortlistApplicationIds: r.shortlist_application_ids as string[],
       approval: r.approval as SelectionReport["approval"],
+      interviewProposalIds: (r.interview_proposal_ids as string[] | null) ?? [],
+      plannedInterviews: (r.planned_interviews as Interview[] | null) ?? [],
     };
+  }
+
+  private static toInterviewProposal(r: Row): InterviewProposal {
+    return r.document as InterviewProposal;
+  }
+
+  private static toInterview(r: Row): Interview {
+    return r.document as Interview;
   }
 
   private static toExport(r: Row): ExportEvent {
@@ -107,14 +123,18 @@ export class PgTalentStore implements TalentStore {
     const { rows } = await this.pool.query(
       `INSERT INTO talent_selection_reports
          (id, role_title, target_role, top_n, generated_at, requested_by, rankings,
-          shortlist_application_ids, approval, approval_status)
-       VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10)
-       ON CONFLICT (id) DO UPDATE SET approval = EXCLUDED.approval, approval_status = EXCLUDED.approval_status
+          shortlist_application_ids, approval, approval_status, interview_proposal_ids, planned_interviews)
+       VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12)
+       ON CONFLICT (id) DO UPDATE SET
+         approval = EXCLUDED.approval,
+         approval_status = EXCLUDED.approval_status,
+         interview_proposal_ids = EXCLUDED.interview_proposal_ids,
+         planned_interviews = EXCLUDED.planned_interviews
        RETURNING *`,
       [
         r.id, r.roleTitle, JSON.stringify(r.targetRole), r.topN, r.generatedAt, r.requestedBy,
         JSON.stringify(r.rankings), JSON.stringify(r.shortlistApplicationIds), JSON.stringify(r.approval),
-        r.approval.status,
+        r.approval.status, JSON.stringify(r.interviewProposalIds), JSON.stringify(r.plannedInterviews),
       ],
     );
     return PgTalentStore.toReport(rows[0]);
@@ -126,6 +146,52 @@ export class PgTalentStore implements TalentStore {
   async listReports() {
     const { rows } = await this.pool.query("SELECT * FROM talent_selection_reports ORDER BY generated_at DESC");
     return rows.map(PgTalentStore.toReport);
+  }
+  async saveInterviewProposal(proposal: InterviewProposal) {
+    const { rows } = await this.pool.query(
+      `INSERT INTO talent_interview_proposals (id, report_id, candidate_application_id, status, starts_at, document)
+       VALUES ($1,$2,$3,$4,$5,$6)
+       ON CONFLICT (id) DO UPDATE SET status = EXCLUDED.status, starts_at = EXCLUDED.starts_at, document = EXCLUDED.document
+       RETURNING document`,
+      [proposal.id, proposal.reportId, proposal.candidateApplicationId, proposal.status, proposal.startsAt, JSON.stringify(proposal)],
+    );
+    return PgTalentStore.toInterviewProposal(rows[0]);
+  }
+  async getInterviewProposal(id: string) {
+    const { rows } = await this.pool.query("SELECT document FROM talent_interview_proposals WHERE id = $1", [id]);
+    return rows[0] && PgTalentStore.toInterviewProposal(rows[0]);
+  }
+  async listInterviewProposals(reportId?: string) {
+    const { rows } = await this.pool.query(
+      reportId
+        ? "SELECT document FROM talent_interview_proposals WHERE report_id = $1 ORDER BY created_at DESC"
+        : "SELECT document FROM talent_interview_proposals ORDER BY created_at DESC",
+      reportId ? [reportId] : [],
+    );
+    return rows.map(PgTalentStore.toInterviewProposal);
+  }
+  async saveInterview(interview: Interview) {
+    const { rows } = await this.pool.query(
+      `INSERT INTO talent_interviews (id, proposal_id, report_id, candidate_application_id, starts_at, status, document)
+       VALUES ($1,$2,$3,$4,$5,$6,$7)
+       ON CONFLICT (id) DO UPDATE SET status = EXCLUDED.status, starts_at = EXCLUDED.starts_at, document = EXCLUDED.document
+       RETURNING document`,
+      [interview.id, interview.proposalId, interview.reportId, interview.candidateApplicationId, interview.startsAt, interview.status, JSON.stringify(interview)],
+    );
+    return PgTalentStore.toInterview(rows[0]);
+  }
+  async getInterview(id: string) {
+    const { rows } = await this.pool.query("SELECT document FROM talent_interviews WHERE id = $1", [id]);
+    return rows[0] && PgTalentStore.toInterview(rows[0]);
+  }
+  async listInterviews(reportId?: string) {
+    const { rows } = await this.pool.query(
+      reportId
+        ? "SELECT document FROM talent_interviews WHERE report_id = $1 ORDER BY starts_at ASC"
+        : "SELECT document FROM talent_interviews ORDER BY starts_at ASC",
+      reportId ? [reportId] : [],
+    );
+    return rows.map(PgTalentStore.toInterview);
   }
   async recordExport(e: ExportEvent) {
     const { rows } = await this.pool.query(
