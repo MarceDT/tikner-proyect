@@ -22,6 +22,7 @@ import {
   markSelectionReportExported,
   requiresHumanApprovalForStatus,
   isAgentAllowedCandidateStatus,
+  getBudgetAlignment,
 } from "./candidates";
 import {
   formatOfferDescription,
@@ -119,14 +120,15 @@ test("candidatesWorkspaceContext provides target position, candidate data, and H
   const context = candidatesWorkspaceContext("CAND-101");
   assert.equal(context.targetPosition.budgetMaxSalary, 95000);
   assert.equal(context.selectedCandidate.name, "Sofía Albarracín");
-  assert.equal(context.availableCandidates.length, 3);
+  assert.equal(context.availableCandidates.length, 6);
   assert.ok(context.humanInTheLoopPolicy.approvalRequired);
   assert.match(context.humanInTheLoopPolicy.boundaryDescription, /confirmación humana explícita/);
   assert.deepEqual(context.humanInTheLoopPolicy.allowedActions, [
     "review_offer",
     "propose_offer_for_human_review",
     "propose_shortlist_for_human_review",
-    "propose_export_for_human_review",
+    "read_interviews_and_availability",
+    "propose_interview_for_human_review",
   ]);
   assert.equal(context.selectedCandidate.application.source, "simulated_email");
   assert.equal(context.selectedCandidateRanking.candidateId, "CAND-101");
@@ -257,7 +259,7 @@ test("ranking uses the published weights and keeps missing CV evidence as unknow
 
   const ranked = getRankedCandidates();
   assert.equal(ranked[0].candidateId, "CAND-101");
-  assert.equal(ranked.length, 3);
+  assert.equal(ranked.length, 6);
 
   const originalMissingFields = [...findCandidate("CAND-101").application.missingFields];
   try {
@@ -270,6 +272,12 @@ test("ranking uses the published weights and keeps missing CV evidence as unknow
   } finally {
     findCandidate("CAND-101").application.missingFields = originalMissingFields;
   }
+});
+
+test("una pretensión no declarada se muestra como desconocida, nunca como dentro de presupuesto", () => {
+  assert.equal(getBudgetAlignment(findCandidate("CAND-101")), "within");
+  assert.equal(getBudgetAlignment(findCandidate("CAND-102")), "over");
+  assert.equal(getBudgetAlignment(findCandidate("CAND-105")), "unknown");
 });
 
 test("shortlist and export each require an explicit human approval", () => {

@@ -95,7 +95,7 @@ export async function renderPdf(report: SelectionReport): Promise<Buffer> {
   for (const r of shortlist) {
     w.text(`#${r.rank}  ${r.candidateName}  -  ${r.score}/100`, { bold: true });
     for (const b of r.breakdown) {
-      w.text(`${b.criterion} (${b.weight}%): ${b.score}/100 - ${b.reasoning}`, { size: FONT_SIZE.small, indent: 14 });
+      w.text(`${b.criterion} (${b.weight}%): ${b.score === null ? "desconocido" : `${b.score}/100`} - ${b.reasoning}`, { size: FONT_SIZE.small, indent: 14 });
     }
     if (r.risks.length) w.text(`Riesgos: ${r.risks.join(" | ")}`, { size: FONT_SIZE.small, indent: 14, color: [0.6, 0.15, 0.15] });
     if (r.missingData.length) w.text(`Datos faltantes: ${r.missingData.join(" | ")}`, { size: FONT_SIZE.small, indent: 14, color: [0.45, 0.35, 0.05] });
@@ -109,7 +109,7 @@ export async function renderPdf(report: SelectionReport): Promise<Buffer> {
     w.text(`#${r.rank}  ${r.candidateName}  -  ${r.score}/100  ·  ${r.breakdown.map((b) => `${b.criterion} ${b.score}`).join(" · ")}`, { size: FONT_SIZE.small });
   }
   w.gap(10);
-  w.text(`Skills requeridas: ${t.requiredSkills.join(", ")}. Puntajes calculados con una rúbrica determinista sobre datos extraídos del CV; los datos ausentes puntúan 0 y no se estiman.`, { size: FONT_SIZE.small, color: [0.35, 0.35, 0.4] });
+  w.text(`Skills requeridas: ${t.requiredSkills.join(", ")}. Puntajes calculados con una rúbrica determinista sobre datos extraídos del CV; los datos ausentes se muestran como desconocidos y no se estiman.`, { size: FONT_SIZE.small, color: [0.35, 0.35, 0.4] });
 
   return Buffer.from(await doc.save());
 }

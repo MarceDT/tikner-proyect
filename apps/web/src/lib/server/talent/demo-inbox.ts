@@ -129,6 +129,69 @@ Formación: Ciência da Computação — USP (2020).
 
 Sobre salario, prefiero conversarlo en una entrevista.`,
   },
+  {
+    messageId: "<demo-004@talentscore.local>",
+    from: "sofia.albarracin@example.test",
+    subject: "Postulación — Lead Fullstack & AI Systems Engineer",
+    receivedAt: "2026-09-12T08:15:00.000Z",
+    attachmentName: "sofia-albarracin-cv.pdf",
+    bodyText: "CV de demostración de Sofía. La disponibilidad y el correo son datos simulados.",
+    cvText: `Sofía Albarracín
+Senior Fullstack Architect
+sofia.albarracin@example.test · Remoto UTC-3
+
+Siete años liderando squads técnicos en productos SaaS. Diseñé plataformas web escalables y un orquestador de agentes con TypeScript, Next.js, Python y PostgreSQL. En mi último rol facilité revisiones de arquitectura y mentorías para un equipo de siete personas.
+
+Experiencia
+TechSur — Staff Engineer (2022 – presente)
+- Arquitectura de agentes con colas asíncronas, tracing y evaluación de calidad.
+- Diseño de sistemas distribuidos y mentoría de desarrolladores.
+
+Skills: TypeScript, Next.js, Python, Agents, System Design, Distributed Systems, PostgreSQL, Docker
+Pretensión salarial: USD 92,000 anuales.`,
+  },
+  {
+    messageId: "<demo-005@talentscore.local>",
+    from: "lucas.varela@example.test",
+    subject: "CV — Principal Systems Engineer",
+    receivedAt: "2026-09-12T08:22:00.000Z",
+    attachmentName: "lucas-varela-cv.docx",
+    bodyText: "CV de demostración de Lucas; su riesgo presupuestario debe mostrarse de forma transparente.",
+    cvText: `Lucas Varela
+Principal Systems Engineer
+lucas.varela@example.test · Buenos Aires, Argentina
+
+Once años creando sistemas de baja latencia y bases de datos distribuidas para fintech. Experiencia profunda en Go, Rust, Kafka, PostgreSQL, Kubernetes y System Design. Lideré iniciativas técnicas, aunque el feedback de colaboración requiere una conversación adicional.
+
+Experiencia
+FinCore — Principal Engineer (2019 – presente)
+- Sistemas event-driven con más de un millón de requests por segundo.
+- Diseño de arquitectura distribuida y revisiones técnicas.
+
+Skills: Go, Rust, TypeScript, Kafka, PostgreSQL, Kubernetes, Distributed Systems, System Design
+Pretensión salarial: USD 125,000 anuales.`,
+  },
+  {
+    messageId: "<demo-006@talentscore.local>",
+    from: "elena.rostova@example.test",
+    subject: "Application — Senior Frontend & Creative Technologist",
+    receivedAt: "2026-09-12T08:31:00.000Z",
+    attachmentName: "elena-rostova-cv.pdf",
+    bodyText: "CV de demostración de Elena; perfil complementario de frontend y UX.",
+    cvText: `Elena Rostova
+Senior Frontend & Creative Technologist
+elena.rostova@example.test · Remoto UTC+2
+
+Cinco años creando interfaces accesibles para productos digitales. Construí experiencias de IA generativa, sistemas de diseño y prototipos interactivos con React y Next.js. Mi experiencia de backend distribuido es menor y debe revisarse como una limitación de alcance, no como un dato inventado.
+
+Experiencia
+Studio Nova — Senior Frontend Engineer (2023 – presente)
+- Lideré el Design System y workshops de accesibilidad con producto.
+- Prototipos de interfaces agénticas con React, Next.js y Python.
+
+Skills: React, Next.js, TypeScript, Python, Design Systems, Generative UI, Tailwind
+Pretensión salarial: USD 80,000 anuales.`,
+  },
 ];
 
 /** Lee la bandeja simulada. Firma async para que un lector real (IMAP, webhook) pueda reemplazarla. */

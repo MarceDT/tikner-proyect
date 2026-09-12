@@ -17,3 +17,7 @@ apps/mobile/.expo/
 # Machine-specific graphify cache and paths
 graphify-out/.graphify_*
 graphify-out/cache/
+
+# Added by CopilotKit CLI: credential files, which must never be committed.
+.env.*
+!.env.example

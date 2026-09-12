@@ -2,6 +2,17 @@
  * TalentScore — Candidate Data Model & Domain Definitions (Idea 5: HR Tech)
  * Shared contract for Amin (Agent Backend) and Milena (Frontend & Generative UI).
  */
+import type { Interview } from "./talent-types";
+
+/** Shared interview contract consumed by the calendar/Kanban and server pipeline. */
+export type {
+  Interview,
+  InterviewProposal,
+  InterviewScheduleResult,
+  InterviewHumanApproval,
+  InterviewConflict,
+  InterviewAvailabilityEvidence,
+} from "./talent-types";
 
 export interface InterviewNote {
   round: string;
@@ -123,6 +134,9 @@ export interface SelectionReport {
   rejectionReason?: string;
   exportedAt?: string;
   exportedFormats?: ExportFormat[];
+  /** Traceability from an approved shortlist to proposed and confirmed interviews. */
+  interviewProposalIds: string[];
+  plannedInterviews: Interview[];
 }
 
 export interface CandidateOffer {
@@ -216,7 +230,7 @@ export const candidates: Candidate[] = [
     status: "Finalist",
     headline: "Especialista en escalabilidad de plataformas web y orquestación de agentes con TypeScript.",
     summary: "7 años liderando squads técnicos en startups de alto crecimiento. Fuerte perfil de liderazgo pedagógico, diseño modular y foco en performance.",
-    skills: ["TypeScript", "Next.js", "Python", "CopilotKit", "PostgreSQL", "Docker", "System Design"],
+    skills: ["TypeScript", "Next.js", "Python", "CopilotKit", "PostgreSQL", "Docker", "System Design", "Distributed Systems"],
     ratings: {
       systemDesign: 9,
       coding: 9,
@@ -433,8 +447,105 @@ export const candidates: Candidate[] = [
         notes: "Una de las mejores pruebas de frontend que he visto: fluida, accesible y visualmente pulida."
       }
     ]
+  },
+  {
+    id: "CAND-104",
+    name: "Valentina Ferreyra",
+    avatar: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=150&auto=format&fit=crop&q=80",
+    currentTitle: "Senior Fullstack Engineer & AI Platform Lead",
+    appliedRole: "Lead Fullstack & AI Systems Engineer",
+    experienceYears: 8,
+    salaryExpectation: "$90,000 / año",
+    salaryNumber: 90000,
+    location: "Córdoba, Argentina (Remoto)",
+    status: "Finalist",
+    headline: "Lead de plataforma de IA con experiencia en agentes, observabilidad y equipos de producto.",
+    summary: "Perfil integral para comparar contra Sofía: plataforma de agentes en producción, mentoría y amplio recorrido fullstack.",
+    skills: ["TypeScript", "Next.js", "Python", "LangGraph", "PostgreSQL", "Kafka", "Kubernetes", "System Design", "Distributed Systems"],
+    ratings: { systemDesign: 9, coding: 9, architecture: 9, leadership: 8, communication: 8 },
+    pros: ["Dentro del presupuesto ($90k vs $95k)", "Evidencia de agentes en producción y observabilidad", "Experiencia de liderazgo técnico"],
+    redFlags: ["Disponibilidad de inicio debe confirmarse antes de agenda final"],
+    application: {
+      id: "APP-104", source: "simulated_email", sender: "valentina.ferreyra@example.test",
+      subject: "Postulación — AI Platform Lead", receivedAt: "2026-09-12T09:10:00.000Z",
+      attachment: { fileName: "valentina-ferreyra-cv.pdf", mimeType: "application/pdf" }, status: "ranked",
+      extractionConfidence: 0.95, missingFields: [], extractionErrors: [],
+    },
+    evidence: [
+      { claim: "Orquestación de agentes en producción", excerpt: "Diseñó un orquestador de agentes que procesa 40k conversaciones/día.", source: "cv" },
+      { claim: "Liderazgo técnico", excerpt: "Mentoría técnica y entrevistas de contratación para seis personas.", source: "cv" },
+    ],
+    shortlistStatus: "not_selected",
+    interviewNotes: [{ round: "Arquitectura & Agentes", interviewer: "Amin (Tech Lead)", rating: "Yes", date: "12 Sep 2026", notes: "Buen balance de diseño de producto, confiabilidad y costo de LLM." }],
+  },
+  {
+    id: "CAND-105",
+    name: "Camila Nunes",
+    avatar: "https://images.unsplash.com/photo-1531123897727-8f129e1688ce?w=150&auto=format&fit=crop&q=80",
+    currentTitle: "Fullstack Developer",
+    appliedRole: "Lead Fullstack & AI Systems Engineer",
+    experienceYears: 4,
+    salaryExpectation: "No declarada",
+    salaryNumber: 0,
+    location: "São Paulo, Brasil (Remoto)",
+    status: "Review",
+    headline: "Fullstack con experiencia reciente en RAG y design systems; disponibilidad salarial desconocida.",
+    summary: "Candidata de crecimiento con señal fuerte en producto y IA aplicada, pero con menor seniority para un rol Lead.",
+    skills: ["Next.js", "TypeScript", "React", "Python", "FastAPI", "OpenAI API", "RAG", "PostgreSQL", "Design Systems"],
+    ratings: { systemDesign: 7, coding: 8, architecture: 7, leadership: 6, communication: 8 },
+    pros: ["Experiencia práctica con RAG y producto interno", "Buena base fullstack y de UX"],
+    redFlags: ["Pretensión salarial no declarada: desconocida, requiere conversación", "Menor experiencia para liderar backend distribuido"],
+    application: {
+      id: "APP-105", source: "simulated_email", sender: "camila.nunes@example.test",
+      subject: "Interesada en el puesto de Lead Fullstack", receivedAt: "2026-09-12T09:22:00.000Z",
+      attachment: { fileName: "camila-nunes-cv.pdf", mimeType: "application/pdf" }, status: "ranked",
+      extractionConfidence: 0.88, missingFields: ["pretensión salarial"], extractionErrors: [],
+    },
+    evidence: [{ claim: "Asistente RAG interno", excerpt: "Armó un asistente interno con OpenAI y RAG para 200 personas.", source: "cv" }],
+    shortlistStatus: "not_selected",
+    interviewNotes: [{ round: "Producto & UX", interviewer: "Milena (Design Systems Engineer)", rating: "Yes", date: "12 Sep 2026", notes: "Muy buena comprensión de flujos humanos; validar seniority de liderazgo." }],
+  },
+  {
+    id: "CAND-106",
+    name: "Mateo Ruiz",
+    avatar: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=150&auto=format&fit=crop&q=80",
+    currentTitle: "Staff Backend Engineer",
+    appliedRole: "Lead Fullstack & AI Systems Engineer",
+    experienceYears: 9,
+    salaryExpectation: "$94,000 / año",
+    salaryNumber: 94000,
+    location: "Asunción, Paraguay (Híbrido)",
+    status: "Interviewing",
+    headline: "Backend sólido con sistemas distribuidos y coaching técnico; evidencia limitada en agentes.",
+    summary: "Opción técnica dentro de presupuesto para profundizar en arquitectura, con una brecha explícita de IA agéntica.",
+    skills: ["TypeScript", "Node.js", "PostgreSQL", "Kafka", "Kubernetes", "System Design", "Distributed Systems"],
+    ratings: { systemDesign: 9, coding: 9, architecture: 9, leadership: 8, communication: 7 },
+    pros: ["Dentro del presupuesto ($94k vs $95k)", "Experiencia en plataformas distribuidas y mentoría"],
+    redFlags: ["Sin evidencia suficiente de agentes en producción; tratar como desconocido y validar en entrevista"],
+    application: {
+      id: "APP-106", source: "simulated_email", sender: "mateo.ruiz@example.test",
+      subject: "CV — Staff Backend Engineer", receivedAt: "2026-09-12T09:40:00.000Z",
+      attachment: { fileName: "mateo-ruiz-cv.docx", mimeType: "application/vnd.openxmlformats-officedocument.wordprocessingml.document" }, status: "ranked",
+      extractionConfidence: 0.92, missingFields: ["experiencia con agentes"], extractionErrors: [],
+    },
+    evidence: [{ claim: "Sistemas distribuidos", excerpt: "Lideró la plataforma de eventos con Kafka y PostgreSQL para servicios críticos.", source: "cv" }],
+    shortlistStatus: "not_selected",
+    interviewNotes: [{ round: "System Design", interviewer: "Amin (Tech Lead)", rating: "Strong Yes", date: "11 Sep 2026", notes: "Excelente en confiabilidad; reservar preguntas de agentes y UX de producto." }],
   }
 ];
+
+export type BudgetAlignment = "within" | "over" | "unknown";
+
+/** Salary missing from a CV is uncertainty, not a $0 request or a positive budget signal. */
+export function getBudgetAlignment(candidate: Candidate): BudgetAlignment {
+  const salaryUnknown = candidate.application.missingFields.some((field) =>
+    /salario|salary|pretensi[oó]n/i.test(field),
+  );
+  if (salaryUnknown || candidate.salaryNumber <= 0) return "unknown";
+  return candidate.salaryNumber <= TARGET_ROLE.budgetMaxSalary ? "within" : "over";
+}
+
+const INITIAL_CANDIDATE_STATUSES = new Map(candidates.map((candidate) => [candidate.id, candidate.status]));
 
 const selectionReports = new Map<string, SelectionReport>();
 
@@ -671,6 +782,8 @@ export function createSelectionReport(
     requestedFormats: uniqueFormats,
     status: "pending_approval",
     requestedAt: new Date().toISOString(),
+    interviewProposalIds: [],
+    plannedInterviews: [],
   };
 
   for (const candidate of selected) {
@@ -891,9 +1004,7 @@ export function resetCandidateOffersForTesting(): void {
   selectionReports.clear();
   for (const c of candidates) {
     delete c.offer;
-    if (c.id === "CAND-101") c.status = "Finalist";
-    if (c.id === "CAND-102") c.status = "Interviewing";
-    if (c.id === "CAND-103") c.status = "Review";
+    c.status = INITIAL_CANDIDATE_STATUSES.get(c.id) ?? "Review";
     c.shortlistStatus = "not_selected";
     c.application.status = "ranked";
   }
@@ -935,12 +1046,13 @@ export function candidatesWorkspaceContext(selectedId: string) {
         "review_offer",
         "propose_offer_for_human_review",
         "propose_shortlist_for_human_review",
-        "propose_export_for_human_review",
+        "read_interviews_and_availability",
+        "propose_interview_for_human_review",
       ],
       prohibitedAgentTransitions: CRITICAL_CANDIDATE_STATUSES,
     },
     rubricEvaluationTip:
-      "Usa la rúbrica: habilidades 45%, experiencia 25%, arquitectura/agentes 15%, liderazgo/comunicación 10% y presupuesto 5%. Los datos faltantes deben presentarse como desconocidos, no como puntos negativos.",
+      "Usa la rúbrica: habilidades 45%, experiencia 25%, arquitectura/agentes 15%, liderazgo/comunicación 10% y presupuesto 5%. Los datos faltantes deben presentarse como desconocidos, no como puntos negativos. La IA puede proponer entrevistas, nunca agendarlas ni enviar invitaciones.",
   };
 }
 

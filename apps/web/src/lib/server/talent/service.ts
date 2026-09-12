@@ -166,7 +166,7 @@ export class TalentService {
       throw new TalentError(`Sin perfil extraído: ${missing.map((a) => a.id).join(", ")}.`, 409);
     }
     const [top, ...rest] = rankings;
-    const byCriterion = (r: CandidateRanking) => Object.fromEntries(r.breakdown.map((b) => [b.criterion, b.score]));
+    const byCriterion = (r: CandidateRanking) => Object.fromEntries(r.breakdown.map((b) => [b.criterion, b.score])) as Record<string, number | null>;
     const topCriteria = byCriterion(top);
     return {
       targetRole: this.targetRole,
@@ -177,7 +177,7 @@ export class TalentService {
           applicationId: r.applicationId,
           candidateName: r.candidateName,
           scoreDelta: r.score - top.score,
-          byCriterion: Object.fromEntries(Object.keys(topCriteria).map((k) => [k, (c[k] ?? 0) - topCriteria[k]])),
+          byCriterion: Object.fromEntries(Object.keys(topCriteria).map((k) => [k, (c[k] ?? 0) - (topCriteria[k] ?? 0)])),
         };
       }),
     };

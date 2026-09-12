@@ -13,6 +13,7 @@ import {
   CandidateComparisonCard,
   OfferProposalCard,
 } from "./candidate-cards";
+import { InterviewApprovalGate } from "./workplace-followups";
 
 function ShieldLockIcon({ className }: { className?: string }) {
   return (
@@ -164,6 +165,50 @@ export function GenerativeUI() {
         </div>
       );
     },
+  });
+
+  /**
+   * The component is rendered only after `propose_interview` returned a real
+   * pending proposal ID. Its confirm action targets the protected server route;
+   * the chat has no equivalent scheduling tool.
+   */
+  useComponent({
+    name: "interview_proposal",
+    description:
+      "Muestra una propuesta de entrevista ya creada por propose_interview y la segunda compuerta HITL. Usalo únicamente con el ID devuelto por la herramienta; no inventes IDs ni afirmes que la entrevista ya está agendada.",
+    parameters: z.object({
+      id: z.string().min(1),
+      reportId: z.string().min(1),
+      candidateApplicationId: z.string().min(1),
+      candidateName: z.string().min(1),
+      type: z.enum(["screening", "technical", "culture", "panel", "final"]),
+      startsAt: z.string().datetime({ offset: true }),
+      durationMinutes: z.number().int().min(15).max(240),
+      timezone: z.string().min(1),
+      interviewers: z.array(z.string()),
+      modality: z.enum(["video", "phone", "onsite"]),
+      locationOrMeetingUrl: z.string().nullable(),
+      agenda: z.array(z.string()),
+      availabilityEvidence: z.array(z.object({
+        source: z.enum(["simulated_published_availability", "unknown"]),
+        description: z.string(), startsAt: z.string().optional(), endsAt: z.string().optional(), checkedAt: z.string(),
+      })),
+      conflicts: z.array(z.object({
+        type: z.enum(["candidate_unavailable", "interviewer_busy", "missing_data"]),
+        severity: z.enum(["warning", "blocking"]), description: z.string(),
+      })),
+      recommendationReason: z.string(),
+      missingData: z.array(z.string()),
+      createdAt: z.string(),
+    }),
+    render: (args) => (
+      <InterviewApprovalGate proposal={{
+        ...args,
+        status: "pending_human_approval",
+        createdBy: "ai",
+        auditTrail: [{ at: args.createdAt, actor: "ai", action: "proposed", detail: "Propuesta creada; pendiente de revisión humana." }],
+      }} />
+    ),
   });
 
   return null;

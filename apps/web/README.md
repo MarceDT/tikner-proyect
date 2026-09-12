@@ -74,6 +74,17 @@ The result should be a retrievable Ambiguous record with the same ID after refre
 
 The web chat does not receive raw Ambiguous write tools. It can propose a task and read or refresh existing records through frontend tools; the server writes only after the user clicks **Approve & save to Ambiguous**. Tool schemas come from the MCP server at write time, and returned links must come from Ambiguous rather than being invented.
 
+## Governed interviews
+
+TalentScore’s recruitment flow is **CV email → profile → explainable ranking → human shortlist → interview proposal → human confirmation → scheduled interview → export**.
+
+- The agent may list applications, rankings, risks, existing interviews and published availability, then call `propose_interview`.
+- It has no tool to confirm, re-schedule, cancel, invite, change a shortlist, extend an offer, hire or export.
+- The `interview_proposal` card requires a recruiter to check the candidate, date/time, IANA timezone, interviewers, modality/link and consent. Its confirm button calls `POST /api/talent/interviews/:id/confirm`, protected by the local same-origin route guard.
+- `GET /api/talent/interviews` is a read-only source for the calendar/Kanban. The present `simulated_local` scheduler persists a confirmed record in the configured database but creates no Google Calendar/Outlook event and sends no email.
+
+To enable the persistent interview tools locally, configure `DATABASE_URL`, run `npm run db:migrate` (which includes `003_interviews.sql`) and restart the web app. Without that database the app deliberately does not register the server-side Talent tools; it does not pretend an interview was scheduled.
+
 ## Give this to your coding agent
 
 ```text

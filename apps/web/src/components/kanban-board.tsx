@@ -6,6 +6,7 @@ import {
   TARGET_ROLE,
   requiresHumanApprovalForStatus,
   CRITICAL_CANDIDATE_STATUSES,
+  getBudgetAlignment,
 } from "@/lib/candidates";
 
 export interface KanbanBoardProps {
@@ -137,11 +138,13 @@ export function KanbanBoard({
         cand.currentTitle.toLowerCase().includes(searchTerm.toLowerCase()) ||
         cand.skills.some((s) => s.toLowerCase().includes(searchTerm.toLowerCase()));
 
-      const isWithinBudget = cand.salaryNumber <= TARGET_ROLE.budgetMaxSalary;
+      const budgetAlignment = getBudgetAlignment(cand);
+      const isWithinBudget = budgetAlignment === "within";
+      const isOverBudget = budgetAlignment === "over";
       const matchesBudget =
         budgetFilter === "all" ||
         (budgetFilter === "within" && isWithinBudget) ||
-        (budgetFilter === "over" && !isWithinBudget);
+        (budgetFilter === "over" && isOverBudget);
 
       return matchesSearch && matchesBudget;
     });
@@ -282,8 +285,10 @@ export function KanbanBoard({
                   </div>
                 ) : (
                   items.map((cand) => {
+                    const budgetAlignment = getBudgetAlignment(cand);
                     const budgetDiff = TARGET_ROLE.budgetMaxSalary - cand.salaryNumber;
-                    const isWithinBudget = budgetDiff >= 0;
+                    const isWithinBudget = budgetAlignment === "within";
+                    const isUnknownBudget = budgetAlignment === "unknown";
 
                     return (
                       <article
@@ -333,7 +338,9 @@ export function KanbanBoard({
                               isWithinBudget ? "is-ok" : "is-over"
                             }`}
                           >
-                            {isWithinBudget ? (
+                            {isUnknownBudget ? (
+                              <>Desconocido</>
+                            ) : isWithinBudget ? (
                               <>
                                 <CheckIcon /> -$
                                 {Math.abs(budgetDiff).toLocaleString()}

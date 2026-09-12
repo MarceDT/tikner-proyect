@@ -33,8 +33,9 @@ import {
 } from "@/lib/server/intelligence-transport";
 
 /**
- * Stable Learning Container ID for TalentScore recruiting workflows.
- * Groups candidate evaluation and offer approval interactions for continuous improvement.
+ * Local identifier used only by the demo Inspector fallback below. It is not
+ * sent to Intelligence: a Learning Container must first exist in the selected
+ * Intelligence project before a runtime can assign Threads to it.
  */
 const intelligenceConfiguration = resolveIntelligenceTransportConfiguration();
 
@@ -47,8 +48,6 @@ const intelligence = intelligenceConfiguration.enabled
             wsUrl: intelligenceConfiguration.wsUrl,
           }
         : {}),
-      getLearningContainerId: ({ agentId }) =>
-        agentId === "default" || !agentId ? LEARNING_CONTAINER_ID : undefined,
     })
   : undefined;
 

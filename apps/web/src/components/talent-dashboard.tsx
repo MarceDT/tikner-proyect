@@ -5,6 +5,7 @@ import {
   Candidate,
   TARGET_ROLE,
   getRankedCandidates,
+  getBudgetAlignment,
 } from "@/lib/candidates";
 
 export interface TalentDashboardProps {
@@ -70,11 +71,13 @@ export function TalentDashboard({
   const topCandidate = candidates.find((c) => c.id === "CAND-101") ?? candidates[0];
 
   const withinBudgetCount = candidates.filter(
-    (c) => c.salaryNumber <= TARGET_ROLE.budgetMaxSalary
+    (c) => getBudgetAlignment(c) === "within"
   ).length;
 
+  const unknownBudgetCount = candidates.filter((c) => getBudgetAlignment(c) === "unknown").length;
+
   const overBudgetCandidate = candidates.find(
-    (c) => c.salaryNumber > TARGET_ROLE.budgetMaxSalary
+    (c) => getBudgetAlignment(c) === "over"
   );
 
   return (
@@ -85,7 +88,7 @@ export function TalentDashboard({
           <span className="ts-dash-kpi-label">Pipeline Activo</span>
           <div className="ts-dash-kpi-val-row">
             <span className="ts-dash-kpi-val">{candidates.length}</span>
-            <span className="ts-dash-kpi-badge">3 evaluados</span>
+            <span className="ts-dash-kpi-badge">{candidates.length} evaluados</span>
           </div>
           <span className="ts-dash-kpi-subtext">Postulaciones extraídas por LLM</span>
         </div>
@@ -103,9 +106,9 @@ export function TalentDashboard({
           <span className="ts-dash-kpi-label">Alineación Presupuestaria</span>
           <div className="ts-dash-kpi-val-row">
             <span className="ts-dash-kpi-val">{withinBudgetCount} / {candidates.length}</span>
-            <span className="ts-dash-kpi-badge ts-badge-emerald">67% en rango</span>
+            <span className="ts-dash-kpi-badge ts-badge-emerald">{unknownBudgetCount ? `${unknownBudgetCount} por confirmar` : "verificado"}</span>
           </div>
-          <span className="ts-dash-kpi-subtext">1 candidato supera el límite</span>
+          <span className="ts-dash-kpi-subtext">{overBudgetCandidate ? "1 candidato supera el límite" : "Sin excesos verificados"}</span>
         </div>
 
         <div className="ts-dash-kpi-card">
@@ -173,8 +176,10 @@ export function TalentDashboard({
 
           <div className="ts-dash-budget-list">
             {candidates.map((cand) => {
+              const alignment = getBudgetAlignment(cand);
               const diff = TARGET_ROLE.budgetMaxSalary - cand.salaryNumber;
-              const isOver = diff < 0;
+              const isOver = alignment === "over";
+              const isUnknown = alignment === "unknown";
 
               return (
                 <div
@@ -199,8 +204,10 @@ export function TalentDashboard({
 
                   <div className="ts-dash-budget-figures">
                     <span className="ts-dash-salary">{cand.salaryExpectation}</span>
-                    <span className={`ts-budget-pill ${isOver ? "ts-pill-danger" : "ts-pill-success"}`}>
-                      {isOver ? (
+                    <span className={`ts-budget-pill ${isUnknown || isOver ? "ts-pill-danger" : "ts-pill-success"}`}>
+                      {isUnknown ? (
+                        <>Desconocido</>
+                      ) : isOver ? (
                         <>
                           <AlertTriangleIcon /> +${Math.abs(diff).toLocaleString()}
                         </>

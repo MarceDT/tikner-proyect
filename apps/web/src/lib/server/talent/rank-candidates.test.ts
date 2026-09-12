@@ -52,18 +52,19 @@ test("ordena de mayor a menor score y asigna rank consecutivo", () => {
   assert.equal(first.rank, 1);
   assert.equal(second.rank, 2);
   assert.ok(first.score > second.score);
-  assert.equal(first.breakdown.length, 4);
+  assert.equal(first.breakdown.length, 5);
 });
 
-test("salario ausente puntúa 0 en presupuesto y se declara como dato faltante y riesgo", () => {
+test("salario ausente queda desconocido y se declara como dato faltante, no como penalización", () => {
   const [r] = rankApplications(
     [app("A", profile({ salaryExpectation: { amount: null, currency: null, raw: "a convenir" }, missingFields: ["salaryExpectation"] }))],
     target,
   );
-  const budget = r.breakdown.find((b) => b.criterion === "budget")!;
-  assert.equal(budget.score, 0);
+  const budget = r.breakdown.find((b) => b.criterion === "budgetAlignment")!;
+  assert.equal(budget.score, null);
+  assert.equal(budget.status, "unknown");
   assert.ok(r.missingData.some((m) => /salar/i.test(m)));
-  assert.ok(r.risks.some((m) => /salar/i.test(m)));
+  assert.ok(!r.risks.some((m) => /salar/i.test(m)));
 });
 
 test("salario por encima del presupuesto genera riesgo con el monto de exceso", () => {
@@ -71,8 +72,8 @@ test("salario por encima del presupuesto genera riesgo con el monto de exceso", 
     [app("A", profile({ salaryExpectation: { amount: 130000, currency: "USD", raw: "USD 130.000" } }))],
     target,
   );
-  const budget = r.breakdown.find((b) => b.criterion === "budget")!;
-  assert.ok(budget.score < 50);
+  const budget = r.breakdown.find((b) => b.criterion === "budgetAlignment")!;
+  assert.ok((budget.score ?? 100) < 50);
   assert.ok(r.risks.some((m) => m.includes("35")), `esperaba el exceso de 35k en riesgos: ${r.risks.join(" | ")}`);
 });
 
@@ -83,7 +84,7 @@ test("las postulaciones sin perfil no se rankean", () => {
 
 test("skills faltantes quedan explicadas en el reasoning", () => {
   const [r] = rankApplications([app("A", profile({ skills: ["Go", "Rust"] }))], target);
-  const skills = r.breakdown.find((b) => b.criterion === "skills")!;
-  assert.ok(skills.score < 30);
+  const skills = r.breakdown.find((b) => b.criterion === "requiredSkills")!;
+  assert.ok((skills.score ?? 100) < 30);
   assert.match(skills.reasoning, /Next\.js/);
 });

@@ -15,6 +15,7 @@ import {
   findCandidate,
   TARGET_ROLE,
   Candidate,
+  getBudgetAlignment,
 } from "@/lib/candidates";
 
 /* ── Clean Corporate SVG Icons ───────────────────────────────────────────── */
@@ -318,8 +319,10 @@ export default function Home() {
   );
 
   // Budget calculations
+  const budgetAlignment = getBudgetAlignment(candidate);
   const budgetDiff = TARGET_ROLE.budgetMaxSalary - candidate.salaryNumber;
-  const isWithinBudget = budgetDiff >= 0;
+  const isWithinBudget = budgetAlignment === "within";
+  const budgetUnknown = budgetAlignment === "unknown";
 
   return (
     <>
@@ -752,10 +755,14 @@ export default function Home() {
                   </blockquote>
 
                   {/* Salary vs Budget Indicator */}
-                  <div className={`ts-budget-banner ${isWithinBudget ? "is-ok" : "is-over"}`}>
+                  <div className={`ts-budget-banner ${budgetUnknown ? "is-over" : isWithinBudget ? "is-ok" : "is-over"}`}>
                     <div className="ts-budget-info">
                       <span className="ts-budget-title">
-                        {isWithinBudget ? (
+                        {budgetUnknown ? (
+                          <>
+                            <AlertIcon /> Pretensión Salarial Desconocida
+                          </>
+                        ) : isWithinBudget ? (
                           <>
                             <CheckIcon /> Pretensión Salarial en Rango Presupuestario
                           </>
@@ -771,7 +778,9 @@ export default function Home() {
                       </span>
                     </div>
                     <span className="ts-budget-pill-large">
-                      {isWithinBudget
+                      {budgetUnknown
+                        ? "Requiere confirmación humana"
+                        : isWithinBudget
                         ? `-$${Math.abs(budgetDiff).toLocaleString()} margen disponible`
                         : `+$${Math.abs(budgetDiff).toLocaleString()} por encima del tope`}
                     </span>

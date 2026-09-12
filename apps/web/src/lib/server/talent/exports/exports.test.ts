@@ -15,26 +15,30 @@ const report: SelectionReport = {
     {
       applicationId: "APP-1", candidateName: "Valentina Ferreyra — “lead”", rank: 1, score: 91,
       breakdown: [
-        { criterion: "skills", weight: 40, score: 100, reasoning: "Cubre 2/2", evidence: ["TypeScript, Next.js"] },
-        { criterion: "experience", weight: 25, score: 100, reasoning: "8 años", evidence: [] },
-        { criterion: "budget", weight: 25, score: 100, reasoning: "Dentro", evidence: [] },
-        { criterion: "completeness", weight: 10, score: 80, reasoning: "ok", evidence: [] },
+        { criterion: "requiredSkills", weight: 45, score: 100, status: "assessed", reasoning: "Cubre 2/2", evidence: ["TypeScript, Next.js"] },
+        { criterion: "relevantExperience", weight: 25, score: 100, status: "assessed", reasoning: "8 años", evidence: [] },
+        { criterion: "architectureAndAgents", weight: 15, score: 80, status: "assessed", reasoning: "Arquitectura", evidence: [] },
+        { criterion: "leadershipAndCommunication", weight: 10, score: null, status: "unknown", reasoning: "Desconocido", evidence: [] },
+        { criterion: "budgetAlignment", weight: 5, score: 100, status: "assessed", reasoning: "Dentro", evidence: [] },
       ],
-      risks: [], missingData: ["Campo sin dato en el CV: contact.phone."],
+      evaluatedWeight: 90, unknownWeight: 10, risks: [], missingData: ["Campo sin dato en el CV: contact.phone."],
     },
     {
       applicationId: "APP-2", candidateName: "Tomás Ibarra", rank: 2, score: 40,
       breakdown: [
-        { criterion: "skills", weight: 40, score: 40, reasoning: "Faltan: Next.js", evidence: [] },
-        { criterion: "experience", weight: 25, score: 100, reasoning: "12 años", evidence: [] },
-        { criterion: "budget", weight: 25, score: 8, reasoning: "Excede", evidence: [] },
-        { criterion: "completeness", weight: 10, score: 90, reasoning: "ok", evidence: [] },
+        { criterion: "requiredSkills", weight: 45, score: 40, status: "assessed", reasoning: "Faltan: Next.js", evidence: [] },
+        { criterion: "relevantExperience", weight: 25, score: 100, status: "assessed", reasoning: "12 años", evidence: [] },
+        { criterion: "architectureAndAgents", weight: 15, score: 40, status: "assessed", reasoning: "Arquitectura", evidence: [] },
+        { criterion: "leadershipAndCommunication", weight: 10, score: 90, status: "assessed", reasoning: "ok", evidence: [] },
+        { criterion: "budgetAlignment", weight: 5, score: 8, status: "assessed", reasoning: "Excede", evidence: [] },
       ],
-      risks: ["Pretensión USD 35k por encima del presupuesto"], missingData: [],
+      evaluatedWeight: 100, unknownWeight: 0, risks: ["Pretensión USD 35k por encima del presupuesto"], missingData: [],
     },
   ],
   shortlistApplicationIds: ["APP-1"],
   approval: { status: "approved", decidedBy: "Marcelo", decidedAt: "2026-09-12T12:30:00.000Z", note: "ok" },
+  interviewProposalIds: [],
+  plannedInterviews: [],
 };
 
 test("el PDF empieza con la firma %PDF", async () => {

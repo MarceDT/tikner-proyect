@@ -207,13 +207,13 @@ export interface Interview {
 /** Every field must be visibly reviewed by a person before scheduling. */
 export interface InterviewHumanApproval {
   approvedBy: string;
-  consentConfirmed: true;
+  consentConfirmed: boolean;
   reviewed: {
-    candidate: true;
-    dateAndTime: true;
-    timezone: true;
-    interviewers: true;
-    modality: true;
+    candidate: boolean;
+    dateAndTime: boolean;
+    timezone: boolean;
+    interviewers: boolean;
+    modality: boolean;
   };
 }
 

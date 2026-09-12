@@ -17,6 +17,9 @@ import {
   TARGET_ROLE,
   type CandidateOffer,
   type ExportFormat,
+  type InterviewHumanApproval,
+  type InterviewProposal,
+  type InterviewScheduleResult,
   type SelectionReport,
   approveSelectionReport,
   getSelectionReport,
@@ -1030,6 +1033,163 @@ export function SelectionApprovalGate({
 
       {error && <p role="alert" className="ck-error">{error}</p>}
       {notice && <p role="status" className="ck-notice">{notice}</p>}
+    </section>
+  );
+}
+
+/**
+ * Second visible HITL boundary: the agent may create `proposal`, but only this
+ * recruiter action may call the protected confirmation endpoint. It does not
+ * expose re-schedule, cancel or invitation actions.
+ */
+export interface InterviewApprovalGateProps {
+  proposal: InterviewProposal;
+  onConfirm?: (
+    proposalId: string,
+    approval: InterviewHumanApproval,
+  ) => Promise<InterviewScheduleResult>;
+  onReject?: (proposalId: string, reason: string) => Promise<InterviewScheduleResult>;
+}
+
+const reviewedFields = [
+  ["candidate", "Candidato/a"],
+  ["dateAndTime", "Fecha y hora"],
+  ["timezone", "Zona horaria"],
+  ["interviewers", "Entrevistadores"],
+  ["modality", "Modalidad/enlace"],
+] as const;
+
+export function InterviewApprovalGate({ proposal, onConfirm, onReject }: InterviewApprovalGateProps) {
+  const [reviewed, setReviewed] = useState({
+    candidate: false,
+    dateAndTime: false,
+    timezone: false,
+    interviewers: false,
+    modality: false,
+  });
+  const [consent, setConsent] = useState(false);
+  const [reason, setReason] = useState("");
+  const [result, setResult] = useState<InterviewScheduleResult | null>(null);
+  const [error, setError] = useState("");
+  const [busy, setBusy] = useState(false);
+  const isPending = proposal.status === "pending_human_approval" && !result;
+  const allReviewed = Object.values(reviewed).every(Boolean) && consent;
+
+  async function defaultConfirm(approval: InterviewHumanApproval) {
+    const response = await fetch(`/api/talent/interviews/${encodeURIComponent(proposal.id)}/confirm`, {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify(approval),
+    });
+    const payload = await response.json() as InterviewScheduleResult | { error?: string };
+    if (!response.ok) throw new Error("error" in payload ? payload.error : "No se pudo confirmar la entrevista.");
+    return payload as InterviewScheduleResult;
+  }
+
+  async function defaultReject(rejectionReason: string) {
+    const response = await fetch(`/api/talent/interviews/${encodeURIComponent(proposal.id)}/reject`, {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify({ rejectedBy: "Recruiting Lead (Marcelo)", reason: rejectionReason }),
+    });
+    const payload = await response.json() as InterviewScheduleResult | { error?: string };
+    if (!response.ok) throw new Error("error" in payload ? payload.error : "No se pudo rechazar la propuesta.");
+    return payload as InterviewScheduleResult;
+  }
+
+  async function confirm() {
+    if (!allReviewed || !isPending) return;
+    setBusy(true);
+    setError("");
+    try {
+      const approval: InterviewHumanApproval = {
+        approvedBy: "Recruiting Lead (Marcelo)",
+        consentConfirmed: true,
+        reviewed: {
+          candidate: true,
+          dateAndTime: true,
+          timezone: true,
+          interviewers: true,
+          modality: true,
+        },
+      };
+      setResult(onConfirm
+        ? await onConfirm(proposal.id, approval)
+        : await defaultConfirm(approval));
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "No se pudo confirmar la entrevista.");
+    } finally {
+      setBusy(false);
+    }
+  }
+
+  async function reject() {
+    if (!reason.trim() || !isPending) return;
+    setBusy(true);
+    setError("");
+    try {
+      setResult(onReject
+        ? await onReject(proposal.id, reason.trim())
+        : await defaultReject(reason.trim()));
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "No se pudo rechazar la propuesta.");
+    } finally {
+      setBusy(false);
+    }
+  }
+
+  return (
+    <section className="ck-followups" aria-labelledby={`interview-approval-${proposal.id}`}>
+      <header className="ck-followups-header">
+        <div>
+          <h2 id={`interview-approval-${proposal.id}`}>Revisión y agenda de entrevista</h2>
+          <p className="ck-local-note">
+            Propuesta de IA pendiente de confirmación humana. Proveedor: <strong>demo local simulado</strong>; no se enviarán invitaciones.
+          </p>
+        </div>
+        <span className="ck-tag">{proposal.status.replaceAll("_", " ")}</span>
+      </header>
+
+      <div className="ck-approval">
+        <p><strong>{proposal.candidateName}</strong> · {proposal.type} · {new Date(proposal.startsAt).toLocaleString()} ({proposal.timezone})</p>
+        <p>Duración: {proposal.durationMinutes} min · Modalidad: {proposal.modality}{proposal.locationOrMeetingUrl ? ` · ${proposal.locationOrMeetingUrl}` : " · enlace/lugar pendiente"}</p>
+        <p>Entrevistadores: {proposal.interviewers.length ? proposal.interviewers.join(", ") : "Desconocidos"}</p>
+        <p className="ck-local-note"><strong>Motivo:</strong> {proposal.recommendationReason}</p>
+        {proposal.conflicts.length > 0 && (
+          <ul className="ck-task-list">
+            {proposal.conflicts.map((conflict, index) => <li key={`${conflict.type}-${index}`}><span aria-hidden="true">⚠</span><div>{conflict.description}</div></li>)}
+          </ul>
+        )}
+        {proposal.missingData.length > 0 && <p className="ck-local-note">Desconocido: {proposal.missingData.join(" ")}</p>}
+
+        {isPending && (
+          <>
+            <fieldset style={{ border: 0, padding: 0, margin: "14px 0" }}>
+              <legend style={{ fontSize: "13px", fontWeight: 600 }}>Confirmo haber revisado:</legend>
+              {reviewedFields.map(([key, label]) => (
+                <label key={key} style={{ display: "block", marginTop: 6 }}>
+                  <input type="checkbox" checked={reviewed[key]} onChange={(event) => setReviewed((current) => ({ ...current, [key]: event.target.checked }))} /> {label}
+                </label>
+              ))}
+              <label style={{ display: "block", marginTop: 8 }}>
+                <input type="checkbox" checked={consent} onChange={(event) => setConsent(event.target.checked)} /> Tengo consentimiento para confirmar esta entrevista.
+              </label>
+            </fieldset>
+            <div className="ck-approval-actions">
+              <button type="button" className="ck-btn ck-btn--primary" disabled={busy || !allReviewed || proposal.conflicts.some((conflict) => conflict.severity === "blocking")} onClick={confirm}>
+                {busy ? "Confirmando…" : "Confirmar y agendar entrevista"}
+              </button>
+            </div>
+            <label htmlFor={`reject-interview-${proposal.id}`}>Motivo para rechazar/devolver la propuesta</label>
+            <textarea id={`reject-interview-${proposal.id}`} value={reason} onChange={(event) => setReason(event.target.value)} maxLength={1000} rows={2} />
+            <button type="button" className="ck-btn" disabled={busy || !reason.trim()} onClick={reject}>Devolver propuesta</button>
+          </>
+        )}
+        {result?.status === "scheduled" && <p role="status" className="ck-notice">Entrevista confirmada por una persona. ID: {result.interviewId}. No se envió ninguna invitación externa.</p>}
+        {result?.status === "rejected" && <p role="status" className="ck-notice">La propuesta fue devuelta; no se creó ninguna agenda.</p>}
+        {result?.status === "provider_error" && <p role="alert" className="ck-error">El proveedor local informó: {result.providerError ?? "error desconocido"}.</p>}
+      </div>
+      {error && <p role="alert" className="ck-error">{error}</p>}
     </section>
   );
 }

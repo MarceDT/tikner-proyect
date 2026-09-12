@@ -47,7 +47,7 @@ test("una extracción fallida deja la postulación en 'failed' y no corta el lot
   const svc = make(flaky);
   const r = await svc.syncInbox();
   assert.equal(r.failed, 1);
-  assert.equal(r.created, 2);
+  assert.equal(r.created, DEMO_INBOX_MESSAGES.length - 1);
   const failed = r.applications.find((a) => a.status === "failed")!;
   assert.match(failed.extractionError!, /timeout/);
   await assert.rejects(svc.evaluate(failed.id), /no tiene perfil/);
@@ -61,13 +61,13 @@ test("las postulaciones 'failed' se reintentan en el siguiente sync sin duplicar
   };
   const svc = make(extractor);
   const first = await svc.syncInbox();
-  assert.equal(first.failed, 3);
+  assert.equal(first.failed, DEMO_INBOX_MESSAGES.length);
   fail = false;
   const second = await svc.syncInbox();
-  assert.equal(second.created, 3);
+  assert.equal(second.created, DEMO_INBOX_MESSAGES.length);
   assert.equal(second.failed, 0);
   const apps = await svc.listApplications();
-  assert.equal(apps.length, 3);
+  assert.equal(apps.length, DEMO_INBOX_MESSAGES.length);
   assert.ok(apps.every((a) => a.status === "extracted" && !a.extractionError));
 });
 
@@ -76,9 +76,9 @@ test("compare devuelve rankings ordenados y deltas contra el primero", async () 
   const { applications } = await svc.syncInbox();
   const ids = applications.map((a) => a.id);
   const cmp = await svc.compare(ids);
-  assert.equal(cmp.rankings.length, 3);
+  assert.equal(cmp.rankings.length, DEMO_INBOX_MESSAGES.length);
   assert.equal(cmp.rankings[0].rank, 1);
-  assert.equal(cmp.deltas.length, 2);
+  assert.equal(cmp.deltas.length, DEMO_INBOX_MESSAGES.length - 1);
   assert.ok(cmp.deltas.every((d) => d.scoreDelta <= 0));
   await assert.rejects(svc.compare([ids[0]]), /al menos dos/);
 });

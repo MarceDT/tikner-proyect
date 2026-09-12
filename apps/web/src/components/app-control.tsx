@@ -36,9 +36,9 @@ export function AppControl({
     {
       name: "select_candidate",
       description:
-        "Abre y selecciona un candidato en el dashboard para que el usuario lo vea en la pantalla central. Usa uno de los IDs disponibles: CAND-101 (Sofía Albarracín), CAND-102 (Lucas Varela), CAND-103 (Elena Rostova).",
+        "Abre y selecciona un candidato en el dashboard para que el usuario lo vea en la pantalla central. IDs disponibles: CAND-101 Sofía, CAND-102 Lucas, CAND-103 Elena, CAND-104 Valentina, CAND-105 Camila y CAND-106 Mateo.",
       parameters: z.object({
-        candidateId: z.string().describe("ID del candidato (ej: CAND-101, CAND-102, CAND-103)"),
+        candidateId: z.string().describe("ID del candidato (ej: CAND-101 a CAND-106)"),
       }),
       handler: async ({ candidateId }) => {
         try {

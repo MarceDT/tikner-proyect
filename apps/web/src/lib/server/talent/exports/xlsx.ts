@@ -9,7 +9,7 @@ export async function renderXlsx(report: SelectionReport): Promise<Buffer> {
   wb.creator = "TalentScore";
   wb.created = new Date(report.generatedAt);
 
-  const criteria = report.rankings[0]?.breakdown.map((b) => b.criterion) ?? ["skills", "experience", "budget", "completeness"];
+  const criteria = report.rankings[0]?.breakdown.map((b) => b.criterion) ?? ["requiredSkills", "relevantExperience", "architectureAndAgents", "leadershipAndCommunication", "budgetAlignment"];
   const ws = wb.addWorksheet(XLSX_SHEET_NAME);
   ws.columns = [
     { header: "Rank", key: "rank", width: 6 },
@@ -34,7 +34,7 @@ export async function renderXlsx(report: SelectionReport): Promise<Buffer> {
       missing: r.missingData.join(" | "),
     };
     for (const b of r.breakdown) {
-      row[`${b.criterion}_score`] = b.score;
+      row[`${b.criterion}_score`] = b.score ?? "Desconocido";
       row[`${b.criterion}_reasoning`] = b.reasoning;
     }
     ws.addRow(row);

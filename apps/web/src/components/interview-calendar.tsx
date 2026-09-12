@@ -155,15 +155,9 @@ export function InterviewCalendar({
           </p>
         </div>
 
-        <div className="ts-cal-actions">
-          <button
-            type="button"
-            className="ts-btn ts-btn-primary"
-            onClick={() => setIsSchedulingOpen(true)}
-          >
-            <PlusIcon /> Programar Entrevista
-          </button>
-        </div>
+        <p className="ck-local-note" style={{ margin: 0 }}>
+          Solo lectura. La confirmación se realiza desde la propuesta HITL del agente.
+        </p>
       </div>
 
       {/* ── Tabs & Stats Summary ───────────────────────────────────────────── */}
@@ -217,13 +211,7 @@ export function InterviewCalendar({
                 persistencia de Marcelo y los endpoints de backend de Amin.
               </p>
               <div className="ts-cal-empty-actions">
-                <button
-                  type="button"
-                  className="ts-btn ts-btn-primary"
-                  onClick={() => setIsSchedulingOpen(true)}
-                >
-                  <PlusIcon /> Programar Primera Entrevista
-                </button>
+                <p className="ck-local-note">Pedí una propuesta al agente y revisala antes de confirmar la agenda.</p>
               </div>
             </div>
           ) : (
@@ -281,13 +269,6 @@ export function InterviewCalendar({
                         >
                           Ver Perfil
                         </button>
-                        <button
-                          type="button"
-                          className="ts-btn ts-btn-outline ts-btn-danger"
-                          onClick={() => handleRemoveInterview(intItem.id)}
-                        >
-                          Cancelar
-                        </button>
                       </div>
                     </div>
                   </div>
@@ -344,8 +325,8 @@ export function InterviewCalendar({
         </div>
       )}
 
-      {/* ── Modal to Schedule an Interview ─────────────────────────────────── */}
-      {isSchedulingOpen && (
+      {/* Legacy local form intentionally disabled: it bypassed the protected HITL route. */}
+      {false && isSchedulingOpen && (
         <div className="ts-modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="schedule-title">
           <div className="ts-modal-box">
             <div className="ts-modal-header">

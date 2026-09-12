@@ -31,6 +31,7 @@ test("reportes y eventos de exportación por reporte", async () => {
     id: "REP-1", roleTitle: "r", targetRole: { title: "r", department: "d", budgetMaxSalary: 1, currency: "USD", requiredSkills: [] },
     topN: 1, generatedAt: "2026-09-12T00:00:00.000Z", requestedBy: "amin", rankings: [], shortlistApplicationIds: [],
     approval: { status: "pending" },
+    interviewProposalIds: [], plannedInterviews: [],
   };
   await store.saveReport(report);
   await store.recordExport({ id: "EXP-1", reportId: "REP-1", format: "pdf", fileName: "a.pdf", sizeBytes: 10, requestedBy: "amin", createdAt: "2026-09-12T00:00:00.000Z" });

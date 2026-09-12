@@ -17,7 +17,7 @@ function breakdownTable(r: CandidateRanking): Table {
   const rows = r.breakdown.map(
     (b) =>
       new TableRow({
-        children: [b.criterion, `${b.weight}%`, `${b.score}/100`, b.reasoning].map(
+        children: [b.criterion, `${b.weight}%`, b.score === null ? "Desconocido" : `${b.score}/100`, b.reasoning].map(
           (v) => new TableCell({ children: [p(v)] }),
         ),
       }),
@@ -72,7 +72,7 @@ export async function renderDocx(report: SelectionReport): Promise<Buffer> {
             .map((r) => bullet(`#${r.rank} ${r.candidateName} — ${r.score}/100`)),
           new Paragraph({ text: "Candidatos", heading: HeadingLevel.HEADING_1 }),
           ...report.rankings.flatMap((r) => candidateSection(r, report.shortlistApplicationIds.includes(r.applicationId))),
-          p("Puntajes calculados con una rúbrica determinista sobre datos extraídos del CV. Los datos ausentes puntúan 0 y no se estiman.", { italics: true, size: 18 }),
+          p("Puntajes calculados con una rúbrica determinista sobre datos extraídos del CV. Los datos ausentes se muestran como desconocidos y no se estiman.", { italics: true, size: 18 }),
         ],
       },
     ],
