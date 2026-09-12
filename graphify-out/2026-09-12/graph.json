@@ -173,19 +173,6 @@
       "source_location": "L24"
     },
     {
-      "id": "apps_channel_src_agent_channelagentfactory",
-      "label": "ChannelAgentFactory",
-      "_callable": true,
-      "_callable_class": true,
-      "_origin": "ast",
-      "community": 10,
-      "community_name": "agent-factory.test.tsx",
-      "file_type": "code",
-      "norm_label": "channelagentfactory",
-      "source_file": "apps/channel/src/agent.ts",
-      "source_location": "L6"
-    },
-    {
       "id": "apps_channel_src_agent_channelrunagent",
       "label": "ChannelRunAgent",
       "_callable": true,
@@ -561,6 +548,19 @@
       "norm_label": "transaction",
       "source_file": "apps/mobile/src/finance.ts",
       "source_location": "L19"
+    },
+    {
+      "id": "apps_channel_src_agent_channelagentfactory",
+      "label": "ChannelAgentFactory",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast",
+      "community": 53,
+      "community_name": "index.ts",
+      "file_type": "code",
+      "norm_label": "channelagentfactory",
+      "source_file": "apps/channel/src/agent.ts",
+      "source_location": "L6"
     },
     {
       "id": "apps_web_src_app_voice_page_status",
@@ -1419,18 +1419,6 @@
       "source_location": "L257"
     },
     {
-      "id": "apps_channel_src_agent_makechannelagent",
-      "label": "makeChannelAgent()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 10,
-      "community_name": "agent-factory.test.tsx",
-      "file_type": "code",
-      "norm_label": "makechannelagent()",
-      "source_file": "apps/channel/src/agent.ts",
-      "source_location": "L83"
-    },
-    {
       "id": "apps_web_src_app_layout_rootlayout",
       "label": "RootLayout()",
       "_callable": true,
@@ -1645,6 +1633,30 @@
       "norm_label": "stubcontext()",
       "source_file": "apps/channel/src/tools.test.tsx",
       "source_location": "L14"
+    },
+    {
+      "id": "apps_web_src_app_api_search_route_post",
+      "label": "POST()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 2,
+      "community_name": "channel.tsx",
+      "file_type": "code",
+      "norm_label": "post()",
+      "source_file": "apps/web/src/app/api/search/route.ts",
+      "source_location": "L10"
+    },
+    {
+      "id": "packages_agent_core_src_capabilities_search_searchweb",
+      "label": "searchWeb()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 2,
+      "community_name": "channel.tsx",
+      "file_type": "code",
+      "norm_label": "searchweb()",
+      "source_file": "packages/agent-core/src/capabilities/search.ts",
+      "source_location": "L23"
     },
     {
       "id": "apps_web_src_app_page_alerticon",
@@ -2031,6 +2043,18 @@
       "source_location": "L11"
     },
     {
+      "id": "apps_mobile_app_app",
+      "label": "App()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 3,
+      "community_name": "finance.ts",
+      "file_type": "code",
+      "norm_label": "app()",
+      "source_file": "apps/mobile/App.tsx",
+      "source_location": "L15"
+    },
+    {
       "id": "apps_mobile_src_assistant_links_issafeassistantlink",
       "label": "isSafeAssistantLink()",
       "_callable": true,
@@ -2199,16 +2223,16 @@
       "source_location": "L10"
     },
     {
-      "id": "apps_mobile_app_app",
-      "label": "App()",
+      "id": "apps_channel_src_agent_makechannelagent",
+      "label": "makeChannelAgent()",
       "_callable": true,
       "_origin": "ast",
-      "community": 4,
-      "community_name": "mobile/package.json",
+      "community": 53,
+      "community_name": "index.ts",
       "file_type": "code",
-      "norm_label": "app()",
-      "source_file": "apps/mobile/App.tsx",
-      "source_location": "L15"
+      "norm_label": "makechannelagent()",
+      "source_file": "apps/channel/src/agent.ts",
+      "source_location": "L83"
     },
     {
       "id": "apps_web_src_app_api_copilotkit_path_route_createagentinstance",
@@ -2232,7 +2256,7 @@
       "file_type": "code",
       "norm_label": "createlocallearningsnapshot()",
       "source_file": "apps/web/src/app/api/copilotkit/[[...path]]/route.ts",
-      "source_location": "L88"
+      "source_location": "L90"
     },
     {
       "id": "apps_web_src_app_api_copilotkit_path_route_get",
@@ -2244,7 +2268,7 @@
       "file_type": "code",
       "norm_label": "get()",
       "source_file": "apps/web/src/app/api/copilotkit/[[...path]]/route.ts",
-      "source_location": "L154"
+      "source_location": "L156"
     },
     {
       "id": "apps_web_src_app_api_copilotkit_path_route_post",
@@ -2256,7 +2280,7 @@
       "file_type": "code",
       "norm_label": "post()",
       "source_file": "apps/web/src/app/api/copilotkit/[[...path]]/route.ts",
-      "source_location": "L183"
+      "source_location": "L185"
     },
     {
       "id": "apps_web_src_app_api_realtime_token_route_post",
@@ -2268,18 +2292,6 @@
       "file_type": "code",
       "norm_label": "post()",
       "source_file": "apps/web/src/app/api/realtime-token/route.ts",
-      "source_location": "L10"
-    },
-    {
-      "id": "apps_web_src_app_api_search_route_post",
-      "label": "POST()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 53,
-      "community_name": "index.ts",
-      "file_type": "code",
-      "norm_label": "post()",
-      "source_file": "apps/web/src/app/api/search/route.ts",
       "source_location": "L10"
     },
     {
@@ -2317,18 +2329,6 @@
       "norm_label": "issearchconfigured()",
       "source_file": "packages/agent-core/src/capabilities/search.ts",
       "source_location": "L19"
-    },
-    {
-      "id": "packages_agent_core_src_capabilities_search_searchweb",
-      "label": "searchWeb()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 53,
-      "community_name": "index.ts",
-      "file_type": "code",
-      "norm_label": "searchweb()",
-      "source_file": "packages/agent-core/src/capabilities/search.ts",
-      "source_location": "L23"
     },
     {
       "id": "packages_agent_core_src_capabilities_workplace_isworkplaceconfigured",
@@ -2790,17 +2790,6 @@
       "file_type": "code",
       "norm_label": "generative-ui.tsx",
       "source_file": "apps/web/src/components/generative-ui.tsx",
-      "source_location": "L1"
-    },
-    {
-      "id": "apps_channel_src_agent",
-      "label": "channel/src/agent.ts",
-      "_origin": "ast",
-      "community": 10,
-      "community_name": "agent-factory.test.tsx",
-      "file_type": "code",
-      "norm_label": "channel/src/agent.ts",
-      "source_file": "apps/channel/src/agent.ts",
       "source_location": "L1"
     },
     {
@@ -4326,6 +4315,18 @@
       "source_location": "L1"
     },
     {
+      "id": "dev_docs_auth0_readme",
+      "label": "auth0/README.md",
+      "_origin": "ast",
+      "community": 19,
+      "community_name": "README.md",
+      "file_type": "document",
+      "node_kind": "page",
+      "norm_label": "auth0/readme.md",
+      "source_file": "dev-docs/auth0/README.md",
+      "source_location": "L1"
+    },
+    {
       "id": "dev_docs_channels_sdk_walkthrough_readme",
       "label": "channels-sdk-walkthrough/README.md",
       "_origin": "ast",
@@ -4347,6 +4348,18 @@
       "node_kind": "page",
       "norm_label": "demo-prompts.md",
       "source_file": "dev-docs/demo-prompts.md",
+      "source_location": "L1"
+    },
+    {
+      "id": "dev_docs_deploy",
+      "label": "deploy.md",
+      "_origin": "ast",
+      "community": 19,
+      "community_name": "README.md",
+      "file_type": "document",
+      "node_kind": "page",
+      "norm_label": "deploy.md",
+      "source_file": "dev-docs/deploy.md",
       "source_location": "L1"
     },
     {
@@ -4398,30 +4411,6 @@
       "source_location": "L1"
     },
     {
-      "id": "dev_docs_sponsors",
-      "label": "sponsors.md",
-      "_origin": "ast",
-      "community": 19,
-      "community_name": "README.md",
-      "file_type": "document",
-      "node_kind": "page",
-      "norm_label": "sponsors.md",
-      "source_file": "dev-docs/sponsors.md",
-      "source_location": "L1"
-    },
-    {
-      "id": "dev_docs_sponsors_sponsor_setup",
-      "label": "Sponsor setup",
-      "_origin": "ast",
-      "community": 19,
-      "community_name": "README.md",
-      "file_type": "document",
-      "node_kind": "heading",
-      "norm_label": "sponsor setup",
-      "source_file": "dev-docs/sponsors.md",
-      "source_location": "L1"
-    },
-    {
       "id": "dev_docs_surfaces",
       "label": "surfaces.md",
       "_origin": "ast",
@@ -4431,18 +4420,6 @@
       "node_kind": "page",
       "norm_label": "surfaces.md",
       "source_file": "dev-docs/surfaces.md",
-      "source_location": "L1"
-    },
-    {
-      "id": "dev_docs_template_walkthroughs_mobile_readme",
-      "label": "template-walkthroughs/mobile/README.md",
-      "_origin": "ast",
-      "community": 19,
-      "community_name": "README.md",
-      "file_type": "document",
-      "node_kind": "page",
-      "norm_label": "template-walkthroughs/mobile/readme.md",
-      "source_file": "dev-docs/template-walkthroughs/mobile/README.md",
       "source_location": "L1"
     },
     {
@@ -4516,6 +4493,30 @@
       "norm_label": "submission.md",
       "source_file": "SUBMISSION.md",
       "source_location": "L1"
+    },
+    {
+      "id": "team_team_workflow",
+      "label": "TEAM_WORKFLOW.md",
+      "_origin": "ast",
+      "community": 19,
+      "community_name": "README.md",
+      "file_type": "document",
+      "node_kind": "page",
+      "norm_label": "team_workflow.md",
+      "source_file": "team/TEAM_WORKFLOW.md",
+      "source_location": "L1"
+    },
+    {
+      "id": "team_team_workflow_contrato_de_interfaces_activo",
+      "label": "\ud83d\udd12 Contrato de Interfaces Activo",
+      "_origin": "ast",
+      "community": 19,
+      "community_name": "README.md",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "\ud83d\udd12 contrato de interfaces activo",
+      "source_file": "team/TEAM_WORKFLOW.md",
+      "source_location": "L38"
     },
     {
       "id": "using_sponsor_tools",
@@ -4835,6 +4836,17 @@
       "file_type": "code",
       "norm_label": "tools.test.tsx",
       "source_file": "apps/channel/src/tools.test.tsx",
+      "source_location": "L1"
+    },
+    {
+      "id": "apps_web_src_app_api_search_route",
+      "label": "search/route.ts",
+      "_origin": "ast",
+      "community": 2,
+      "community_name": "channel.tsx",
+      "file_type": "code",
+      "norm_label": "search/route.ts",
+      "source_file": "apps/web/src/app/api/search/route.ts",
       "source_location": "L1"
     },
     {
@@ -5643,47 +5655,11 @@
       "source_location": "L44"
     },
     {
-      "id": "dev_docs_auth0_readme",
-      "label": "auth0/README.md",
-      "_origin": "ast",
-      "community": 28,
-      "community_name": "auth0/README.md",
-      "file_type": "document",
-      "node_kind": "page",
-      "norm_label": "auth0/readme.md",
-      "source_file": "dev-docs/auth0/README.md",
-      "source_location": "L1"
-    },
-    {
-      "id": "dev_docs_auth0_readme_auth0_protected_api_recipe",
-      "label": "Auth0 protected API recipe",
-      "_origin": "ast",
-      "community": 28,
-      "community_name": "auth0/README.md",
-      "file_type": "document",
-      "node_kind": "heading",
-      "norm_label": "auth0 protected api recipe",
-      "source_file": "dev-docs/auth0/README.md",
-      "source_location": "L1"
-    },
-    {
-      "id": "dev_docs_auth0_readme_source_and_verification",
-      "label": "Source and verification",
-      "_origin": "ast",
-      "community": 28,
-      "community_name": "auth0/README.md",
-      "file_type": "document",
-      "node_kind": "heading",
-      "norm_label": "source and verification",
-      "source_file": "dev-docs/auth0/README.md",
-      "source_location": "L9"
-    },
-    {
       "id": "dev_docs_surfaces_launch_commands",
       "label": "Launch commands",
       "_origin": "ast",
       "community": 28,
-      "community_name": "auth0/README.md",
+      "community_name": "Surface map",
       "file_type": "document",
       "node_kind": "heading",
       "norm_label": "launch commands",
@@ -5695,7 +5671,7 @@
       "label": "Slack to Teams",
       "_origin": "ast",
       "community": 28,
-      "community_name": "auth0/README.md",
+      "community_name": "Surface map",
       "file_type": "document",
       "node_kind": "heading",
       "norm_label": "slack to teams",
@@ -5707,7 +5683,7 @@
       "label": "Surface map",
       "_origin": "ast",
       "community": 28,
-      "community_name": "auth0/README.md",
+      "community_name": "Surface map",
       "file_type": "document",
       "node_kind": "heading",
       "norm_label": "surface map",
@@ -5823,6 +5799,116 @@
       "source_location": "L128"
     },
     {
+      "id": "apps_mobile_app_tsx_apps_mobile_app",
+      "label": "App.tsx",
+      "_origin": "ast",
+      "community": 3,
+      "community_name": "finance.ts",
+      "file_type": "code",
+      "norm_label": "app.tsx",
+      "source_file": "apps/mobile/App.tsx",
+      "source_location": "L1"
+    },
+    {
+      "id": "apps_mobile_index",
+      "label": "index.js",
+      "_origin": "ast",
+      "community": 3,
+      "community_name": "finance.ts",
+      "file_type": "code",
+      "norm_label": "index.js",
+      "source_file": "apps/mobile/index.js",
+      "source_location": "L1"
+    },
+    {
+      "id": "apps_mobile_package",
+      "label": "mobile/package.json",
+      "_origin": "ast",
+      "community": 3,
+      "community_name": "finance.ts",
+      "file_type": "code",
+      "norm_label": "mobile/package.json",
+      "source_file": "apps/mobile/package.json",
+      "source_location": "L1"
+    },
+    {
+      "id": "apps_mobile_package_devdependencies",
+      "label": "devDependencies",
+      "_origin": "ast",
+      "community": 3,
+      "community_name": "finance.ts",
+      "file_type": "code",
+      "norm_label": "devdependencies",
+      "source_file": "apps/mobile/package.json",
+      "source_location": "L27"
+    },
+    {
+      "id": "apps_mobile_package_devdependencies_types_react",
+      "label": "@types/react",
+      "_origin": "ast",
+      "community": 3,
+      "community_name": "finance.ts",
+      "file_type": "code",
+      "norm_label": "@types/react",
+      "source_file": "apps/mobile/package.json",
+      "source_location": "L28"
+    },
+    {
+      "id": "apps_mobile_package_devdependencies_typescript",
+      "label": "typescript",
+      "_origin": "ast",
+      "community": 3,
+      "community_name": "finance.ts",
+      "file_type": "code",
+      "norm_label": "typescript",
+      "source_file": "apps/mobile/package.json",
+      "source_location": "L29"
+    },
+    {
+      "id": "apps_mobile_package_main",
+      "label": "main",
+      "_origin": "ast",
+      "community": 3,
+      "community_name": "finance.ts",
+      "file_type": "code",
+      "norm_label": "main",
+      "source_file": "apps/mobile/package.json",
+      "source_location": "L5"
+    },
+    {
+      "id": "apps_mobile_package_name",
+      "label": "name",
+      "_origin": "ast",
+      "community": 3,
+      "community_name": "finance.ts",
+      "file_type": "code",
+      "norm_label": "name",
+      "source_file": "apps/mobile/package.json",
+      "source_location": "L2"
+    },
+    {
+      "id": "apps_mobile_package_private",
+      "label": "private",
+      "_origin": "ast",
+      "community": 3,
+      "community_name": "finance.ts",
+      "file_type": "code",
+      "norm_label": "private",
+      "source_file": "apps/mobile/package.json",
+      "source_location": "L4"
+    },
+    {
+      "id": "apps_mobile_package_version",
+      "label": "version",
+      "_origin": "ast",
+      "community": 3,
+      "community_name": "finance.ts",
+      "file_type": "code",
+      "norm_label": "version",
+      "source_file": "apps/mobile/package.json",
+      "source_location": "L3"
+    },
+    {
       "id": "apps_mobile_src_assistant_links",
       "label": "assistant-links.ts",
       "_origin": "ast",
@@ -5876,6 +5962,28 @@
       "norm_label": "chat.tsx",
       "source_file": "apps/mobile/src/chat.tsx",
       "source_location": "L1"
+    },
+    {
+      "id": "apps_mobile_src_config",
+      "label": "config.ts",
+      "_origin": "ast",
+      "community": 3,
+      "community_name": "finance.ts",
+      "file_type": "code",
+      "norm_label": "config.ts",
+      "source_file": "apps/mobile/src/config.ts",
+      "source_location": "L1"
+    },
+    {
+      "id": "apps_mobile_src_config_runtime_url",
+      "label": "RUNTIME_URL",
+      "_origin": "ast",
+      "community": 3,
+      "community_name": "finance.ts",
+      "file_type": "code",
+      "norm_label": "runtime_url",
+      "source_file": "apps/mobile/src/config.ts",
+      "source_location": "L12"
     },
     {
       "id": "apps_mobile_src_finance",
@@ -6032,6 +6140,83 @@
       "source_location": "L1"
     },
     {
+      "id": "apps_mobile_package_json_ref_react",
+      "label": "react",
+      "_origin": "ast",
+      "community": 3,
+      "community_name": "finance.ts",
+      "file_type": "concept",
+      "norm_label": "react",
+      "source_file": "apps/mobile/package.json",
+      "source_location": "L20"
+    },
+    {
+      "id": "apps_mobile_package_json_ref_types_react",
+      "label": "@types/react",
+      "_origin": "ast",
+      "community": 3,
+      "community_name": "finance.ts",
+      "file_type": "concept",
+      "norm_label": "@types/react",
+      "source_file": "apps/mobile/package.json",
+      "source_location": "L17"
+    },
+    {
+      "id": "apps_mobile_package_json_ref_typescript",
+      "label": "typescript",
+      "_origin": "ast",
+      "community": 3,
+      "community_name": "finance.ts",
+      "file_type": "concept",
+      "norm_label": "typescript",
+      "source_file": "apps/mobile/package.json",
+      "source_location": "L29"
+    },
+    {
+      "id": "apps_mobile_package_json_ref_zod",
+      "label": "zod",
+      "_origin": "ast",
+      "community": 3,
+      "community_name": "finance.ts",
+      "file_type": "concept",
+      "norm_label": "zod",
+      "source_file": "apps/mobile/package.json",
+      "source_location": "L25"
+    },
+    {
+      "id": "ref_copilotkit_react_native",
+      "label": "@copilotkit/react-native",
+      "_origin": "ast",
+      "community": 3,
+      "community_name": "finance.ts",
+      "file_type": "concept",
+      "norm_label": "@copilotkit/react-native",
+      "source_file": "apps/mobile/package.json",
+      "source_location": "L16"
+    },
+    {
+      "id": "ref_expo",
+      "label": "expo",
+      "_origin": "ast",
+      "community": 3,
+      "community_name": "finance.ts",
+      "file_type": "concept",
+      "norm_label": "expo",
+      "source_file": "apps/mobile/package.json",
+      "source_location": "L18"
+    },
+    {
+      "id": "ref_expo_status_bar",
+      "label": "expo-status-bar",
+      "_origin": "ast",
+      "community": 3,
+      "community_name": "finance.ts",
+      "file_type": "concept",
+      "norm_label": "expo-status-bar",
+      "source_file": "apps/mobile/package.json",
+      "source_location": "L19"
+    },
+    {
       "id": "ref_react_native",
       "label": "react-native",
       "_origin": "ast",
@@ -6043,6 +6228,17 @@
       "source_location": "L21"
     },
     {
+      "id": "ref_react_native_get_random_values",
+      "label": "react-native-get-random-values",
+      "_origin": "ast",
+      "community": 3,
+      "community_name": "finance.ts",
+      "file_type": "concept",
+      "norm_label": "react-native-get-random-values",
+      "source_file": "apps/mobile/package.json",
+      "source_location": "L22"
+    },
+    {
       "id": "ref_react_native_markdown_renderer",
       "label": "react-native-markdown-renderer",
       "_origin": "ast",
@@ -6052,6 +6248,17 @@
       "norm_label": "react-native-markdown-renderer",
       "source_file": "apps/mobile/package.json",
       "source_location": "L23"
+    },
+    {
+      "id": "ref_react_native_safe_area_context",
+      "label": "react-native-safe-area-context",
+      "_origin": "ast",
+      "community": 3,
+      "community_name": "finance.ts",
+      "file_type": "concept",
+      "norm_label": "react-native-safe-area-context",
+      "source_file": "apps/mobile/package.json",
+      "source_location": "L24"
     },
     {
       "id": "dev_docs_demo_prompts_1_establish_the_surrounding_context",
@@ -6328,6 +6535,18 @@
       "norm_label": "what the managed path does and does not deliver",
       "source_file": "dev-docs/channels.md",
       "source_location": "L27"
+    },
+    {
+      "id": "dev_docs_template_walkthroughs_mobile_readme",
+      "label": "template-walkthroughs/mobile/README.md",
+      "_origin": "ast",
+      "community": 33,
+      "community_name": "React Native template walkthrough",
+      "file_type": "document",
+      "node_kind": "page",
+      "norm_label": "template-walkthroughs/mobile/readme.md",
+      "source_file": "dev-docs/template-walkthroughs/mobile/README.md",
+      "source_location": "L1"
     },
     {
       "id": "dev_docs_template_walkthroughs_mobile_readme_1_start_the_runtime_and_expo",
@@ -6726,18 +6945,6 @@
       "source_location": "L74"
     },
     {
-      "id": "dev_docs_deploy",
-      "label": "deploy.md",
-      "_origin": "ast",
-      "community": 38,
-      "community_name": "Deploy",
-      "file_type": "document",
-      "node_kind": "page",
-      "norm_label": "deploy.md",
-      "source_file": "dev-docs/deploy.md",
-      "source_location": "L1"
-    },
-    {
       "id": "dev_docs_deploy_deploy",
       "label": "Deploy",
       "_origin": "ast",
@@ -6882,44 +7089,11 @@
       "source_location": "L22"
     },
     {
-      "id": "apps_mobile_app_tsx_apps_mobile_app",
-      "label": "App.tsx",
-      "_origin": "ast",
-      "community": 4,
-      "community_name": "mobile/package.json",
-      "file_type": "code",
-      "norm_label": "app.tsx",
-      "source_file": "apps/mobile/App.tsx",
-      "source_location": "L1"
-    },
-    {
-      "id": "apps_mobile_index",
-      "label": "index.js",
-      "_origin": "ast",
-      "community": 4,
-      "community_name": "mobile/package.json",
-      "file_type": "code",
-      "norm_label": "index.js",
-      "source_file": "apps/mobile/index.js",
-      "source_location": "L1"
-    },
-    {
-      "id": "apps_mobile_package",
-      "label": "mobile/package.json",
-      "_origin": "ast",
-      "community": 4,
-      "community_name": "mobile/package.json",
-      "file_type": "code",
-      "norm_label": "mobile/package.json",
-      "source_file": "apps/mobile/package.json",
-      "source_location": "L1"
-    },
-    {
       "id": "apps_mobile_package_dependencies",
       "label": "dependencies",
       "_origin": "ast",
       "community": 4,
-      "community_name": "mobile/package.json",
+      "community_name": "dependencies",
       "file_type": "code",
       "norm_label": "dependencies",
       "source_file": "apps/mobile/package.json",
@@ -6930,7 +7104,7 @@
       "label": "@copilotkit/react-native",
       "_origin": "ast",
       "community": 4,
-      "community_name": "mobile/package.json",
+      "community_name": "dependencies",
       "file_type": "code",
       "norm_label": "@copilotkit/react-native",
       "source_file": "apps/mobile/package.json",
@@ -6941,7 +7115,7 @@
       "label": "expo",
       "_origin": "ast",
       "community": 4,
-      "community_name": "mobile/package.json",
+      "community_name": "dependencies",
       "file_type": "code",
       "norm_label": "expo",
       "source_file": "apps/mobile/package.json",
@@ -6952,7 +7126,7 @@
       "label": "expo-status-bar",
       "_origin": "ast",
       "community": 4,
-      "community_name": "mobile/package.json",
+      "community_name": "dependencies",
       "file_type": "code",
       "norm_label": "expo-status-bar",
       "source_file": "apps/mobile/package.json",
@@ -6963,7 +7137,7 @@
       "label": "react",
       "_origin": "ast",
       "community": 4,
-      "community_name": "mobile/package.json",
+      "community_name": "dependencies",
       "file_type": "code",
       "norm_label": "react",
       "source_file": "apps/mobile/package.json",
@@ -6974,7 +7148,7 @@
       "label": "react-native",
       "_origin": "ast",
       "community": 4,
-      "community_name": "mobile/package.json",
+      "community_name": "dependencies",
       "file_type": "code",
       "norm_label": "react-native",
       "source_file": "apps/mobile/package.json",
@@ -6985,7 +7159,7 @@
       "label": "react-native-get-random-values",
       "_origin": "ast",
       "community": 4,
-      "community_name": "mobile/package.json",
+      "community_name": "dependencies",
       "file_type": "code",
       "norm_label": "react-native-get-random-values",
       "source_file": "apps/mobile/package.json",
@@ -6996,7 +7170,7 @@
       "label": "react-native-markdown-renderer",
       "_origin": "ast",
       "community": 4,
-      "community_name": "mobile/package.json",
+      "community_name": "dependencies",
       "file_type": "code",
       "norm_label": "react-native-markdown-renderer",
       "source_file": "apps/mobile/package.json",
@@ -7007,7 +7181,7 @@
       "label": "react-native-safe-area-context",
       "_origin": "ast",
       "community": 4,
-      "community_name": "mobile/package.json",
+      "community_name": "dependencies",
       "file_type": "code",
       "norm_label": "react-native-safe-area-context",
       "source_file": "apps/mobile/package.json",
@@ -7018,7 +7192,7 @@
       "label": "@types/react",
       "_origin": "ast",
       "community": 4,
-      "community_name": "mobile/package.json",
+      "community_name": "dependencies",
       "file_type": "code",
       "norm_label": "@types/react",
       "source_file": "apps/mobile/package.json",
@@ -7029,316 +7203,18 @@
       "label": "zod",
       "_origin": "ast",
       "community": 4,
-      "community_name": "mobile/package.json",
+      "community_name": "dependencies",
       "file_type": "code",
       "norm_label": "zod",
       "source_file": "apps/mobile/package.json",
       "source_location": "L25"
-    },
-    {
-      "id": "apps_mobile_package_devdependencies",
-      "label": "devDependencies",
-      "_origin": "ast",
-      "community": 4,
-      "community_name": "mobile/package.json",
-      "file_type": "code",
-      "norm_label": "devdependencies",
-      "source_file": "apps/mobile/package.json",
-      "source_location": "L27"
-    },
-    {
-      "id": "apps_mobile_package_devdependencies_types_react",
-      "label": "@types/react",
-      "_origin": "ast",
-      "community": 4,
-      "community_name": "mobile/package.json",
-      "file_type": "code",
-      "norm_label": "@types/react",
-      "source_file": "apps/mobile/package.json",
-      "source_location": "L28"
-    },
-    {
-      "id": "apps_mobile_package_devdependencies_typescript",
-      "label": "typescript",
-      "_origin": "ast",
-      "community": 4,
-      "community_name": "mobile/package.json",
-      "file_type": "code",
-      "norm_label": "typescript",
-      "source_file": "apps/mobile/package.json",
-      "source_location": "L29"
-    },
-    {
-      "id": "apps_mobile_package_main",
-      "label": "main",
-      "_origin": "ast",
-      "community": 4,
-      "community_name": "mobile/package.json",
-      "file_type": "code",
-      "norm_label": "main",
-      "source_file": "apps/mobile/package.json",
-      "source_location": "L5"
-    },
-    {
-      "id": "apps_mobile_package_name",
-      "label": "name",
-      "_origin": "ast",
-      "community": 4,
-      "community_name": "mobile/package.json",
-      "file_type": "code",
-      "norm_label": "name",
-      "source_file": "apps/mobile/package.json",
-      "source_location": "L2"
-    },
-    {
-      "id": "apps_mobile_package_private",
-      "label": "private",
-      "_origin": "ast",
-      "community": 4,
-      "community_name": "mobile/package.json",
-      "file_type": "code",
-      "norm_label": "private",
-      "source_file": "apps/mobile/package.json",
-      "source_location": "L4"
-    },
-    {
-      "id": "apps_mobile_package_scripts",
-      "label": "scripts",
-      "_origin": "ast",
-      "community": 4,
-      "community_name": "mobile/package.json",
-      "file_type": "code",
-      "norm_label": "scripts",
-      "source_file": "apps/mobile/package.json",
-      "source_location": "L6"
-    },
-    {
-      "id": "apps_mobile_package_scripts_android",
-      "label": "android",
-      "_origin": "ast",
-      "community": 4,
-      "community_name": "mobile/package.json",
-      "file_type": "code",
-      "norm_label": "android",
-      "source_file": "apps/mobile/package.json",
-      "source_location": "L9"
-    },
-    {
-      "id": "apps_mobile_package_scripts_bundle_android",
-      "label": "bundle:android",
-      "_origin": "ast",
-      "community": 4,
-      "community_name": "mobile/package.json",
-      "file_type": "code",
-      "norm_label": "bundle:android",
-      "source_file": "apps/mobile/package.json",
-      "source_location": "L11"
-    },
-    {
-      "id": "apps_mobile_package_scripts_bundle_ios",
-      "label": "bundle:ios",
-      "_origin": "ast",
-      "community": 4,
-      "community_name": "mobile/package.json",
-      "file_type": "code",
-      "norm_label": "bundle:ios",
-      "source_file": "apps/mobile/package.json",
-      "source_location": "L10"
-    },
-    {
-      "id": "apps_mobile_package_scripts_ios",
-      "label": "ios",
-      "_origin": "ast",
-      "community": 4,
-      "community_name": "mobile/package.json",
-      "file_type": "code",
-      "norm_label": "ios",
-      "source_file": "apps/mobile/package.json",
-      "source_location": "L8"
-    },
-    {
-      "id": "apps_mobile_package_scripts_start",
-      "label": "start",
-      "_origin": "ast",
-      "community": 4,
-      "community_name": "mobile/package.json",
-      "file_type": "code",
-      "norm_label": "start",
-      "source_file": "apps/mobile/package.json",
-      "source_location": "L7"
-    },
-    {
-      "id": "apps_mobile_package_scripts_test",
-      "label": "test",
-      "_origin": "ast",
-      "community": 4,
-      "community_name": "mobile/package.json",
-      "file_type": "code",
-      "norm_label": "test",
-      "source_file": "apps/mobile/package.json",
-      "source_location": "L12"
-    },
-    {
-      "id": "apps_mobile_package_scripts_typecheck",
-      "label": "typecheck",
-      "_origin": "ast",
-      "community": 4,
-      "community_name": "mobile/package.json",
-      "file_type": "code",
-      "norm_label": "typecheck",
-      "source_file": "apps/mobile/package.json",
-      "source_location": "L13"
-    },
-    {
-      "id": "apps_mobile_package_version",
-      "label": "version",
-      "_origin": "ast",
-      "community": 4,
-      "community_name": "mobile/package.json",
-      "file_type": "code",
-      "norm_label": "version",
-      "source_file": "apps/mobile/package.json",
-      "source_location": "L3"
-    },
-    {
-      "id": "apps_mobile_src_config",
-      "label": "config.ts",
-      "_origin": "ast",
-      "community": 4,
-      "community_name": "mobile/package.json",
-      "file_type": "code",
-      "norm_label": "config.ts",
-      "source_file": "apps/mobile/src/config.ts",
-      "source_location": "L1"
-    },
-    {
-      "id": "apps_mobile_src_config_runtime_url",
-      "label": "RUNTIME_URL",
-      "_origin": "ast",
-      "community": 4,
-      "community_name": "mobile/package.json",
-      "file_type": "code",
-      "norm_label": "runtime_url",
-      "source_file": "apps/mobile/src/config.ts",
-      "source_location": "L12"
-    },
-    {
-      "id": "apps_mobile_package_json_ref_react",
-      "label": "react",
-      "_origin": "ast",
-      "community": 4,
-      "community_name": "mobile/package.json",
-      "file_type": "concept",
-      "norm_label": "react",
-      "source_file": "apps/mobile/package.json",
-      "source_location": "L20"
-    },
-    {
-      "id": "apps_mobile_package_json_ref_types_react",
-      "label": "@types/react",
-      "_origin": "ast",
-      "community": 4,
-      "community_name": "mobile/package.json",
-      "file_type": "concept",
-      "norm_label": "@types/react",
-      "source_file": "apps/mobile/package.json",
-      "source_location": "L17"
-    },
-    {
-      "id": "apps_mobile_package_json_ref_typescript",
-      "label": "typescript",
-      "_origin": "ast",
-      "community": 4,
-      "community_name": "mobile/package.json",
-      "file_type": "concept",
-      "norm_label": "typescript",
-      "source_file": "apps/mobile/package.json",
-      "source_location": "L29"
-    },
-    {
-      "id": "apps_mobile_package_json_ref_zod",
-      "label": "zod",
-      "_origin": "ast",
-      "community": 4,
-      "community_name": "mobile/package.json",
-      "file_type": "concept",
-      "norm_label": "zod",
-      "source_file": "apps/mobile/package.json",
-      "source_location": "L25"
-    },
-    {
-      "id": "ref_copilotkit_react_native",
-      "label": "@copilotkit/react-native",
-      "_origin": "ast",
-      "community": 4,
-      "community_name": "mobile/package.json",
-      "file_type": "concept",
-      "norm_label": "@copilotkit/react-native",
-      "source_file": "apps/mobile/package.json",
-      "source_location": "L16"
-    },
-    {
-      "id": "ref_expo",
-      "label": "expo",
-      "_origin": "ast",
-      "community": 4,
-      "community_name": "mobile/package.json",
-      "file_type": "concept",
-      "norm_label": "expo",
-      "source_file": "apps/mobile/package.json",
-      "source_location": "L18"
-    },
-    {
-      "id": "ref_expo_status_bar",
-      "label": "expo-status-bar",
-      "_origin": "ast",
-      "community": 4,
-      "community_name": "mobile/package.json",
-      "file_type": "concept",
-      "norm_label": "expo-status-bar",
-      "source_file": "apps/mobile/package.json",
-      "source_location": "L19"
-    },
-    {
-      "id": "ref_react_native_get_random_values",
-      "label": "react-native-get-random-values",
-      "_origin": "ast",
-      "community": 4,
-      "community_name": "mobile/package.json",
-      "file_type": "concept",
-      "norm_label": "react-native-get-random-values",
-      "source_file": "apps/mobile/package.json",
-      "source_location": "L22"
-    },
-    {
-      "id": "ref_react_native_safe_area_context",
-      "label": "react-native-safe-area-context",
-      "_origin": "ast",
-      "community": 4,
-      "community_name": "mobile/package.json",
-      "file_type": "concept",
-      "norm_label": "react-native-safe-area-context",
-      "source_file": "apps/mobile/package.json",
-      "source_location": "L24"
-    },
-    {
-      "id": "team_team_workflow",
-      "label": "TEAM_WORKFLOW.md",
-      "_origin": "ast",
-      "community": 40,
-      "community_name": "TEAM_WORKFLOW.md",
-      "file_type": "document",
-      "node_kind": "page",
-      "norm_label": "team_workflow.md",
-      "source_file": "team/TEAM_WORKFLOW.md",
-      "source_location": "L1"
     },
     {
       "id": "team_team_workflow_amin_backend_copilotkit_runtime_tools",
       "label": "\ud83e\udde0 Amin \u2014 Backend, CopilotKit Runtime & Tools",
       "_origin": "ast",
       "community": 40,
-      "community_name": "TEAM_WORKFLOW.md",
+      "community_name": "\ud83d\udc65 Integrantes y Responsabilidades",
       "file_type": "document",
       "node_kind": "heading",
       "norm_label": "\ud83e\udde0 amin \u2014 backend, copilotkit runtime & tools",
@@ -7346,23 +7222,11 @@
       "source_location": "L6"
     },
     {
-      "id": "team_team_workflow_contrato_de_interfaces_activo",
-      "label": "\ud83d\udd12 Contrato de Interfaces Activo",
-      "_origin": "ast",
-      "community": 40,
-      "community_name": "TEAM_WORKFLOW.md",
-      "file_type": "document",
-      "node_kind": "heading",
-      "norm_label": "\ud83d\udd12 contrato de interfaces activo",
-      "source_file": "team/TEAM_WORKFLOW.md",
-      "source_location": "L38"
-    },
-    {
       "id": "team_team_workflow_integrantes_y_responsabilidades",
       "label": "\ud83d\udc65 Integrantes y Responsabilidades",
       "_origin": "ast",
       "community": 40,
-      "community_name": "TEAM_WORKFLOW.md",
+      "community_name": "\ud83d\udc65 Integrantes y Responsabilidades",
       "file_type": "document",
       "node_kind": "heading",
       "norm_label": "\ud83d\udc65 integrantes y responsabilidades",
@@ -7374,7 +7238,7 @@
       "label": "\ud83d\udc51 Marcelo \u2014 Dominio, Human-in-the-Loop & Pitch",
       "_origin": "ast",
       "community": 40,
-      "community_name": "TEAM_WORKFLOW.md",
+      "community_name": "\ud83d\udc65 Integrantes y Responsabilidades",
       "file_type": "document",
       "node_kind": "heading",
       "norm_label": "\ud83d\udc51 marcelo \u2014 dominio, human-in-the-loop & pitch",
@@ -7386,7 +7250,7 @@
       "label": "\ud83c\udfa8 Milena \u2014 Frontend, Generative UI & Dashboard",
       "_origin": "ast",
       "community": 40,
-      "community_name": "TEAM_WORKFLOW.md",
+      "community_name": "\ud83d\udc65 Integrantes y Responsabilidades",
       "file_type": "document",
       "node_kind": "heading",
       "norm_label": "\ud83c\udfa8 milena \u2014 frontend, generative ui & dashboard",
@@ -8634,6 +8498,17 @@
       "source_location": "L1"
     },
     {
+      "id": "apps_channel_src_agent",
+      "label": "channel/src/agent.ts",
+      "_origin": "ast",
+      "community": 53,
+      "community_name": "index.ts",
+      "file_type": "code",
+      "norm_label": "channel/src/agent.ts",
+      "source_file": "apps/channel/src/agent.ts",
+      "source_location": "L1"
+    },
+    {
       "id": "apps_web_src_app_api_copilotkit_path_route",
       "label": "copilotkit/[[...path]]/route.ts",
       "_origin": "ast",
@@ -8653,7 +8528,7 @@
       "file_type": "code",
       "norm_label": "intelapp",
       "source_file": "apps/web/src/app/api/copilotkit/[[...path]]/route.ts",
-      "source_location": "L79"
+      "source_location": "L81"
     },
     {
       "id": "apps_web_src_app_api_copilotkit_path_route_intelligence",
@@ -8675,7 +8550,7 @@
       "file_type": "code",
       "norm_label": "intelruntime",
       "source_file": "apps/web/src/app/api/copilotkit/[[...path]]/route.ts",
-      "source_location": "L65"
+      "source_location": "L66"
     },
     {
       "id": "apps_web_src_app_api_copilotkit_path_route_learning_container_id",
@@ -8697,7 +8572,7 @@
       "file_type": "code",
       "norm_label": "options",
       "source_file": "apps/web/src/app/api/copilotkit/[[...path]]/route.ts",
-      "source_location": "L213"
+      "source_location": "L215"
     },
     {
       "id": "apps_web_src_app_api_copilotkit_path_route_sseapp",
@@ -8708,7 +8583,7 @@
       "file_type": "code",
       "norm_label": "sseapp",
       "source_file": "apps/web/src/app/api/copilotkit/[[...path]]/route.ts",
-      "source_location": "L74"
+      "source_location": "L76"
     },
     {
       "id": "apps_web_src_app_api_copilotkit_path_route_sseruntime",
@@ -8799,17 +8674,6 @@
       "source_location": "L1"
     },
     {
-      "id": "apps_web_src_app_api_search_route",
-      "label": "search/route.ts",
-      "_origin": "ast",
-      "community": 53,
-      "community_name": "index.ts",
-      "file_type": "code",
-      "norm_label": "search/route.ts",
-      "source_file": "apps/web/src/app/api/search/route.ts",
-      "source_location": "L1"
-    },
-    {
       "id": "apps_web_src_app_voice_page",
       "label": "voice/page.tsx",
       "_origin": "ast",
@@ -8874,6 +8738,17 @@
       "norm_label": "realtime_voice",
       "source_file": "apps/web/src/lib/realtime-config.ts",
       "source_location": "L10"
+    },
+    {
+      "id": "apps_web_src_lib_server_a2ui_test",
+      "label": "a2ui.test.ts",
+      "_origin": "ast",
+      "community": 53,
+      "community_name": "index.ts",
+      "file_type": "code",
+      "norm_label": "a2ui.test.ts",
+      "source_file": "apps/web/src/lib/server/a2ui.test.ts",
+      "source_location": "L1"
     },
     {
       "id": "apps_web_src_lib_server_learning_test",
@@ -10883,6 +10758,118 @@
       "source_location": "L18"
     },
     {
+      "id": "apps_mobile_package_scripts",
+      "label": "scripts",
+      "_origin": "ast",
+      "community": 66,
+      "community_name": "scripts",
+      "file_type": "code",
+      "norm_label": "scripts",
+      "source_file": "apps/mobile/package.json",
+      "source_location": "L6"
+    },
+    {
+      "id": "apps_mobile_package_scripts_android",
+      "label": "android",
+      "_origin": "ast",
+      "community": 66,
+      "community_name": "scripts",
+      "file_type": "code",
+      "norm_label": "android",
+      "source_file": "apps/mobile/package.json",
+      "source_location": "L9"
+    },
+    {
+      "id": "apps_mobile_package_scripts_bundle_android",
+      "label": "bundle:android",
+      "_origin": "ast",
+      "community": 66,
+      "community_name": "scripts",
+      "file_type": "code",
+      "norm_label": "bundle:android",
+      "source_file": "apps/mobile/package.json",
+      "source_location": "L11"
+    },
+    {
+      "id": "apps_mobile_package_scripts_bundle_ios",
+      "label": "bundle:ios",
+      "_origin": "ast",
+      "community": 66,
+      "community_name": "scripts",
+      "file_type": "code",
+      "norm_label": "bundle:ios",
+      "source_file": "apps/mobile/package.json",
+      "source_location": "L10"
+    },
+    {
+      "id": "apps_mobile_package_scripts_ios",
+      "label": "ios",
+      "_origin": "ast",
+      "community": 66,
+      "community_name": "scripts",
+      "file_type": "code",
+      "norm_label": "ios",
+      "source_file": "apps/mobile/package.json",
+      "source_location": "L8"
+    },
+    {
+      "id": "apps_mobile_package_scripts_start",
+      "label": "start",
+      "_origin": "ast",
+      "community": 66,
+      "community_name": "scripts",
+      "file_type": "code",
+      "norm_label": "start",
+      "source_file": "apps/mobile/package.json",
+      "source_location": "L7"
+    },
+    {
+      "id": "apps_mobile_package_scripts_test",
+      "label": "test",
+      "_origin": "ast",
+      "community": 66,
+      "community_name": "scripts",
+      "file_type": "code",
+      "norm_label": "test",
+      "source_file": "apps/mobile/package.json",
+      "source_location": "L12"
+    },
+    {
+      "id": "apps_mobile_package_scripts_typecheck",
+      "label": "typecheck",
+      "_origin": "ast",
+      "community": 66,
+      "community_name": "scripts",
+      "file_type": "code",
+      "norm_label": "typecheck",
+      "source_file": "apps/mobile/package.json",
+      "source_location": "L13"
+    },
+    {
+      "id": "dev_docs_auth0_readme_auth0_protected_api_recipe",
+      "label": "Auth0 protected API recipe",
+      "_origin": "ast",
+      "community": 67,
+      "community_name": "Auth0 protected API recipe",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "auth0 protected api recipe",
+      "source_file": "dev-docs/auth0/README.md",
+      "source_location": "L1"
+    },
+    {
+      "id": "dev_docs_auth0_readme_source_and_verification",
+      "label": "Source and verification",
+      "_origin": "ast",
+      "community": 67,
+      "community_name": "Auth0 protected API recipe",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "source and verification",
+      "source_file": "dev-docs/auth0/README.md",
+      "source_location": "L9"
+    },
+    {
       "id": "agent_skills_inspector_docs_skill",
       "label": "agent/skills/inspector-docs/SKILL.md",
       "_origin": "ast",
@@ -11851,6 +11838,30 @@
       "norm_label": "what not to do",
       "source_file": ".agents/skills/setup-slack-channel/references/slack-workspace-and-app.md",
       "source_location": "L134"
+    },
+    {
+      "id": "dev_docs_sponsors",
+      "label": "sponsors.md",
+      "_origin": "ast",
+      "community": 74,
+      "community_name": "sponsors.md",
+      "file_type": "document",
+      "node_kind": "page",
+      "norm_label": "sponsors.md",
+      "source_file": "dev-docs/sponsors.md",
+      "source_location": "L1"
+    },
+    {
+      "id": "dev_docs_sponsors_sponsor_setup",
+      "label": "Sponsor setup",
+      "_origin": "ast",
+      "community": 74,
+      "community_name": "sponsors.md",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "sponsor setup",
+      "source_file": "dev-docs/sponsors.md",
+      "source_location": "L1"
     },
     {
       "id": "agent_skills_setup_slack_channel_references_intelligence_channel",
@@ -13792,7 +13803,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "apps/web/src/app/api/copilotkit/[[...path]]/route.ts",
-      "source_location": "L166",
+      "source_location": "L168",
       "weight": 1.0
     },
     {
@@ -13804,7 +13815,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "apps/web/src/app/api/copilotkit/[[...path]]/route.ts",
-      "source_location": "L66",
+      "source_location": "L67",
       "weight": 1.0
     },
     {
@@ -16545,6 +16556,18 @@
       "weight": 1.0
     },
     {
+      "source": "apps_web_src_lib_server_a2ui_test",
+      "target": "apps_web_src_app_api_copilotkit_path_route_get",
+      "relation": "imports",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "apps/web/src/lib/server/a2ui.test.ts",
+      "source_location": "L3",
+      "weight": 1.0
+    },
+    {
       "source": "apps_web_src_lib_server_followup_http",
       "target": "apps_web_src_lib_server_followup_error_followuperror",
       "relation": "imports",
@@ -18122,6 +18145,18 @@
       "source_file": "apps/web/src/lib/incidents.test.ts",
       "source_location": "L4",
       "type_only": true,
+      "weight": 1.0
+    },
+    {
+      "source": "apps_web_src_lib_server_a2ui_test",
+      "target": "apps_web_src_app_api_copilotkit_path_route",
+      "relation": "imports_from",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "apps/web/src/lib/server/a2ui.test.ts",
+      "source_location": "L3",
       "weight": 1.0
     },
     {
@@ -24508,7 +24543,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "apps/web/src/app/api/copilotkit/[[...path]]/route.ts",
-      "source_location": "L154",
+      "source_location": "L156",
       "weight": 1.0
     },
     {
@@ -24519,7 +24554,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "apps/web/src/app/api/copilotkit/[[...path]]/route.ts",
-      "source_location": "L183",
+      "source_location": "L185",
       "weight": 1.0
     },
     {
@@ -24530,7 +24565,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "apps/web/src/app/api/copilotkit/[[...path]]/route.ts",
-      "source_location": "L213",
+      "source_location": "L215",
       "weight": 1.0
     },
     {
@@ -24585,7 +24620,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "apps/web/src/app/api/copilotkit/[[...path]]/route.ts",
-      "source_location": "L65",
+      "source_location": "L66",
       "weight": 1.0
     },
     {
@@ -24596,7 +24631,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "apps/web/src/app/api/copilotkit/[[...path]]/route.ts",
-      "source_location": "L74",
+      "source_location": "L76",
       "weight": 1.0
     },
     {
@@ -24607,7 +24642,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "apps/web/src/app/api/copilotkit/[[...path]]/route.ts",
-      "source_location": "L79",
+      "source_location": "L81",
       "weight": 1.0
     },
     {
@@ -24618,7 +24653,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "apps/web/src/app/api/copilotkit/[[...path]]/route.ts",
-      "source_location": "L88",
+      "source_location": "L90",
       "weight": 1.0
     },
     {
@@ -30354,5 +30389,5 @@
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "11f5979295b0f4b0033f9fdec30cee842b845eb5"
+  "built_at_commit": "e6f51a180fa30d424cb9f6027cec361032468017"
 }

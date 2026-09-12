@@ -16,7 +16,11 @@ export function Providers({ children }: { children: React.ReactNode }) {
   // If you switch that handler to `mode: "single-route"`, you must also set
   // `useSingleEndpoint` here — the two settings have to agree.
   return (
-    <CopilotKitProvider runtimeUrl="/api/copilotkit" a2ui={{}}>
+    <CopilotKitProvider
+      runtimeUrl="/api/copilotkit"
+      a2ui={{}}
+      openGenerativeUI={{}}
+    >
       {children}
     </CopilotKitProvider>
   );

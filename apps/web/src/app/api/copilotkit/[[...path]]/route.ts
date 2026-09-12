@@ -60,6 +60,7 @@ function createAgentInstance() {
 const sseRuntime = new CopilotRuntime({
   agents: () => ({ default: createAgentInstance() }),
   a2ui: {},
+  openGenerativeUI: true,
 });
 
 // Intelligence runtime configured for Learning Inspector and telemetry metadata
@@ -71,6 +72,7 @@ const intelRuntime = new CopilotRuntime({
     name: "Recruiting Lead (Marcelo)",
   }),
   a2ui: {},
+  openGenerativeUI: true,
 });
 
 const sseApp = createCopilotHonoHandler({

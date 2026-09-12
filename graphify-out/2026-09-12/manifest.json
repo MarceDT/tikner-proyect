@@ -234,9 +234,9 @@
     "semantic_hash": ""
   },
   "apps/web/src/app/api/copilotkit/[[...path]]/route.ts": {
-    "mtime": 1789231829.0381649,
-    "seen": 1789231907.3976555,
-    "ast_hash": "64fb899c31e441e11b6c1f4c3755fd04",
+    "mtime": 1789232312.9454713,
+    "seen": 1789232555.7097595,
+    "ast_hash": "27b144e236cb3b3321ab333f61fc8643",
     "semantic_hash": ""
   },
   "apps/web/src/app/api/followups/route.ts": {
@@ -294,9 +294,9 @@
     "semantic_hash": ""
   },
   "apps/web/src/components/providers.tsx": {
-    "mtime": 1789223982.19305,
-    "seen": 1789230461.6971114,
-    "ast_hash": "7ed5cc64caaa6ff45802a816607880f4",
+    "mtime": 1789232318.6826682,
+    "seen": 1789232555.7097595,
+    "ast_hash": "34c1b1b4b54ae250988ee1c202be9575",
     "semantic_hash": ""
   },
   "apps/web/src/components/streamed-cards.test.ts": {
@@ -1173,6 +1173,12 @@
     "mtime": 1789231227.7658176,
     "seen": 1789231907.3976555,
     "ast_hash": "71c44d513f7159cb81b61922107cd7fb",
+    "semantic_hash": ""
+  },
+  "apps/web/src/lib/server/a2ui.test.ts": {
+    "mtime": 1789232455.668493,
+    "seen": 1789232555.7097595,
+    "ast_hash": "a3c8c37f1944f3f022202c906c67fe48",
     "semantic_hash": ""
   }
 }

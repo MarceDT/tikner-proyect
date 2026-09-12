@@ -234,9 +234,9 @@
     "semantic_hash": ""
   },
   "apps/web/src/app/api/copilotkit/[[...path]]/route.ts": {
-    "mtime": 1789232312.9454713,
-    "seen": 1789232555.7097595,
-    "ast_hash": "27b144e236cb3b3321ab333f61fc8643",
+    "mtime": 1789232722.176938,
+    "seen": 1789232893.6933537,
+    "ast_hash": "dbebbd48dd8a4663f960403bb68398e5",
     "semantic_hash": ""
   },
   "apps/web/src/app/api/followups/route.ts": {
@@ -270,9 +270,9 @@
     "semantic_hash": ""
   },
   "apps/web/src/app/page.tsx": {
-    "mtime": 1789231227.7559402,
-    "seen": 1789231907.3976555,
-    "ast_hash": "c4bf3eb47a9805bd3cb3c718bdd052e6",
+    "mtime": 1789232577.4653943,
+    "seen": 1789232893.6933537,
+    "ast_hash": "48b70b199830abcb3732f4e16fa9b516",
     "semantic_hash": ""
   },
   "apps/web/src/app/voice/page.tsx": {
@@ -294,9 +294,9 @@
     "semantic_hash": ""
   },
   "apps/web/src/components/providers.tsx": {
-    "mtime": 1789232318.6826682,
-    "seen": 1789232555.7097595,
-    "ast_hash": "34c1b1b4b54ae250988ee1c202be9575",
+    "mtime": 1789232729.2458348,
+    "seen": 1789232893.6933537,
+    "ast_hash": "809d6dc430bf9d59223cfceff70a71dd",
     "semantic_hash": ""
   },
   "apps/web/src/components/streamed-cards.test.ts": {
@@ -1176,9 +1176,15 @@
     "semantic_hash": ""
   },
   "apps/web/src/lib/server/a2ui.test.ts": {
-    "mtime": 1789232455.668493,
-    "seen": 1789232555.7097595,
-    "ast_hash": "a3c8c37f1944f3f022202c906c67fe48",
+    "mtime": 1789232577.5497932,
+    "seen": 1789232893.6933537,
+    "ast_hash": "d18d198ad9caaab2c478ecf7f4e2522a",
+    "semantic_hash": ""
+  },
+  "apps/web/src/lib/server/open-gen-ui.test.ts": {
+    "mtime": 1789232789.3713841,
+    "seen": 1789232893.6933537,
+    "ast_hash": "de1d129485607c5d9b75e3b7e7cf852f",
     "semantic_hash": ""
   }
 }
