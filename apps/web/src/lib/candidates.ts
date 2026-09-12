@@ -1,4 +1,4 @@
-﻿/**
+/**
  * TalentScore — Candidate Data Model & Domain Definitions (Idea 5: HR Tech)
  * Shared contract for Amin (Agent Backend) and Milena (Frontend & Generative UI).
  */
@@ -19,6 +19,23 @@ export interface CandidateSkills {
   communication: number;// 1-10
 }
 
+export interface CandidateOffer {
+  id: string;
+  candidateId: string;
+  candidateName: string;
+  role: string;
+  proposedSalary: number;
+  salaryCurrency: string;
+  budgetMaxSalary: number;
+  equity: string;
+  startDate: string;
+  notes?: string;
+  status: "draft" | "pending_approval" | "approved" | "rejected";
+  createdAt: string;
+  approvedAt?: string;
+  approvedBy?: string;
+}
+
 export interface Candidate {
   id: string;
   name: string;
@@ -37,7 +54,9 @@ export interface Candidate {
   pros: string[];
   redFlags: string[];
   interviewNotes: InterviewNote[];
+  offer?: CandidateOffer;
 }
+
 
 export const TARGET_ROLE = {
   title: "Lead Fullstack & AI Systems Engineer",
@@ -197,6 +216,15 @@ export const candidates: Candidate[] = [
   }
 ];
 
+export function getCandidate(id?: string): Candidate | undefined {
+  if (!id) return undefined;
+  return candidates.find((item) => item.id === id);
+}
+
+export function getOrFirstCandidate(id?: string): Candidate {
+  return getCandidate(id) ?? candidates[0];
+}
+
 export function findCandidate(id: string): Candidate {
   const c = candidates.find((item) => item.id === id);
   if (!c) {
@@ -205,19 +233,147 @@ export function findCandidate(id: string): Candidate {
   return c;
 }
 
-export function candidatesWorkspaceContext(selectedId: string) {
-  const selected = findCandidate(selectedId);
+// In-memory store for candidate offers (drafts, pending approval, approved)
+const candidateOffers = new Map<string, CandidateOffer>();
+
+export function getOfferForCandidate(candidateId: string): CandidateOffer | undefined {
+  return candidateOffers.get(candidateId) ?? candidates.find((c) => c.id === candidateId)?.offer;
+}
+
+export function createDefaultOffer(candidate: Candidate): CandidateOffer {
+  const isWithinBudget = candidate.salaryNumber <= TARGET_ROLE.budgetMaxSalary;
+  const proposedSalary = isWithinBudget ? candidate.salaryNumber : TARGET_ROLE.budgetMaxSalary;
+
   return {
-    targetPosition: TARGET_ROLE,
-    availableCandidates: candidates.map(({ id, name, appliedRole, status, salaryExpectation, ratings }) => ({
-      id,
-      name,
-      appliedRole,
-      status,
-      salaryExpectation,
-      ratings
-    })),
-    selectedCandidate: selected,
-    rubricEvaluationTip: "Considera presupuesto ($95k max), balance técnico vs liderazgo y feedback de las entrevistas."
+    id: `OFFER-${candidate.id}-${Date.now()}`,
+    candidateId: candidate.id,
+    candidateName: candidate.name,
+    role: TARGET_ROLE.title,
+    proposedSalary,
+    salaryCurrency: TARGET_ROLE.currency,
+    budgetMaxSalary: TARGET_ROLE.budgetMaxSalary,
+    equity: "0.25% (4 años vesting, 1 año cliff)",
+    startDate: "2026-10-01",
+    notes: isWithinBudget
+      ? `Oferta alineada con pretensión salarial ($${candidate.salaryNumber.toLocaleString()} USD) dentro del presupuesto autorizado.`
+      : `Ajuste salarial al tope presupuestario ($${TARGET_ROLE.budgetMaxSalary.toLocaleString()} USD) para cumplir con el rango del departamento.`,
+    status: "pending_approval",
+    createdAt: new Date().toISOString(),
   };
 }
+
+export function saveOfferDraft(offer: CandidateOffer): CandidateOffer {
+  candidateOffers.set(offer.candidateId, offer);
+  const cand = getCandidate(offer.candidateId);
+  if (cand) {
+    cand.offer = offer;
+  }
+  return offer;
+}
+
+export function approveCandidateOffer(
+  candidateId: string,
+  offerData?: Partial<CandidateOffer>,
+  approvedBy = "Recruiting Lead (Marcelo)",
+): CandidateOffer {
+  const candidate = findCandidate(candidateId);
+  if (
+    offerData?.proposedSalary !== undefined &&
+    (isNaN(offerData.proposedSalary) || offerData.proposedSalary <= 0)
+  ) {
+    throw new Error(
+      `Salario propuesto inválido: ${offerData.proposedSalary}. Debe ser un número positivo.`,
+    );
+  }
+  const baseOffer = getOfferForCandidate(candidateId) ?? createDefaultOffer(candidate);
+
+  const approvedOffer: CandidateOffer = {
+    ...baseOffer,
+    ...offerData,
+    candidateId: candidate.id,
+    candidateName: candidate.name,
+    status: "approved",
+    approvedAt: new Date().toISOString(),
+    approvedBy,
+  };
+
+  // Enforce Human-in-the-Loop transition: candidate status transitions to "Offer Extended"
+  candidate.status = "Offer Extended";
+  candidate.offer = approvedOffer;
+  candidateOffers.set(candidateId, approvedOffer);
+
+  return approvedOffer;
+}
+
+export function rejectCandidateOffer(
+  candidateId: string,
+  reason?: string,
+): CandidateOffer | null {
+  const candidate = getCandidate(candidateId);
+  const existing =
+    getOfferForCandidate(candidateId) ??
+    (candidate ? createDefaultOffer(candidate) : undefined);
+  if (!existing) return null;
+
+  const rejectedOffer: CandidateOffer = {
+    ...existing,
+    status: "rejected",
+    notes: reason
+      ? `${existing.notes ? existing.notes + " | " : ""}Motivo de ajuste/rechazo: ${reason}`
+      : existing.notes,
+  };
+
+  candidateOffers.set(candidateId, rejectedOffer);
+  if (candidate) {
+    if (candidate.status === "Offer Extended") {
+      candidate.status = "Finalist";
+    }
+    candidate.offer = rejectedOffer;
+  }
+  return rejectedOffer;
+}
+
+export function resetCandidateOffersForTesting(): void {
+  candidateOffers.clear();
+  for (const c of candidates) {
+    delete c.offer;
+    if (c.id === "CAND-101") c.status = "Finalist";
+    if (c.id === "CAND-102") c.status = "Interviewing";
+    if (c.id === "CAND-103") c.status = "Review";
+  }
+}
+
+export function candidatesWorkspaceContext(selectedId: string) {
+  const selected = getOrFirstCandidate(selectedId);
+  const offer = getOfferForCandidate(selected.id);
+
+  return {
+    targetPosition: TARGET_ROLE,
+    availableCandidates: candidates.map(
+      ({ id, name, appliedRole, status, salaryExpectation, ratings }) => ({
+        id,
+        name,
+        appliedRole,
+        status,
+        salaryExpectation,
+        ratings,
+      }),
+    ),
+    selectedCandidate: selected,
+    activeOffer: offer ?? null,
+    humanInTheLoopPolicy: {
+      status: offer?.status ?? "none",
+      approvalRequired: true,
+      boundaryDescription:
+        "Las ofertas formales y modificaciones salariales requieren confirmación humana explícita antes de emitirse legalmente.",
+      allowedActions: [
+        "review_offer",
+        "approve_and_extend_offer",
+        "reject_or_adjust_offer",
+      ],
+    },
+    rubricEvaluationTip:
+      "Considera presupuesto ($95k max), balance técnico vs liderazgo y feedback de las entrevistas.",
+  };
+}
+
