@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, type FormEvent } from "react";
+import { useLearnFromUserAction } from "@copilotkit/react-core/v2";
 import type { WorkplaceControls } from "@/lib/use-workplace";
 import {
   type JobOfferDetails,
@@ -28,6 +29,7 @@ export function WorkplaceFollowups({
   candidateId,
   workplace,
 }: WorkplaceFollowupsProps) {
+  const learnFromUserAction = useLearnFromUserAction();
   const activeId = candidateId ?? incidentId ?? "CAND-101";
   const candidate = getOrFirstCandidate(activeId);
 
@@ -201,6 +203,29 @@ export function WorkplaceFollowups({
         await workplace.approve();
       }
 
+      // 3. Record Learning event for continuous agent improvement
+      try {
+        void learnFromUserAction({
+          threadId: activeId,
+          title: `Oferta formal aprobada: ${approved.candidateName}`,
+          description: `Oferta de $${approved.proposedSalary.toLocaleString()} ${approved.salaryCurrency}/año aprobada para ${approved.candidateName} (${approved.role})`,
+          data: {
+            action: "approve_offer",
+            containerId: "talentscore-recruiting",
+            candidateId: candidate.id,
+            candidateName: approved.candidateName,
+            role: approved.role,
+            proposedSalary: approved.proposedSalary,
+            salaryCurrency: approved.salaryCurrency,
+            budgetMaxSalary: approved.budgetMaxSalary,
+            equity: approved.equity,
+            startDate: approved.startDate,
+          },
+        }).catch(() => {});
+      } catch {
+        // Non-blocking annotation
+      }
+
       setCurrentOffer(approved);
       setLocalProposal(null);
       setIsAdjusting(false);
@@ -230,6 +255,27 @@ export function WorkplaceFollowups({
       if (rejected) {
         setCurrentOffer(rejected);
       }
+
+      // Record Learning event for agent tuning
+      try {
+        void learnFromUserAction({
+          threadId: activeId,
+          title: `Oferta devuelta para ajuste: ${candidate.name}`,
+          description: `El reclutador solicitó ajustes a la propuesta de oferta para ${candidate.name}`,
+          data: {
+            action: "reject_or_adjust_offer",
+            containerId: "talentscore-recruiting",
+            candidateId: candidate.id,
+            candidateName: candidate.name,
+            role: activeProposal?.role,
+            proposedSalary: activeProposal?.proposedSalary,
+            reason: "Ajuste de términos requerido por el Reclutador",
+          },
+        }).catch(() => {});
+      } catch {
+        // Non-blocking annotation
+      }
+
       setLocalProposal(null);
       setIsAdjusting(true);
       setSuccessNotice(
@@ -274,6 +320,10 @@ export function WorkplaceFollowups({
             Human-in-the-Loop: El agente analiza y propone; el reclutador humano
             aprueba y emite formalmente.
           </p>
+          <div style={{ marginTop: 4, display: "flex", alignItems: "center", gap: 6, fontSize: "11px", color: "var(--muted)" }}>
+            <span style={{ display: "inline-block", width: 7, height: 7, borderRadius: "50%", background: "#10b981" }}></span>
+            <span>CopilotKit Learning Container: <code>talentscore-recruiting</code></span>
+          </div>
         </div>
         <span
           className="ck-tag"
