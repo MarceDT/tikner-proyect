@@ -73,6 +73,10 @@ export function AppControl({
       handler: async ({ candidateId, newStatus }) => {
         try {
           const candidate = findCandidate(candidateId);
+          // Safety guard: Enforce Human-in-the-Loop policy
+          if (newStatus === "Offer Extended" || newStatus === "Hired") {
+            return `Acción bloqueada: El estado "${newStatus}" es una transición crítica que requiere la aprobación humana explícita del reclutador en la interfaz. Por favor utiliza la compuerta Human-in-the-Loop (propose_action) o solicita confirmación en pantalla.`;
+          }
           if (onUpdateStatus) {
             onUpdateStatus(candidateId, newStatus);
           }

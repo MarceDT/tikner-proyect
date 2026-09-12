@@ -2199,16 +2199,1395 @@ time {
   will-change: transform;
 }
 
-/* Release / spring-back phase — only when .is-popping is present */
+/* ── Pop-Click Spring Animation Targets ──────────────────────────────────── */
 .ts-candidate-item.is-popping,
 .ts-card.is-popping,
 .ts-hero-card.is-popping,
 .ts-prompt-chip.is-popping,
 .ts-btn.is-popping,
 .ts-theme-toggle.is-popping,
-.ts-mobile-tab-btn.is-popping {
+.ts-mobile-tab-btn.is-popping,
+.ts-kanban-card.is-popping,
+.ts-cal-card.is-popping,
+.ts-dash-kpi-card.is-popping {
   animation: ts-spring-pop 280ms cubic-bezier(0.34, 1.56, 0.64, 1) both;
   will-change: transform;
+}
+
+/* ==========================================================================
+   TalentScore — Stepper de Flujo Visual ATS
+   ========================================================================== */
+.ts-stepper-bar {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 10px 16px;
+  margin-bottom: 20px;
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  overflow-x: auto;
+  gap: 8px;
+}
+
+.ts-stepper-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 12px;
+  border-radius: var(--radius-full);
+  background: transparent;
+  border: 1px solid transparent;
+  color: var(--text-secondary);
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.15s ease;
+}
+
+.ts-stepper-item:hover {
+  background: var(--surface-hover);
+  color: var(--text);
+}
+
+.ts-stepper-item.is-active {
+  background: var(--primary-subtle);
+  border-color: var(--primary-border);
+  color: var(--primary-light);
+  font-weight: 600;
+}
+
+.ts-stepper-num {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: var(--surface-raised);
+  border: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10.5px;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.ts-stepper-item.is-active .ts-stepper-num {
+  background: var(--primary);
+  color: #ffffff;
+  border-color: var(--primary);
+}
+
+.ts-stepper-arrow {
+  color: var(--muted);
+  font-size: 12px;
+  display: flex;
+  align-items: center;
+  opacity: 0.5;
+}
+
+/* ==========================================================================
+   TalentScore — Executive Dashboard Styles
+   ========================================================================== */
+.ts-dash-container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  animation: ts-section-pop 240ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.ts-dash-kpi-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+}
+
+.ts-dash-kpi-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 16px 18px;
+  display: flex;
+  flex-direction: column;
+  box-shadow: var(--shadow-sm);
+  transition: transform 0.16s ease, border-color 0.16s ease;
+}
+
+.ts-dash-kpi-card:hover {
+  border-color: var(--border-focus);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+.ts-dash-kpi-label {
+  font-size: 11.5px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--text-secondary);
+  margin-bottom: 8px;
+}
+
+.ts-dash-kpi-val-row {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  margin-bottom: 4px;
+}
+
+.ts-dash-kpi-val {
+  font-size: 26px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: var(--text);
+  line-height: 1.1;
+}
+
+.ts-dash-kpi-badge {
+  font-size: 11px;
+  padding: 2px 8px;
+  border-radius: var(--radius-full);
+  background: var(--surface-raised);
+  border: 1px solid var(--border);
+  color: var(--text-secondary);
+  font-weight: 600;
+}
+
+.ts-dash-kpi-subtext {
+  font-size: 11.5px;
+  color: var(--muted);
+}
+
+.ts-dash-agent-recommendation {
+  background: linear-gradient(135deg, var(--surface) 0%, var(--surface-card) 100%);
+  border: 1px solid var(--border-focus);
+  border-radius: var(--radius-lg);
+  padding: 20px 24px;
+  box-shadow: var(--shadow-sm);
+  position: relative;
+  overflow: hidden;
+}
+
+.ts-dash-agent-recommendation::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 4px;
+  height: 100%;
+  background: var(--primary);
+}
+
+.ts-agent-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--primary-subtle);
+  color: var(--primary-light);
+  border: 1px solid var(--primary-border);
+  padding: 4px 10px;
+  border-radius: var(--radius-full);
+  font-size: 11px;
+  font-weight: 600;
+  margin-bottom: 12px;
+}
+
+.ts-agent-body {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.ts-agent-title {
+  font-size: 18px;
+  font-weight: 700;
+  margin: 0 0 6px 0;
+  color: var(--text);
+}
+
+.ts-agent-desc {
+  margin: 0;
+  color: var(--text-secondary);
+  font-size: 13.5px;
+  max-width: 800px;
+  line-height: 1.5;
+}
+
+.ts-agent-actions {
+  display: flex;
+  gap: 10px;
+  flex-shrink: 0;
+}
+
+.ts-dash-two-col {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+.ts-dash-budget-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.ts-dash-budget-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 14px;
+  background: var(--surface-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.ts-dash-budget-item:hover {
+  background: var(--surface-hover);
+  border-color: var(--border-focus);
+  transform: translateY(-1px);
+}
+
+.ts-dash-cand-meta {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.ts-dash-cand-name {
+  font-weight: 600;
+  font-size: 13.5px;
+  color: var(--text);
+  display: block;
+}
+
+.ts-dash-cand-role {
+  font-size: 11.5px;
+  color: var(--muted);
+  display: block;
+}
+
+.ts-dash-budget-figures {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.ts-dash-salary {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.ts-budget-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 3px 8px;
+  border-radius: var(--radius-full);
+}
+
+.ts-pill-success {
+  background: var(--emerald-bg);
+  color: var(--emerald-text);
+  border: 1px solid var(--emerald-border);
+}
+
+.ts-pill-danger {
+  background: var(--rose-bg);
+  color: var(--rose-text);
+  border: 1px solid var(--rose-border);
+}
+
+.ts-dash-alert-callout {
+  margin-top: 14px;
+  padding: 12px 14px;
+  background: var(--amber-bg);
+  border: 1px solid var(--amber-border);
+  border-radius: var(--radius-md);
+  color: var(--amber-text);
+  font-size: 12px;
+  line-height: 1.45;
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+.ts-dash-ranking-table {
+  display: flex;
+  flex-direction: column;
+  margin-top: 12px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+}
+
+.ts-dash-table-header {
+  display: grid;
+  grid-template-columns: 1fr 90px 100px 1.2fr;
+  padding: 8px 12px;
+  background: var(--surface-raised);
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  color: var(--muted);
+  border-bottom: 1px solid var(--border);
+}
+
+.ts-dash-table-row {
+  display: grid;
+  grid-template-columns: 1fr 90px 100px 1.2fr;
+  align-items: center;
+  padding: 10px 12px;
+  background: var(--surface);
+  border-bottom: 1px solid var(--border-subtle);
+  font-size: 12.5px;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.ts-dash-table-row:last-child {
+  border-bottom: none;
+}
+
+.ts-dash-table-row:hover {
+  background: var(--surface-hover);
+}
+
+.ts-score-pill {
+  font-weight: 700;
+  color: var(--primary-light);
+  background: var(--primary-subtle);
+  padding: 2px 6px;
+  border-radius: var(--radius-xs);
+  font-size: 11.5px;
+}
+
+.ts-risk-text {
+  color: var(--amber-text);
+  font-size: 11.5px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: block;
+}
+
+.ts-no-risk-text {
+  color: var(--emerald-text);
+  font-size: 11.5px;
+}
+
+.ts-dash-shortlist-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 14px;
+  padding-top: 12px;
+  border-top: 1px solid var(--border);
+  gap: 12px;
+}
+
+.ts-shortlist-info {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+
+/* ==========================================================================
+   TalentScore — Tablero Kanban CIME-Inspired
+   ========================================================================== */
+.ts-kanban-container {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  animation: ts-section-pop 240ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.ts-kanban-controls {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 14px 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  box-shadow: var(--shadow-sm);
+}
+
+.ts-kanban-title-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.ts-kanban-main-title {
+  font-size: 17px;
+  font-weight: 700;
+  margin: 0;
+  color: var(--text);
+}
+
+.ts-kanban-main-subtitle {
+  font-size: 12px;
+  color: var(--text-secondary);
+  margin: 2px 0 0;
+}
+
+.ts-kanban-badge-role {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--surface-card);
+  border: 1px solid var(--border);
+  padding: 4px 12px;
+  border-radius: var(--radius-full);
+  font-size: 11.5px;
+  color: var(--text-secondary);
+}
+
+.ts-kanban-filters {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.ts-kanban-search-box {
+  position: relative;
+  display: flex;
+  align-items: center;
+  min-width: 280px;
+}
+
+.ts-kanban-search-box svg {
+  position: absolute;
+  left: 10px;
+  color: var(--muted);
+  pointer-events: none;
+}
+
+.ts-kanban-search-input {
+  width: 100%;
+  padding: 7px 28px 7px 32px;
+  border-radius: var(--radius-full);
+  border: 1px solid var(--border);
+  background: var(--surface-card);
+  font-size: 12.5px;
+  color: var(--text);
+  outline: none;
+  transition: all 0.15s ease;
+}
+
+.ts-kanban-search-input:focus {
+  border-color: var(--border-focus);
+  background: var(--surface);
+  box-shadow: 0 0 0 3px var(--ring);
+}
+
+.ts-kanban-clear-btn {
+  position: absolute;
+  right: 10px;
+  background: none;
+  border: none;
+  font-size: 16px;
+  color: var(--muted);
+  cursor: pointer;
+  padding: 0;
+  line-height: 1;
+}
+
+.ts-kanban-budget-filters {
+  display: flex;
+  gap: 6px;
+}
+
+.ts-kanban-filter-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 6px 12px;
+  border-radius: var(--radius-full);
+  border: 1px solid var(--border);
+  background: var(--surface-card);
+  color: var(--text-secondary);
+  font-size: 11.5px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.ts-kanban-filter-pill:hover {
+  background: var(--surface-hover);
+  color: var(--text);
+}
+
+.ts-kanban-filter-pill.is-active {
+  background: var(--primary-subtle);
+  border-color: var(--primary-border);
+  color: var(--primary-light);
+  font-weight: 600;
+}
+
+/* Kanban Columns Board */
+.ts-kanban-board {
+  display: flex;
+  gap: 14px;
+  overflow-x: auto;
+  padding-bottom: 12px;
+  scrollbar-width: thin;
+  scrollbar-color: var(--border) transparent;
+}
+
+.ts-kanban-board::-webkit-scrollbar {
+  height: 8px;
+}
+
+.ts-kanban-board::-webkit-scrollbar-track {
+  background: var(--surface-raised);
+  border-radius: var(--radius-full);
+}
+
+.ts-kanban-board::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: var(--radius-full);
+}
+
+.ts-kanban-column {
+  flex: 0 0 270px;
+  max-width: 290px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  display: flex;
+  flex-direction: column;
+  max-height: calc(100vh - 220px);
+  min-height: 480px;
+  box-shadow: var(--shadow-sm);
+  transition: border-color 0.15s ease;
+}
+
+.ts-kanban-col-header {
+  padding: 12px 14px;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: var(--surface-card);
+  border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+}
+
+.ts-kanban-col-title-group {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.ts-kanban-col-indicator {
+  width: 4px;
+  height: 28px;
+  border-radius: 2px;
+  background: var(--muted);
+}
+
+.ts-col-review .ts-kanban-col-indicator { background: var(--primary); }
+.ts-col-interviewing .ts-kanban-col-indicator { background: var(--amber); }
+.ts-col-finalist .ts-kanban-col-indicator { background: #8b5cf6; }
+.ts-col-offer .ts-kanban-col-indicator { background: var(--emerald); }
+.ts-col-hired .ts-kanban-col-indicator { background: #06b6d4; }
+.ts-col-rejected .ts-kanban-col-indicator { background: var(--rose); }
+
+.ts-kanban-col-title {
+  font-size: 13.5px;
+  font-weight: 700;
+  color: var(--text);
+  margin: 0;
+}
+
+.ts-kanban-col-subtitle {
+  font-size: 10.5px;
+  color: var(--muted);
+  display: block;
+}
+
+.ts-kanban-col-count {
+  font-size: 11px;
+  font-weight: 700;
+  padding: 2px 7px;
+  border-radius: var(--radius-full);
+  background: var(--surface-raised);
+  border: 1px solid var(--border);
+  color: var(--text);
+}
+
+.ts-kanban-cards-list {
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  overflow-y: auto;
+  flex: 1;
+}
+
+.ts-kanban-empty-slot {
+  padding: 30px 12px;
+  text-align: center;
+  color: var(--muted);
+  font-size: 12px;
+  border: 1px dashed var(--border);
+  border-radius: var(--radius-md);
+  margin: 8px 0;
+}
+
+/* Kanban Dense Card */
+.ts-kanban-card {
+  background: var(--surface-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 12px 12px 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  cursor: pointer;
+  transition: all 0.16s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+}
+
+.ts-kanban-card:hover {
+  background: var(--surface-hover);
+  border-color: var(--border-focus);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+.ts-kanban-card:focus-visible {
+  outline: 2px solid var(--border-focus);
+  outline-offset: 1px;
+}
+
+.ts-kcard-top {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.ts-kcard-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 1px solid var(--border);
+  flex-shrink: 0;
+}
+
+.ts-kcard-name-group {
+  flex: 1;
+  min-width: 0;
+}
+
+.ts-kcard-name {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text);
+  margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.ts-kcard-role {
+  font-size: 11px;
+  color: var(--muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: block;
+}
+
+.ts-kcard-open-btn {
+  background: transparent;
+  border: none;
+  color: var(--muted);
+  padding: 4px;
+  border-radius: var(--radius-xs);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.ts-kcard-open-btn:hover {
+  color: var(--primary);
+  background: var(--surface-raised);
+}
+
+.ts-kcard-salary-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+  font-size: 11.5px;
+}
+
+.ts-kcard-salary-val {
+  font-weight: 600;
+  color: var(--text);
+}
+
+.ts-kcard-budget-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  font-size: 10.5px;
+  font-weight: 600;
+  padding: 2px 6px;
+  border-radius: var(--radius-full);
+}
+
+.ts-kcard-budget-badge.is-ok {
+  background: var(--emerald-bg);
+  color: var(--emerald-text);
+  border: 1px solid var(--emerald-border);
+}
+
+.ts-kcard-budget-badge.is-over {
+  background: var(--rose-bg);
+  color: var(--rose-text);
+  border: 1px solid var(--rose-border);
+}
+
+.ts-kcard-skills {
+  display: flex;
+  gap: 4px;
+  flex-wrap: wrap;
+}
+
+.ts-kcard-skill-pill {
+  font-size: 10px;
+  padding: 1px 6px;
+  border-radius: var(--radius-xs);
+  background: var(--surface-raised);
+  border: 1px solid var(--border);
+  color: var(--text-secondary);
+}
+
+.ts-kcard-skill-pill.is-more {
+  background: var(--surface);
+  color: var(--muted);
+}
+
+.ts-kcard-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 6px;
+  border-top: 1px solid var(--border-subtle);
+  font-size: 11px;
+}
+
+.ts-kcard-meta-facts {
+  display: flex;
+  gap: 6px;
+  color: var(--muted);
+  font-size: 10.5px;
+}
+
+.ts-kcard-select-move {
+  font-size: 11px;
+  padding: 3px 6px;
+  border-radius: var(--radius-xs);
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--text);
+  cursor: pointer;
+  outline: none;
+}
+
+.ts-kcard-select-move:hover,
+.ts-kcard-select-move:focus {
+  border-color: var(--border-focus);
+}
+
+/* ==========================================================================
+   TalentScore — Calendario de Entrevistas Styles
+   ========================================================================== */
+.ts-calendar-container {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  animation: ts-section-pop 240ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.ts-cal-header {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 14px 18px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: var(--shadow-sm);
+}
+
+.ts-cal-title-group {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--primary-light);
+}
+
+.ts-cal-title {
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--text);
+  margin: 0;
+}
+
+.ts-cal-subtitle {
+  font-size: 12px;
+  color: var(--text-secondary);
+  margin: 2px 0 0;
+}
+
+.ts-cal-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.ts-cal-tabs {
+  display: flex;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 4px;
+  gap: 4px;
+}
+
+.ts-cal-tab-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  border-radius: var(--radius-sm);
+  background: transparent;
+  border: none;
+  color: var(--text-secondary);
+  font-size: 12.5px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.ts-cal-tab-btn.is-active {
+  background: var(--surface-hover);
+  color: var(--text);
+  font-weight: 600;
+  box-shadow: var(--shadow-sm);
+}
+
+.ts-cal-tab-pill {
+  font-size: 10.5px;
+  padding: 1px 6px;
+  border-radius: var(--radius-full);
+  background: var(--surface-raised);
+  border: 1px solid var(--border);
+  color: var(--text-secondary);
+}
+
+.ts-cal-conflict-banner {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--amber-bg);
+  border: 1px solid var(--amber-border);
+  color: var(--amber-text);
+  padding: 6px 12px;
+  border-radius: var(--radius-full);
+  font-size: 12px;
+  animation: ts-pulse-glow 2s infinite ease-in-out;
+}
+
+@keyframes ts-pulse-glow {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(245, 158, 11, 0.2); }
+  50% { box-shadow: 0 0 0 4px rgba(245, 158, 11, 0.4); }
+}
+
+.ts-cal-empty-state {
+  background: var(--surface);
+  border: 1px dashed var(--border);
+  border-radius: var(--radius-lg);
+  padding: 48px 24px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.ts-cal-empty-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: var(--surface-raised);
+  border: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--muted);
+  margin-bottom: 12px;
+}
+
+.ts-cal-empty-title {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--text);
+  margin: 0 0 6px 0;
+}
+
+.ts-cal-empty-desc {
+  max-width: 520px;
+  color: var(--text-secondary);
+  font-size: 13px;
+  line-height: 1.5;
+  margin: 0 0 16px 0;
+}
+
+.ts-cal-empty-desc code {
+  background: var(--surface-raised);
+  padding: 2px 6px;
+  border-radius: var(--radius-xs);
+  font-size: 12px;
+}
+
+.ts-cal-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 16px;
+}
+
+.ts-cal-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+  transition: all 0.16s ease;
+}
+
+.ts-cal-card.is-conflict {
+  border-color: var(--amber);
+  background: var(--surface);
+  box-shadow: 0 0 0 2px rgba(245, 158, 11, 0.2);
+}
+
+.ts-cal-conflict-strip {
+  background: var(--amber-bg);
+  border-bottom: 1px solid var(--amber-border);
+  color: var(--amber-text);
+  padding: 8px 12px;
+  font-size: 11.5px;
+  display: flex;
+  align-items: flex-start;
+  gap: 6px;
+  line-height: 1.4;
+}
+
+.ts-cal-card-body {
+  padding: 14px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.ts-cal-time-badge {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+
+.ts-cal-cand-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.ts-cal-avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 1px solid var(--border);
+}
+
+.ts-cal-cand-name {
+  font-size: 14px;
+  font-weight: 700;
+  margin: 0;
+  color: var(--text);
+}
+
+.ts-cal-round-title {
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.ts-cal-interviewer-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  color: var(--text-secondary);
+  background: var(--surface-card);
+  padding: 6px 10px;
+  border-radius: var(--radius-xs);
+  border: 1px solid var(--border-subtle);
+}
+
+.ts-cal-card-footer {
+  display: flex;
+  gap: 8px;
+  margin-top: 4px;
+}
+
+.ts-btn-danger {
+  color: var(--rose-text) !important;
+  border-color: var(--rose-border) !important;
+}
+
+.ts-btn-danger:hover {
+  background: var(--rose-bg) !important;
+}
+
+/* Historical Rounds Grid */
+.ts-cal-history-list {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.ts-cal-history-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--emerald-text);
+  background: var(--emerald-bg);
+  border: 1px solid var(--emerald-border);
+  padding: 8px 14px;
+  border-radius: var(--radius-md);
+}
+
+.ts-cal-history-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+  gap: 14px;
+}
+
+.ts-cal-history-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 14px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  box-shadow: var(--shadow-sm);
+}
+
+.ts-cal-hist-top {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.ts-cal-hist-top div {
+  flex: 1;
+}
+
+.ts-cal-hist-meta {
+  display: flex;
+  gap: 12px;
+  font-size: 11.5px;
+  color: var(--muted);
+}
+
+.ts-cal-hist-notes {
+  margin: 0;
+  font-size: 12.5px;
+  color: var(--text-secondary);
+  line-height: 1.45;
+  font-style: italic;
+  background: var(--surface-card);
+  padding: 8px 10px;
+  border-radius: var(--radius-xs);
+  border: 1px solid var(--border-subtle);
+}
+
+/* ==========================================================================
+   TalentScore — Modal & Dialog Styles (Human-in-the-Loop)
+   ========================================================================== */
+.ts-modal-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.65);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  animation: ts-modal-fade 0.2s ease-out both;
+}
+
+@keyframes ts-modal-fade {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.ts-modal-box {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  max-width: 540px;
+  width: 100%;
+  padding: 24px;
+  box-shadow: var(--shadow-lg);
+  animation: ts-section-pop 220ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.ts-modal-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.ts-modal-icon-wrap {
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radius-md);
+  background: var(--amber-bg);
+  border: 1px solid var(--amber-border);
+  color: var(--amber-text);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.ts-modal-eyebrow {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--amber-text);
+  letter-spacing: 0.05em;
+  display: block;
+}
+
+.ts-modal-title {
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--text);
+  margin: 2px 0 0 0;
+}
+
+.ts-modal-content {
+  font-size: 13.5px;
+  color: var(--text-secondary);
+  line-height: 1.5;
+  margin-bottom: 20px;
+}
+
+.ts-modal-terms-box {
+  background: var(--surface-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 12px 14px;
+  margin: 12px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  font-size: 12.5px;
+}
+
+.ts-modal-term-row {
+  display: flex;
+  justify-content: space-between;
+}
+
+.ts-modal-warning-box {
+  background: var(--amber-bg);
+  border: 1px solid var(--amber-border);
+  border-radius: var(--radius-xs);
+  padding: 8px 10px;
+  color: var(--amber-text);
+  font-size: 12px;
+  display: flex;
+  align-items: flex-start;
+  gap: 6px;
+  margin-top: 4px;
+}
+
+.ts-modal-disclaimer {
+  font-size: 11.5px;
+  color: var(--muted);
+  margin: 12px 0 0;
+  line-height: 1.4;
+}
+
+.ts-modal-actions {
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+}
+
+.ts-form-field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-bottom: 12px;
+}
+
+.ts-form-field label {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.ts-form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 10px;
+}
+
+.ts-input {
+  width: 100%;
+  padding: 7px 10px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+  background: var(--surface-card);
+  font-size: 13px;
+  color: var(--text);
+  outline: none;
+}
+
+.ts-input:focus {
+  border-color: var(--border-focus);
+  background: var(--surface);
+  box-shadow: 0 0 0 2px var(--ring);
+}
+
+/* ==========================================================================
+   TalentScore — Toast Notification System
+   ========================================================================== */
+.ts-toast-container {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  pointer-events: none;
+}
+
+.ts-toast {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 10px 16px;
+  font-size: 13px;
+  box-shadow: var(--shadow-lg);
+  color: var(--text);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  animation: ts-toast-enter 0.22s ease-out both;
+  pointer-events: auto;
+}
+
+@keyframes ts-toast-enter {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.ts-toast-success {
+  border-left: 4px solid var(--emerald);
+}
+
+.ts-toast-info {
+  border-left: 4px solid var(--primary);
+}
+
+/* ==========================================================================
+   TalentScore — Responsive Overrides for New Views
+   ========================================================================== */
+@media (max-width: 1080px) {
+  .ts-dash-kpi-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .ts-dash-two-col {
+    grid-template-columns: 1fr;
+  }
+  .ts-agent-body {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+@media (max-width: 768px) {
+  .ts-dash-kpi-grid {
+    grid-template-columns: 1fr;
+  }
+  .ts-kanban-controls {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .ts-kanban-filters {
+    flex-direction: column;
+    width: 100%;
+  }
+  .ts-kanban-search-box {
+    width: 100%;
+  }
+  .ts-kanban-budget-filters {
+    width: 100%;
+    overflow-x: auto;
+  }
+  .ts-cal-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+  .ts-form-row {
+    grid-template-columns: 1fr;
+  }
+  .ts-dash-table-header,
+  .ts-dash-table-row {
+    grid-template-columns: 1fr 70px 90px;
+  }
+  .ts-dash-table-header span:last-child,
+  .ts-dash-table-row span:last-child {
+    display: none;
+  }
 }
 
 /* ── Accessibility: Reduced Motion Media Query ───────────────────────────── */
@@ -2223,4 +3602,5 @@ time {
     transform: none !important;
   }
 }
+
 
