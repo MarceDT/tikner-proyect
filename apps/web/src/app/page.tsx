@@ -119,7 +119,69 @@ export default function Home() {
   const [mobileTab, setMobileTab] = useState<"detail" | "pipeline" | "copilot">("detail");
   const [theme, setTheme] = useState<"light" | "dark">("light");
 
+  // ── Pop-click spring animation ───────────────────────────────────────────
+  // Delegated from document: finds the closest pop-click target on mousedown,
+  // then applies .is-popping on release so the spring CSS fires exactly once.
+  // Skips nested interactive elements (buttons, links, inputs inside a card).
+  // Respects prefers-reduced-motion.
+  useEffect(() => {
+    const POP_SELECTORS =
+      ".ts-candidate-item,.ts-card,.ts-hero-card,.ts-prompt-chip,.ts-btn,.ts-theme-toggle,.ts-mobile-tab-btn";
+    const INNER_INTERACTIVE = "a,button,input,select,textarea,[role='button']";
+
+    let target: Element | null = null;
+
+    function findPopTarget(el: EventTarget | null): Element | null {
+      if (!(el instanceof Element)) return null;
+      // If the direct click was on an inner interactive inside a card, skip.
+      const innerEl = el.closest(INNER_INTERACTIVE);
+      const card = el.closest(POP_SELECTORS);
+      if (!card) return null;
+      // Allow if the card itself IS the interactive element (e.g. ts-candidate-item is a button)
+      if (innerEl && innerEl !== card) return null;
+      return card;
+    }
+
+    function onPress(e: MouseEvent | TouchEvent) {
+      if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+      target = findPopTarget(e.target);
+      if (target) {
+        // Remove any in-flight animation so rapid clicks restart cleanly.
+        target.classList.remove("is-popping");
+        // Force reflow to restart animation
+        void (target as HTMLElement).offsetWidth;
+      }
+    }
+
+    function onRelease() {
+      if (!target) return;
+      const el = target;
+      target = null;
+      el.classList.add("is-popping");
+      el.addEventListener(
+        "animationend",
+        () => {
+          el.classList.remove("is-popping");
+        },
+        { once: true }
+      );
+    }
+
+    document.addEventListener("mousedown", onPress, { passive: true });
+    document.addEventListener("touchstart", onPress, { passive: true });
+    document.addEventListener("mouseup", onRelease, { passive: true });
+    document.addEventListener("touchend", onRelease, { passive: true });
+
+    return () => {
+      document.removeEventListener("mousedown", onPress);
+      document.removeEventListener("touchstart", onPress);
+      document.removeEventListener("mouseup", onRelease);
+      document.removeEventListener("touchend", onRelease);
+    };
+  }, []);
+
   // Sync theme with localStorage and documentElement on mount
+
   useEffect(() => {
     try {
       const saved = localStorage.getItem("talentscore_theme");

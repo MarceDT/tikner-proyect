@@ -2015,6 +2015,57 @@ time {
   }
 }
 
+/* ── Pop-Click Spring Animation ─────────────────────────────────────────── */
+/*
+ * Strategy: CSS-only transform for the press phase (scale 0.96 on :active),
+ * and a .is-popping class for the spring-back phase. The class is added by a
+ * tiny passive event listener in the component (no library, no framework).
+ * The class removes itself after the animation ends via animationend.
+ */
+
+@keyframes ts-spring-pop {
+  0%   { transform: scale(0.96); }
+  40%  { transform: scale(1.04); }
+  70%  { transform: scale(0.99); }
+  100% { transform: scale(1.00); }
+}
+
+/* Shared setup */
+.ts-candidate-item,
+.ts-card,
+.ts-hero-card,
+.ts-prompt-chip,
+.ts-btn,
+.ts-theme-toggle,
+.ts-mobile-tab-btn {
+  transform-origin: center center;
+}
+
+/* Press phase: scale down */
+.ts-candidate-item:active,
+.ts-card:active,
+.ts-hero-card:active,
+.ts-prompt-chip:active,
+.ts-btn:active,
+.ts-theme-toggle:active,
+.ts-mobile-tab-btn:active {
+  transform: scale(0.96);
+  transition: transform 80ms ease-in;
+  will-change: transform;
+}
+
+/* Release / spring-back phase — only when .is-popping is present */
+.ts-candidate-item.is-popping,
+.ts-card.is-popping,
+.ts-hero-card.is-popping,
+.ts-prompt-chip.is-popping,
+.ts-btn.is-popping,
+.ts-theme-toggle.is-popping,
+.ts-mobile-tab-btn.is-popping {
+  animation: ts-spring-pop 280ms cubic-bezier(0.34, 1.56, 0.64, 1) both;
+  will-change: transform;
+}
+
 /* ── Accessibility: Reduced Motion Media Query ───────────────────────────── */
 @media (prefers-reduced-motion: reduce) {
   *,
