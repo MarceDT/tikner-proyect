@@ -12,6 +12,10 @@ import type {
   CandidateRanking,
   ExportEvent,
   ExportFormat,
+  Interview,
+  InterviewHumanApproval,
+  InterviewProposal,
+  InterviewScheduleResult,
   ReportDecision,
   SelectionReport,
   TargetRoleSnapshot,
@@ -22,6 +26,15 @@ import { ApprovalRequiredError, NotFoundError, TalentError } from "./errors";
 import { exportFileName, renderReport } from "./exports";
 import { extractProfile, type ExtractorFn } from "./extract-profile";
 import { rankApplication, rankApplications } from "./rank-candidates";
+import {
+  assertInterviewProposalInput,
+  availabilityForCandidate,
+  detectInterviewConflicts,
+  proposalIsBlocked,
+  SimulatedLocalInterviewScheduler,
+  type InterviewProposalInput,
+  type InterviewScheduler,
+} from "./interviews";
 import type { TalentStore } from "./store";
 
 export interface TalentServiceOptions {
@@ -31,6 +44,8 @@ export interface TalentServiceOptions {
   inbox?: () => Promise<DemoInboxMessage[]>;
   targetRole?: TargetRoleSnapshot;
   now?: () => Date;
+  /** Local simulated adapter by default. Inject a real provider only in a future authenticated deployment. */
+  interviewScheduler?: InterviewScheduler;
 }
 
 export interface SyncResult {
@@ -56,6 +71,7 @@ export class TalentService {
   private inbox: () => Promise<DemoInboxMessage[]>;
   readonly targetRole: TargetRoleSnapshot;
   private now: () => Date;
+  private interviewScheduler: InterviewScheduler;
 
   constructor(options: TalentServiceOptions) {
     this.store = options.store;
@@ -63,6 +79,7 @@ export class TalentService {
     this.inbox = options.inbox ?? readDemoInbox;
     this.targetRole = options.targetRole ?? { ...TARGET_ROLE, requiredSkills: [...TARGET_ROLE.requiredSkills] };
     this.now = options.now ?? (() => new Date());
+    this.interviewScheduler = options.interviewScheduler ?? new SimulatedLocalInterviewScheduler();
   }
 
   /**
@@ -184,6 +201,8 @@ export class TalentService {
       rankings,
       shortlistApplicationIds: rankings.slice(0, topN).map((r) => r.applicationId),
       approval: { status: "pending" },
+      interviewProposalIds: [],
+      plannedInterviews: [],
     };
     return this.store.saveReport(report);
   }
@@ -216,6 +235,155 @@ export class TalentService {
         ...(input.note?.trim() ? { note: input.note.trim() } : {}),
       },
     });
+  }
+
+  /** Agent-readable published availability. The current data source is explicitly simulated. */
+  async getInterviewAvailability(applicationId: string) {
+    const application = await this.getApplication(applicationId);
+    const candidateName = application.profile?.name ?? application.email.from;
+    return {
+      applicationId,
+      candidateName,
+      source: "simulated_demo_dataset" as const,
+      availability: availabilityForCandidate(candidateName, this.now().toISOString()),
+    };
+  }
+
+  listInterviewProposals(reportId?: string) {
+    return this.store.listInterviewProposals(reportId);
+  }
+
+  listInterviews(reportId?: string) {
+    return this.store.listInterviews(reportId);
+  }
+
+  /**
+   * The only write the AI capability receives: a reversible proposal. It cannot
+   * schedule, re-schedule, cancel or send an invitation.
+   */
+  async proposeInterview(input: InterviewProposalInput): Promise<InterviewProposal> {
+    assertInterviewProposalInput(input);
+    const report = await this.store.getReport(input.reportId);
+    if (!report) throw new NotFoundError("Reporte", input.reportId);
+    if (report.approval.status !== "approved") {
+      throw new ApprovalRequiredError(input.reportId, report.approval.status);
+    }
+    if (!report.shortlistApplicationIds.includes(input.candidateApplicationId)) {
+      throw new TalentError("Solo se pueden proponer entrevistas para candidaturas de la shortlist aprobada.", 409);
+    }
+    const application = await this.getApplication(input.candidateApplicationId);
+    const candidateName = application.profile?.name ?? application.email.from;
+    const now = this.now().toISOString();
+    const availabilityEvidence = availabilityForCandidate(candidateName, now);
+    const { conflicts, missingData } = detectInterviewConflicts(
+      input,
+      availabilityEvidence,
+      await this.store.listInterviews(),
+    );
+    const proposal: InterviewProposal = {
+      id: `INTP-${randomUUID().slice(0, 8).toUpperCase()}`,
+      reportId: input.reportId,
+      candidateApplicationId: input.candidateApplicationId,
+      candidateName,
+      type: input.type,
+      startsAt: input.startsAt,
+      durationMinutes: input.durationMinutes,
+      timezone: input.timezone,
+      interviewers: [...new Set(input.interviewers.map((name) => name.trim()).filter(Boolean))],
+      modality: input.modality,
+      locationOrMeetingUrl: input.locationOrMeetingUrl?.trim() || null,
+      agenda: input.agenda.map((item) => item.trim()).filter(Boolean),
+      availabilityEvidence,
+      conflicts,
+      recommendationReason: input.recommendationReason.trim(),
+      missingData,
+      status: "pending_human_approval",
+      createdBy: "ai",
+      createdAt: now,
+      auditTrail: [{ at: now, actor: "ai", action: "proposed", detail: "Propuesta creada; no se creó ningún evento ni invitación." }],
+    };
+    await this.store.saveInterviewProposal(proposal);
+    await this.store.saveReport({
+      ...report,
+      interviewProposalIds: [...new Set([...report.interviewProposalIds, proposal.id])],
+    });
+    return proposal;
+  }
+
+  /** Protected human-only mutation called by the confirmation route, never exposed as an agent tool. */
+  async confirmInterview(
+    proposalId: string,
+    approval: InterviewHumanApproval,
+  ): Promise<InterviewScheduleResult> {
+    const proposal = await this.store.getInterviewProposal(proposalId);
+    if (!proposal) throw new NotFoundError("Propuesta de entrevista", proposalId);
+    if (proposal.status !== "pending_human_approval") {
+      throw new TalentError("Solo se puede confirmar una propuesta pendiente de aprobación humana.", 409);
+    }
+    if (!approval.approvedBy.trim() || approval.consentConfirmed !== true || !Object.values(approval.reviewed).every(Boolean)) {
+      throw new TalentError("La agenda exige revisar candidato, fecha/hora, zona horaria, entrevistadores, modalidad y consentimiento explícito.", 400);
+    }
+    if (proposalIsBlocked(proposal)) {
+      throw new TalentError("La propuesta tiene conflictos bloqueantes. Ajustala y creá una nueva propuesta antes de confirmarla.", 409);
+    }
+    const now = this.now().toISOString();
+    const interview: Interview = {
+      id: `INT-${randomUUID().slice(0, 8).toUpperCase()}`,
+      proposalId: proposal.id,
+      reportId: proposal.reportId,
+      candidateApplicationId: proposal.candidateApplicationId,
+      candidateName: proposal.candidateName,
+      type: proposal.type,
+      startsAt: proposal.startsAt,
+      durationMinutes: proposal.durationMinutes,
+      timezone: proposal.timezone,
+      interviewers: proposal.interviewers,
+      modality: proposal.modality,
+      locationOrMeetingUrl: proposal.locationOrMeetingUrl,
+      agenda: proposal.agenda,
+      status: "scheduled",
+      availabilityEvidence: proposal.availabilityEvidence,
+      provider: this.interviewScheduler.provider,
+      createdBy: approval.approvedBy.trim(),
+      createdAt: now,
+      auditTrail: [
+        ...proposal.auditTrail,
+        { at: now, actor: approval.approvedBy.trim(), action: "approved_and_scheduled", detail: "Agenda confirmada por una persona; proveedor local simulado, sin invitación enviada." },
+      ],
+    };
+    try {
+      await this.interviewScheduler.schedule(interview);
+    } catch (error) {
+      const providerError = error instanceof Error ? error.message : "Error desconocido del proveedor de agenda.";
+      await this.store.saveInterviewProposal({
+        ...proposal,
+        status: "provider_error",
+        auditTrail: [...proposal.auditTrail, { at: now, actor: approval.approvedBy.trim(), action: "provider_error", detail: providerError }],
+      });
+      return { proposalId, status: "provider_error", confirmedAt: now, provider: this.interviewScheduler.provider, providerError };
+    }
+    await this.store.saveInterview(interview);
+    await this.store.saveInterviewProposal({ ...proposal, status: "scheduled", auditTrail: interview.auditTrail });
+    const report = await this.store.getReport(proposal.reportId);
+    if (report) {
+      await this.store.saveReport({ ...report, plannedInterviews: [...report.plannedInterviews, interview] });
+    }
+    return { proposalId, interviewId: interview.id, status: "scheduled", confirmedAt: now, provider: this.interviewScheduler.provider };
+  }
+
+  /** A human can decline a proposal; it creates no event and retains audit evidence. */
+  async rejectInterviewProposal(proposalId: string, rejectedBy: string, reason: string): Promise<InterviewScheduleResult> {
+    const proposal = await this.store.getInterviewProposal(proposalId);
+    if (!proposal) throw new NotFoundError("Propuesta de entrevista", proposalId);
+    if (proposal.status !== "pending_human_approval") throw new TalentError("La propuesta ya fue resuelta.", 409);
+    if (!rejectedBy.trim() || !reason.trim()) throw new TalentError("El rechazo requiere responsable y motivo.", 400);
+    const now = this.now().toISOString();
+    await this.store.saveInterviewProposal({
+      ...proposal,
+      status: "rejected",
+      auditTrail: [...proposal.auditTrail, { at: now, actor: rejectedBy.trim(), action: "rejected", detail: reason.trim() }],
+    });
+    return { proposalId, status: "rejected", confirmedAt: now, provider: this.interviewScheduler.provider };
   }
 
   /** Genera el archivo y registra el evento. Rechaza si no hay aprobación humana registrada. */
