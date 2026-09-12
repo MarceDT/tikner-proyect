@@ -234,9 +234,9 @@
     "semantic_hash": ""
   },
   "apps/web/src/app/api/copilotkit/[[...path]]/route.ts": {
-    "mtime": 1789233151.0044763,
-    "seen": 1789233279.975352,
-    "ast_hash": "d2a92171abc1938eb393392261f11560",
+    "mtime": 1789234070.2358031,
+    "seen": 1789234166.7224634,
+    "ast_hash": "12625bbdc22d92f3d0728349e6f0a666",
     "semantic_hash": ""
   },
   "apps/web/src/app/api/followups/route.ts": {
@@ -312,9 +312,9 @@
     "semantic_hash": ""
   },
   "apps/web/src/components/workplace-followups.tsx": {
-    "mtime": 1789231630.5348153,
-    "seen": 1789231907.3976555,
-    "ast_hash": "08e1d068e919fb4f636181cfae05935f",
+    "mtime": 1789233590.1255493,
+    "seen": 1789234166.7224634,
+    "ast_hash": "99f6e694e9b93aa13128b36b7814252c",
     "semantic_hash": ""
   },
   "apps/web/src/lib/followup-client.test.ts": {
@@ -534,15 +534,15 @@
     "semantic_hash": "e8b49d56e0718d6a056db477204312e4"
   },
   "apps/web/src/lib/candidates.test.ts": {
-    "mtime": 1789226553.990131,
-    "seen": 1789230461.6971114,
-    "ast_hash": "9896c6d38cd33f641858bc6b12af006e",
+    "mtime": 1789233673.9001076,
+    "seen": 1789234166.7224634,
+    "ast_hash": "12e811f573d2fff81c6e00c1a7c633bc",
     "semantic_hash": ""
   },
   "apps/web/src/lib/candidates.ts": {
-    "mtime": 1789226492.1606586,
-    "seen": 1789230461.6971114,
-    "ast_hash": "35646a972b259374dabef93a76f8deb1",
+    "mtime": 1789233441.0898652,
+    "seen": 1789234166.7224634,
+    "ast_hash": "37a326350196965cab7826302984c4f8",
     "semantic_hash": ""
   },
   ".agents/rules/graphify.md": {
@@ -612,9 +612,9 @@
     "semantic_hash": ""
   },
   "SUBMISSION.md": {
-    "mtime": 1789226579.8382545,
-    "seen": 1789230461.6971114,
-    "ast_hash": "8ec0d1ba845b6f338d9cadca5ad9f210",
+    "mtime": 1789233661.6636095,
+    "seen": 1789234166.7224634,
+    "ast_hash": "9fb3dcc964778c39b91c6c8d8ca6a7a1",
     "semantic_hash": ""
   },
   "apps/channel/README.md": {
@@ -1191,6 +1191,12 @@
     "mtime": 1789233194.5087657,
     "seen": 1789233279.975352,
     "ast_hash": "eb2a769987f0f6ca59a7e5e1a32feb39",
+    "semantic_hash": ""
+  },
+  "apps/web/src/lib/server/websocket.test.ts": {
+    "mtime": 1789234093.2775958,
+    "seen": 1789234166.7224634,
+    "ast_hash": "a8b6d09de48ec99202d69d56ec44c13a",
     "semantic_hash": ""
   }
 }

@@ -38,8 +38,13 @@ const intelligenceApiKey =
   process.env.INTELLIGENCE_API_KEY ||
   "cpk-dev_talentscore_learning_preview";
 
+const intelligenceWsUrl =
+  process.env.INTELLIGENCE_WS_URL ||
+  process.env.COPILOTKIT_WS_URL;
+
 const intelligence = new CopilotKitIntelligence({
   apiKey: intelligenceApiKey,
+  ...(intelligenceWsUrl ? { wsUrl: intelligenceWsUrl } : {}),
   getLearningContainerId: ({ agentId }) =>
     agentId === "default" || !agentId ? LEARNING_CONTAINER_ID : undefined,
 });
