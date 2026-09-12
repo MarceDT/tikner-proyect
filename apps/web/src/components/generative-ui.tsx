@@ -14,6 +14,31 @@ import {
   OfferProposalCard,
 } from "./candidate-cards";
 
+function ShieldLockIcon({ className }: { className?: string }) {
+  return (
+    <svg className={className} width="12" height="12" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
+      <path fillRule="evenodd" d="M8 .5c-.27 0-.528.14-.675.372l-5 8A.75.75 0 003 10h2.25v4.25a.75.75 0 001.5 0V10h2.5a.75.75 0 00.675-1.128l-1.25-2 1.25-2A.75.75 0 009.425 4H8.75V1.25A.75.75 0 008 .5z" />
+      <path d="M8 1a5 5 0 00-5 5v1h10V6a5 5 0 00-5-5zm-3.5 6V6a3.5 3.5 0 117 0v1h-7z" />
+    </svg>
+  );
+}
+
+function CheckIcon({ className }: { className?: string }) {
+  return (
+    <svg className={className} width="12" height="12" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
+      <path d="M13.78 4.22a.75.75 0 010 1.06l-7.25 7.25a.75.75 0 01-1.06 0L2.22 9.28a.75.75 0 011.06-1.06L6 10.94l6.72-6.72a.75.75 0 011.06 0z" />
+    </svg>
+  );
+}
+
+function CloseIcon({ className }: { className?: string }) {
+  return (
+    <svg className={className} width="12" height="12" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
+      <path d="M3.72 3.72a.75.75 0 011.06 0L8 6.94l3.22-3.22a.75.75 0 111.06 1.06L9.06 8l3.22 3.22a.75.75 0 11-1.06 1.06L8 9.06l-3.22 3.22a.75.75 0 01-1.06-1.06L6.94 8 3.72 4.78a.75.75 0 010-1.06z" />
+    </svg>
+  );
+}
+
 export function GenerativeUI() {
   /**
    * 1. candidate_comparison:
@@ -86,26 +111,34 @@ export function GenerativeUI() {
       if (!respond) {
         return (
           <div className="ts-gate-card ts-gate-completed">
-            <span className="ts-gate-icon">✓</span>
+            <span className="ts-gate-icon">
+              <CheckIcon />
+            </span>
             <div>
-              <strong>Acción registrada:</strong>
-              <p>{result ? String(result) : "Completada por el usuario."}</p>
+              <strong>Acción confirmada:</strong>
+              <p style={{ margin: "2px 0 0", color: "var(--text-secondary)" }}>
+                {result ? String(result) : "Completada por el reclutador."}
+              </p>
             </div>
           </div>
         );
       }
       return (
         <div className="ts-gate-card">
-          <div className="ts-gate-badge">Human-in-the-Loop Gate 🔒</div>
+          <div className="ts-gate-badge">
+            <span style={{ display: "inline-flex", alignItems: "center", gap: "4px" }}>
+              <ShieldLockIcon /> Human-in-the-Loop Gate
+            </span>
+          </div>
           <h4 className="ts-gate-title">{args.action ?? "Confirmar decisión de contratación"}</h4>
           {args.candidateName && (
             <p className="ts-gate-target">
-              Candidato: <strong>{args.candidateName}</strong>
+              Candidato evaluado: <strong>{args.candidateName}</strong>
             </p>
           )}
-          <p className="ts-gate-impact">
-            <strong>Impacto:</strong> {args.impact}
-          </p>
+          <div className="ts-gate-impact">
+            <strong>Impacto en Pipeline:</strong> {args.impact}
+          </div>
           <div className="ts-gate-actions">
             <button
               type="button"
@@ -114,7 +147,7 @@ export function GenerativeUI() {
                 respond("Aprobado por el reclutador. Emite la oferta formal y actualiza el estado en el sistema.")
               }
             >
-              ✓ Aprobar y Emitir Oferta Formal
+              <CheckIcon /> Aprobar y Emitir Oferta Formal
             </button>
             <button
               type="button"
@@ -125,7 +158,7 @@ export function GenerativeUI() {
                 )
               }
             >
-              ✕ Rechazar o Ajustar
+              <CloseIcon /> Rechazar o Ajustar
             </button>
           </div>
         </div>

@@ -1,63 +1,94 @@
 /* ==========================================================================
-   TalentScore — Premium Design System & ATS Stylesheet
-   Milena · Frontend & Generative UI
+   TalentScore — Enterprise ATS & Recruiting Intelligence Design System
+   Corporate, polished, accessible, and responsive visual system
    ========================================================================== */
 
 :root {
-  --ground: #0b0f19;
+  /* ── Core Color Palette (Executive Slate & Corporate Blue) ─────────────── */
+  --ground: #0a0e17;
   --surface: #111827;
-  --surface-raised: #1a2234;
-  --surface-card: #141c2e;
-  --surface-hover: #222d44;
-  --border: #232f48;
-  --border-subtle: #1c273c;
-  --border-focus: #6366f1;
+  --surface-card: #151f32;
+  --surface-raised: #1c283f;
+  --surface-hover: #22324f;
+  
+  --border: #23324d;
+  --border-subtle: #192438;
+  --border-focus: #3b82f6;
+  --ring: rgba(59, 130, 246, 0.4);
+
   --text: #f8fafc;
   --text-secondary: #94a3b8;
   --muted: #64748b;
-  
-  --primary: #6366f1;
-  --primary-hover: #4f46e5;
-  --primary-glow: rgba(99, 102, 241, 0.2);
-  --primary-light: #818cf8;
-  
+
+  /* ── Primary Accent (One Focused Corporate Accent) ───────────────────────── */
+  --primary: #2563eb;
+  --primary-hover: #1d4ed8;
+  --primary-light: #60a5fa;
+  --primary-subtle: rgba(37, 99, 235, 0.1);
+  --primary-border: rgba(59, 130, 246, 0.3);
+
+  /* ── Semantic Status Colors (Muted, High Contrast, Non-Neon) ────────────── */
   --emerald: #10b981;
-  --emerald-bg: rgba(16, 185, 129, 0.12);
-  --emerald-border: rgba(16, 185, 129, 0.35);
-  
+  --emerald-bg: rgba(16, 185, 129, 0.08);
+  --emerald-border: rgba(16, 185, 129, 0.25);
+  --emerald-text: #34d399;
+
   --amber: #f59e0b;
-  --amber-bg: rgba(245, 158, 11, 0.12);
-  --amber-border: rgba(245, 158, 11, 0.35);
+  --amber-bg: rgba(245, 158, 11, 0.08);
+  --amber-border: rgba(245, 158, 11, 0.25);
+  --amber-text: #fbbf24;
 
   --rose: #f43f5e;
-  --rose-bg: rgba(244, 63, 94, 0.12);
-  --rose-border: rgba(244, 63, 94, 0.35);
+  --rose-bg: rgba(244, 63, 94, 0.08);
+  --rose-border: rgba(244, 63, 94, 0.25);
+  --rose-text: #fb7185;
 
-  --purple: #a855f7;
-  --purple-bg: rgba(168, 85, 247, 0.12);
+  --slate-bg: rgba(148, 163, 184, 0.08);
+  --slate-border: rgba(148, 163, 184, 0.2);
 
+  /* ── Spacing & Radii ────────────────────────────────────────────────────── */
+  --radius-xs: 4px;
   --radius-sm: 6px;
-  --radius-md: 10px;
-  --radius-lg: 16px;
-  --radius-xl: 20px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-xl: 16px;
   --radius-full: 9999px;
+
+  /* ── Restrained Shadows ─────────────────────────────────────────────────── */
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.25);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -2px rgba(0, 0, 0, 0.2);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.35), 0 4px 6px -4px rgba(0, 0, 0, 0.25);
 
   color-scheme: dark;
 }
 
-* {
+/* ── Global Reset & Base Styles ──────────────────────────────────────────── */
+*,
+*::before,
+*::after {
   box-sizing: border-box;
 }
 
+html,
 body {
   margin: 0;
+  padding: 0;
+  max-width: 100%;
+  overflow-x: hidden;
   background: var(--ground);
   color: var(--text);
   font-family: "Plus Jakarta Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   font-size: 14px;
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
   min-height: 100vh;
+}
+
+/* ── Accessibility & Focus States ────────────────────────────────────────── */
+:focus-visible {
+  outline: 2px solid var(--border-focus);
+  outline-offset: 2px;
 }
 
 button,
@@ -65,6 +96,7 @@ input,
 select,
 textarea {
   font: inherit;
+  color: inherit;
 }
 
 button,
@@ -78,15 +110,16 @@ time {
   font-family: "Spline Sans Mono", ui-monospace, SFMono-Regular, monospace;
 }
 
-/* ── App Top Navigation Bar ─────────────────────────────────────────────── */
+/* ── Top Navigation Bar ─────────────────────────────────────────────────── */
 .ts-navbar {
-  background: rgba(17, 24, 39, 0.85);
+  background: rgba(17, 24, 39, 0.92);
   backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
   border-bottom: 1px solid var(--border);
   position: sticky;
   top: 0;
   z-index: 50;
-  padding: 12px 24px;
+  padding: 10px 24px;
 }
 
 .ts-navbar-inner {
@@ -95,7 +128,7 @@ time {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 20px;
+  gap: 16px;
 }
 
 .ts-logo-group {
@@ -104,52 +137,57 @@ time {
   gap: 12px;
 }
 
-.ts-logo-icon {
-  width: 38px;
-  height: 38px;
+.ts-logo-mark {
+  width: 36px;
+  height: 36px;
   border-radius: var(--radius-md);
-  background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #ec4899 100%);
+  background: var(--primary);
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 18px;
-  box-shadow: 0 0 16px var(--primary-glow);
+  color: #ffffff;
+  flex-shrink: 0;
+  box-shadow: var(--shadow-sm);
+}
+
+.ts-logo-mark svg {
+  width: 20px;
+  height: 20px;
 }
 
 .ts-logo-title {
-  font-size: 18px;
+  font-size: 17px;
   font-weight: 700;
-  letter-spacing: -0.03em;
-  background: linear-gradient(to right, #ffffff, #cbd5e1);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+  letter-spacing: -0.02em;
+  color: #ffffff;
   margin: 0;
+  line-height: 1.2;
 }
 
 .ts-logo-tagline {
   font-size: 11px;
-  color: var(--muted);
-  letter-spacing: 0.05em;
+  color: var(--text-secondary);
+  letter-spacing: 0.04em;
   text-transform: uppercase;
-  margin: 0;
+  margin: 2px 0 0;
 }
 
 .ts-nav-role-badge {
   display: flex;
   align-items: center;
-  gap: 12px;
-  background: var(--surface-raised);
+  gap: 10px;
+  background: var(--surface-card);
   border: 1px solid var(--border);
   padding: 6px 14px;
   border-radius: var(--radius-full);
 }
 
 .ts-role-dot {
-  width: 8px;
-  height: 8px;
+  width: 7px;
+  height: 7px;
   border-radius: 50%;
   background: var(--emerald);
-  box-shadow: 0 0 8px var(--emerald);
+  flex-shrink: 0;
 }
 
 .ts-nav-role-badge strong {
@@ -164,60 +202,75 @@ time {
 }
 
 .ts-nav-budget-pill {
-  background: rgba(16, 185, 129, 0.15);
-  color: var(--emerald);
+  background: var(--emerald-bg);
+  color: var(--emerald-text);
   border: 1px solid var(--emerald-border);
   padding: 3px 10px;
   border-radius: var(--radius-full);
-  font-size: 11px;
+  font-size: 11.5px;
   font-weight: 600;
 }
 
 .ts-nav-actions {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 12px;
 }
 
 .ts-user-badge {
   display: flex;
   align-items: center;
   gap: 8px;
-  font-size: 12px;
+  font-size: 12.5px;
   color: var(--text-secondary);
-  background: var(--surface);
+  background: var(--surface-card);
   border: 1px solid var(--border);
-  padding: 4px 10px;
+  padding: 5px 12px;
   border-radius: var(--radius-full);
 }
 
 .ts-user-avatar {
-  width: 22px;
-  height: 22px;
+  width: 24px;
+  height: 24px;
   border-radius: 50%;
-  background: #ec4899;
+  background: var(--surface-raised);
+  border: 1px solid var(--border);
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 11px;
-  color: white;
-  font-weight: bold;
+  color: var(--primary-light);
+  font-weight: 600;
 }
 
-/* ── Main Container & 3-Column Layout ──────────────────────────────────── */
+/* ── Main Container ─────────────────────────────────────────────────────── */
 .ts-container {
   max-width: 1600px;
   margin: 0 auto;
-  padding: 20px 24px;
+  padding: 20px 24px 32px;
+}
+
+/* ── Quick Prompt Chips Bar ─────────────────────────────────────────────── */
+.ts-quick-prompts-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
 }
 
 .ts-quick-prompts {
   display: flex;
   align-items: center;
   gap: 8px;
-  margin-bottom: 20px;
   overflow-x: auto;
-  padding-bottom: 4px;
+  scrollbar-width: none;
+  padding-bottom: 2px;
+}
+
+.ts-quick-prompts::-webkit-scrollbar {
+  display: none;
 }
 
 .ts-prompt-label {
@@ -225,7 +278,7 @@ time {
   color: var(--muted);
   white-space: nowrap;
   font-weight: 500;
-  margin-right: 4px;
+  margin-right: 2px;
 }
 
 .ts-prompt-chip {
@@ -235,48 +288,105 @@ time {
   padding: 6px 14px;
   border-radius: var(--radius-full);
   font-size: 12px;
+  font-weight: 500;
   white-space: nowrap;
   transition: all 0.15s ease;
-  display: flex;
+  display: inline-flex;
   align-items: center;
   gap: 6px;
+  min-height: 34px;
 }
 
 .ts-prompt-chip:hover {
   background: var(--surface-hover);
   color: var(--text);
-  border-color: var(--primary);
-  transform: translateY(-1px);
+  border-color: var(--primary-light);
 }
 
+.ts-prompt-chip.is-active {
+  background: var(--primary-subtle);
+  border-color: var(--primary);
+  color: var(--primary-light);
+  font-weight: 600;
+}
+
+/* ── Mobile Tab Switcher (Segmented Control) ────────────────────────────── */
+.ts-mobile-tabs {
+  display: none;
+  width: 100%;
+  background: var(--surface-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 4px;
+  margin-bottom: 16px;
+  gap: 4px;
+}
+
+.ts-mobile-tab-btn {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 8px 12px;
+  border-radius: var(--radius-sm);
+  background: transparent;
+  border: none;
+  color: var(--text-secondary);
+  font-size: 12.5px;
+  font-weight: 500;
+  min-height: 40px;
+  transition: all 0.15s ease;
+}
+
+.ts-mobile-tab-btn.is-active {
+  background: var(--surface-raised);
+  color: var(--text);
+  font-weight: 600;
+  box-shadow: var(--shadow-sm);
+}
+
+.ts-mobile-tab-count {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  font-size: 10.5px;
+  padding: 1px 6px;
+  border-radius: var(--radius-full);
+  color: var(--muted);
+}
+
+/* ── 3-Column Responsive Workspace Grid ─────────────────────────────────── */
 .ts-grid-layout {
   display: grid;
-  grid-template-columns: 310px minmax(0, 1fr) 390px;
+  grid-template-columns: 290px minmax(0, 1fr) 380px;
   gap: 20px;
   align-items: start;
 }
 
-/* ── Left Column: Candidates Pipeline ───────────────────────────────────── */
+/* ── Left Column: Candidate Pipeline Panel ──────────────────────────────── */
 .ts-panel {
   background: var(--surface);
   border: 1px solid var(--border);
   border-radius: var(--radius-lg);
   overflow: hidden;
+  box-shadow: var(--shadow-sm);
 }
 
 .ts-panel-header {
-  padding: 18px 20px;
+  padding: 16px 18px;
   border-bottom: 1px solid var(--border);
   display: flex;
   align-items: center;
   justify-content: space-between;
+  background: var(--surface-card);
 }
 
 .ts-panel-title {
-  font-size: 15px;
+  font-size: 14px;
   font-weight: 600;
   letter-spacing: -0.01em;
   margin: 0;
+  color: var(--text);
   display: flex;
   align-items: center;
   gap: 8px;
@@ -295,45 +405,47 @@ time {
   display: flex;
   flex-direction: column;
   padding: 12px;
-  gap: 10px;
+  gap: 8px;
 }
 
 .ts-candidate-item {
   background: var(--surface-card);
   border: 1px solid var(--border);
   border-radius: var(--radius-md);
-  padding: 14px;
+  padding: 12px 14px;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: all 0.15s ease;
   text-align: left;
   width: 100%;
+  display: flex;
+  flex-direction: column;
+  min-height: 80px;
 }
 
 .ts-candidate-item:hover {
   background: var(--surface-hover);
-  border-color: var(--primary-light);
-  transform: translateY(-1px);
+  border-color: var(--border-focus);
 }
 
 .ts-candidate-item.is-selected {
-  background: rgba(99, 102, 241, 0.08);
+  background: var(--primary-subtle);
   border-color: var(--primary);
-  box-shadow: 0 0 12px rgba(99, 102, 241, 0.2);
+  box-shadow: 0 0 0 1px var(--primary);
 }
 
 .ts-cand-top {
   display: flex;
   align-items: center;
   gap: 12px;
-  margin-bottom: 10px;
+  margin-bottom: 8px;
 }
 
 .ts-cand-avatar {
-  width: 44px;
-  height: 44px;
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
   object-fit: cover;
-  border: 2px solid var(--border);
+  border: 1px solid var(--border);
   flex-shrink: 0;
 }
 
@@ -343,7 +455,7 @@ time {
 }
 
 .ts-cand-name {
-  font-size: 14px;
+  font-size: 13.5px;
   font-weight: 600;
   color: var(--text);
   margin-bottom: 2px;
@@ -372,103 +484,100 @@ time {
 
 .ts-salary-tag {
   color: var(--text-secondary);
+  font-size: 11.5px;
   font-weight: 500;
 }
 
+/* Status Badges */
 .ts-status-badge {
   font-size: 11px;
   font-weight: 600;
-  padding: 3px 8px;
+  padding: 2px 8px;
   border-radius: var(--radius-full);
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
 }
 
 .ts-status-finalist {
   background: var(--emerald-bg);
-  color: var(--emerald);
+  color: var(--emerald-text);
   border: 1px solid var(--emerald-border);
 }
 
 .ts-status-interviewing {
-  background: rgba(99, 102, 241, 0.15);
+  background: var(--primary-subtle);
   color: var(--primary-light);
-  border: 1px solid rgba(99, 102, 241, 0.3);
+  border: 1px solid var(--primary-border);
 }
 
 .ts-status-review {
   background: var(--amber-bg);
-  color: var(--amber);
+  color: var(--amber-text);
   border: 1px solid var(--amber-border);
 }
 
 .ts-status-offer {
-  background: var(--purple-bg);
-  color: var(--purple);
-  border: 1px solid rgba(168, 85, 247, 0.35);
+  background: rgba(168, 85, 247, 0.1);
+  color: #c084fc;
+  border: 1px solid rgba(168, 85, 247, 0.3);
 }
 
 /* ── Center Column: Candidate Deep Dive ─────────────────────────────────── */
 .ts-detail-container {
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 16px;
+  min-width: 0;
 }
 
 .ts-hero-card {
-  background: linear-gradient(180deg, var(--surface-card) 0%, var(--surface) 100%);
+  background: var(--surface);
   border: 1px solid var(--border);
   border-radius: var(--radius-lg);
-  padding: 24px;
-  position: relative;
-  overflow: hidden;
-}
-
-.ts-hero-glow {
-  position: absolute;
-  top: -60px;
-  right: -60px;
-  width: 200px;
-  height: 200px;
-  background: radial-gradient(circle, rgba(99, 102, 241, 0.15) 0%, transparent 70%);
-  pointer-events: none;
+  padding: 20px;
+  box-shadow: var(--shadow-sm);
 }
 
 .ts-hero-top {
   display: flex;
-  gap: 20px;
+  gap: 16px;
   align-items: flex-start;
-  margin-bottom: 20px;
+  margin-bottom: 16px;
 }
 
 .ts-hero-avatar {
-  width: 80px;
-  height: 80px;
-  border-radius: var(--radius-lg);
+  width: 72px;
+  height: 72px;
+  border-radius: var(--radius-md);
   object-fit: cover;
-  border: 2px solid var(--border);
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+  border: 1px solid var(--border);
   flex-shrink: 0;
 }
 
 .ts-hero-info {
   flex: 1;
+  min-width: 0;
 }
 
 .ts-hero-name-row {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 10px;
   margin-bottom: 4px;
+  flex-wrap: wrap;
 }
 
 .ts-hero-name {
-  font-size: 22px;
+  font-size: 20px;
   font-weight: 700;
   letter-spacing: -0.02em;
+  color: var(--text);
   margin: 0;
 }
 
 .ts-hero-title {
-  font-size: 14px;
+  font-size: 13.5px;
   color: var(--primary-light);
   font-weight: 500;
   margin-bottom: 8px;
@@ -477,37 +586,45 @@ time {
 .ts-hero-facts {
   display: flex;
   flex-wrap: wrap;
-  gap: 14px;
+  gap: 12px;
   font-size: 12px;
   color: var(--text-secondary);
 }
 
 .ts-hero-fact {
-  display: flex;
+  display: inline-flex;
   align-items: center;
   gap: 5px;
 }
 
-.ts-headline-box {
-  background: var(--surface-raised);
-  border-left: 3px solid var(--primary);
-  padding: 12px 16px;
-  border-radius: var(--radius-sm);
-  font-size: 13.5px;
-  color: var(--text);
-  margin-bottom: 16px;
-  line-height: 1.5;
+.ts-hero-fact svg {
+  width: 14px;
+  height: 14px;
+  color: var(--muted);
 }
 
-/* Salary vs Budget Banner */
+/* Headline Quote Box */
+.ts-headline-box {
+  background: var(--surface-card);
+  border-left: 3px solid var(--primary);
+  padding: 12px 14px;
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+  font-size: 13px;
+  color: var(--text);
+  margin-bottom: 14px;
+  line-height: 1.55;
+  font-style: italic;
+}
+
+/* Compensation vs Budget Banner */
 .ts-budget-banner {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 16px;
-  padding: 14px 18px;
+  gap: 14px;
+  padding: 12px 16px;
   border-radius: var(--radius-md);
-  margin-bottom: 16px;
+  margin-bottom: 14px;
 }
 
 .ts-budget-banner.is-ok {
@@ -524,11 +641,23 @@ time {
   display: flex;
   flex-direction: column;
   gap: 2px;
+  min-width: 0;
 }
 
 .ts-budget-title {
   font-size: 13px;
   font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.is-ok .ts-budget-title {
+  color: var(--emerald-text);
+}
+
+.is-over .ts-budget-title {
+  color: var(--rose-text);
 }
 
 .ts-budget-desc {
@@ -537,70 +666,99 @@ time {
 }
 
 .ts-budget-pill-large {
-  font-size: 14px;
-  font-weight: 700;
-  padding: 6px 14px;
+  font-size: 13px;
+  font-weight: 600;
+  padding: 5px 12px;
   border-radius: var(--radius-full);
   white-space: nowrap;
+  flex-shrink: 0;
 }
 
 .is-ok .ts-budget-pill-large {
-  background: rgba(16, 185, 129, 0.2);
-  color: var(--emerald);
+  background: rgba(16, 185, 129, 0.15);
+  color: var(--emerald-text);
+  border: 1px solid var(--emerald-border);
 }
 
 .is-over .ts-budget-pill-large {
-  background: rgba(244, 63, 94, 0.2);
-  color: var(--rose);
+  background: rgba(244, 63, 94, 0.15);
+  color: var(--rose-text);
+  border: 1px solid var(--rose-border);
 }
 
-/* Skills tags */
+.ts-candidate-summary-text {
+  color: var(--text-secondary);
+  font-size: 13px;
+  line-height: 1.6;
+  margin: 12px 0;
+}
+
+/* Skills section */
 .ts-skills-section {
-  margin-top: 14px;
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid var(--border-subtle);
+}
+
+.ts-section-heading {
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--muted);
+  margin-bottom: 6px;
+  display: block;
 }
 
 .ts-skills-tags {
   display: flex;
   flex-wrap: wrap;
-  gap: 8px;
-  margin-top: 8px;
+  gap: 6px;
 }
 
 .ts-skill-pill {
-  background: var(--surface-raised);
+  background: var(--surface-card);
   border: 1px solid var(--border);
   color: var(--text-secondary);
-  font-size: 12px;
-  padding: 4px 10px;
-  border-radius: var(--radius-full);
+  font-size: 11.5px;
+  padding: 3px 9px;
+  border-radius: var(--radius-sm);
 }
 
-/* ── Ratings Matrix (1 to 10 visual bars) ───────────────────────────────── */
+/* ── Competency Ratings Matrix Card ─────────────────────────────────────── */
 .ts-card {
   background: var(--surface);
   border: 1px solid var(--border);
   border-radius: var(--radius-lg);
-  padding: 22px;
+  padding: 18px 20px;
+  box-shadow: var(--shadow-sm);
 }
 
 .ts-card-title {
-  font-size: 15px;
+  font-size: 14px;
   font-weight: 600;
-  margin: 0 0 16px;
+  margin: 0 0 14px;
   display: flex;
   align-items: center;
   justify-content: space-between;
+  color: var(--text);
+}
+
+.ts-card-badge {
+  font-size: 11px;
+  color: var(--muted);
+  font-weight: normal;
 }
 
 .ts-ratings-grid {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 10px;
 }
 
 .ts-rating-row {
   display: grid;
-  grid-template-columns: 140px minmax(0, 1fr) 40px;
+  grid-template-columns: 150px minmax(0, 1fr) 45px;
   align-items: center;
   gap: 12px;
 }
@@ -612,7 +770,7 @@ time {
 }
 
 .ts-bar-track {
-  height: 8px;
+  height: 6px;
   background: var(--surface-raised);
   border-radius: var(--radius-full);
   overflow: hidden;
@@ -622,42 +780,42 @@ time {
 .ts-bar-fill {
   height: 100%;
   border-radius: var(--radius-full);
-  background: linear-gradient(90deg, #6366f1 0%, #10b981 100%);
-  transition: width 0.4s ease;
+  background: var(--primary);
+  transition: width 0.3s ease;
 }
 
 .ts-rating-value {
   font-size: 12px;
-  font-weight: 700;
+  font-weight: 600;
   color: var(--text);
   text-align: right;
-  font-family: ui-monospace, monospace;
+  font-family: var(--cpk-font-mono, monospace);
 }
 
-/* ── Pros vs Red Flags ──────────────────────────────────────────────────── */
+/* ── Strengths vs Points of Attention (Pros / Red Flags) ─────────────────── */
 .ts-pros-cons-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 16px;
+  gap: 14px;
 }
 
 .ts-box {
   border-radius: var(--radius-md);
-  padding: 16px;
+  padding: 14px;
+  background: var(--surface-card);
+  border: 1px solid var(--border);
 }
 
 .ts-pros-box {
-  background: var(--emerald-bg);
-  border: 1px solid var(--emerald-border);
+  border-left: 3px solid var(--emerald);
 }
 
 .ts-cons-box {
-  background: var(--rose-bg);
-  border: 1px solid var(--rose-border);
+  border-left: 3px solid var(--rose);
 }
 
 .ts-box-header {
-  font-size: 13px;
+  font-size: 12.5px;
   font-weight: 600;
   margin-bottom: 10px;
   display: flex;
@@ -666,50 +824,52 @@ time {
 }
 
 .ts-pros-box .ts-box-header {
-  color: var(--emerald);
+  color: var(--emerald-text);
 }
 
 .ts-cons-box .ts-box-header {
-  color: var(--rose);
+  color: var(--rose-text);
 }
 
 .ts-bullet-list {
   margin: 0;
   padding: 0 0 0 16px;
-  font-size: 12.5px;
-  line-height: 1.5;
+  font-size: 12px;
+  line-height: 1.55;
   color: var(--text-secondary);
 }
 
 .ts-bullet-list li + li {
-  margin-top: 8px;
+  margin-top: 6px;
 }
 
-/* ── Interview Feed ─────────────────────────────────────────────────────── */
+/* ── Interview Feed Timeline ────────────────────────────────────────────── */
 .ts-interview-timeline {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 10px;
 }
 
 .ts-interview-item {
   background: var(--surface-card);
   border: 1px solid var(--border);
   border-radius: var(--radius-md);
-  padding: 16px;
+  padding: 12px 14px;
 }
 
 .ts-interview-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 8px;
+  margin-bottom: 6px;
+  gap: 8px;
 }
 
 .ts-interview-meta {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 8px;
+  flex-wrap: wrap;
 }
 
 .ts-interview-round {
@@ -719,32 +879,32 @@ time {
 }
 
 .ts-interview-interviewer {
-  font-size: 12px;
+  font-size: 11.5px;
   color: var(--muted);
 }
 
 .ts-interview-rating {
   font-size: 11px;
   font-weight: 600;
-  padding: 3px 8px;
+  padding: 2px 7px;
   border-radius: var(--radius-full);
 }
 
 .ts-rating-strong-yes {
   background: var(--emerald-bg);
-  color: var(--emerald);
+  color: var(--emerald-text);
   border: 1px solid var(--emerald-border);
 }
 
 .ts-rating-neutral {
   background: var(--amber-bg);
-  color: var(--amber);
+  color: var(--amber-text);
   border: 1px solid var(--amber-border);
 }
 
 .ts-rating-no {
   background: var(--rose-bg);
-  color: var(--rose);
+  color: var(--rose-text);
   border: 1px solid var(--rose-border);
 }
 
@@ -762,26 +922,30 @@ time {
   display: block;
 }
 
-/* ── Right Column: Talent Copilot ───────────────────────────────────────── */
+/* ── Right Column: Talent Copilot Panel ─────────────────────────────────── */
 .ts-copilot-panel {
   background: var(--surface);
   border: 1px solid var(--border);
   border-radius: var(--radius-lg);
   display: flex;
   flex-direction: column;
-  height: calc(100vh - 120px);
+  height: calc(100vh - 96px);
+  min-height: 520px;
+  min-width: 0;
   position: sticky;
-  top: 84px;
+  top: 76px;
   overflow: hidden;
+  box-shadow: var(--shadow-sm);
 }
 
 .ts-copilot-header {
-  padding: 16px 20px;
+  padding: 14px 16px;
   border-bottom: 1px solid var(--border);
   display: flex;
   align-items: center;
   justify-content: space-between;
   background: var(--surface-card);
+  flex-shrink: 0;
 }
 
 .ts-copilot-title-group {
@@ -790,122 +954,274 @@ time {
   gap: 10px;
 }
 
-.ts-copilot-avatar {
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-  background: linear-gradient(135deg, #6366f1, #a855f7);
+.ts-copilot-icon {
+  width: 28px;
+  height: 28px;
+  border-radius: var(--radius-sm);
+  background: var(--primary-subtle);
+  border: 1px solid var(--primary-border);
+  color: var(--primary-light);
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 15px;
+  flex-shrink: 0;
+}
+
+.ts-copilot-icon svg {
+  width: 16px;
+  height: 16px;
 }
 
 .ts-copilot-title {
-  font-size: 14px;
+  font-size: 13.5px;
   font-weight: 600;
   margin: 0;
+  color: var(--text);
+  line-height: 1.2;
 }
 
 .ts-copilot-subtitle {
   font-size: 11px;
-  color: var(--emerald);
-  margin: 0;
+  color: var(--emerald-text);
+  margin: 2px 0 0;
   display: flex;
   align-items: center;
-  gap: 4px;
+  gap: 5px;
 }
 
+/* ── CopilotChat Full Integration & Layout Fixes ────────────────────────── */
 .ts-copilot-chat {
   flex: 1;
   min-height: 0;
+  min-width: 0;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  overflow: hidden;
 }
 
-/* Override CopilotChat colors to blend with our obsidian theme */
-.copilotKitChat {
+/* CopilotChat Root */
+.copilotKitChat,
+[data-testid="copilot-chat"] {
   background: transparent !important;
   color: var(--text) !important;
+  height: 100% !important;
+  min-height: 0 !important;
+  min-width: 0 !important;
+  width: 100% !important;
+  display: flex !important;
+  flex-direction: column !important;
+  position: relative !important;
+  overflow: hidden !important;
 }
 
+/* Safe wrap across all chat elements to prevent layout explosions */
+.copilotKitChat *,
+[data-testid="copilot-chat"] * {
+  box-sizing: border-box;
+}
+
+/* Messages Scroll Container */
+[data-testid="copilot-scroll-content"],
 .copilotKitMessages {
-  padding: 16px !important;
-  gap: 14px !important;
+  padding: 14px 14px 20px !important;
+  min-width: 0 !important;
 }
 
-.copilotKitUserMessage {
-  background: var(--surface-raised) !important;
-  border: 1px solid var(--border) !important;
-  color: var(--text) !important;
-  border-radius: var(--radius-md) !important;
+/* Safe wrapping for long messages, URLs, continuous code strings */
+.copilotKitChat a,
+.copilotKitChat p,
+.copilotKitChat span,
+.copilotKitChat li,
+.copilotKitChat h1,
+.copilotKitChat h2,
+.copilotKitChat h3,
+.copilotKitChat h4 {
+  overflow-wrap: anywhere !important;
+  word-break: break-word !important;
+  hyphens: auto;
 }
 
-.copilotKitAssistantMessage {
+.copilotKitChat pre,
+.copilotKitChat code {
+  max-width: 100% !important;
+  overflow-x: auto !important;
+  white-space: pre-wrap !important;
+  word-break: break-word !important;
+}
+
+/* ── User Message Bubble Styling ────────────────────────────────────────── */
+.copilotKitUserMessage,
+[data-testid="copilot-user-message"] {
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  padding-top: 10px !important;
+  padding-bottom: 4px !important;
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+  margin: 0 !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: flex-end !important;
+}
+
+/* Target the user message renderer (actual bubble) */
+.copilotKitUserMessage > div:not([data-testid="copilot-user-toolbar"]),
+.copilotKitUserMessage .cpk\:prose,
+[data-testid="copilot-user-message"] > div:first-of-type {
+  background: var(--primary) !important;
+  color: #ffffff !important;
+  border: 1px solid rgba(255, 255, 255, 0.15) !important;
+  border-radius: 14px 14px 3px 14px !important;
+  padding: 10px 14px !important;
+  font-size: 13px !important;
+  line-height: 1.55 !important;
+  max-width: 86% !important;
+  overflow-wrap: anywhere !important;
+  word-break: break-word !important;
+  box-shadow: var(--shadow-sm) !important;
+}
+
+/* User Message Toolbar */
+[data-testid="copilot-user-toolbar"] {
+  margin-top: 4px !important;
+  opacity: 0.7;
+}
+
+/* ── Assistant Message Bubble Styling ───────────────────────────────────── */
+.copilotKitAssistantMessage,
+[data-testid="copilot-assistant-message"] {
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  padding-top: 8px !important;
+  padding-bottom: 4px !important;
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+  margin: 0 !important;
+  width: 100% !important;
+  max-width: 100% !important;
+}
+
+/* Target assistant prose text block */
+.copilotKitAssistantMessage > div.cpk\:prose,
+[data-testid="copilot-assistant-message"] > div.cpk\:prose {
   background: var(--surface-card) !important;
-  border: 1px solid var(--border-subtle) !important;
   color: var(--text) !important;
-  border-radius: var(--radius-md) !important;
+  border: 1px solid var(--border) !important;
+  border-radius: 14px 14px 14px 3px !important;
+  padding: 12px 14px !important;
+  font-size: 13px !important;
+  line-height: 1.6 !important;
+  max-width: 95% !important;
+  overflow-wrap: anywhere !important;
+  word-break: break-word !important;
+  box-shadow: var(--shadow-sm) !important;
+}
+
+.copilotKitAssistantMessage p {
+  margin: 0 0 8px !important;
+}
+
+.copilotKitAssistantMessage p:last-child {
+  margin-bottom: 0 !important;
+}
+
+/* ── Copilot Input Overlay & Field ──────────────────────────────────────── */
+[data-testid="copilot-input-overlay"] {
+  background: var(--surface) !important;
+  border-top: 1px solid var(--border) !important;
+  pointer-events: auto !important;
+  padding: 10px 14px !important;
+  position: relative !important;
+  flex-shrink: 0 !important;
 }
 
 .copilotKitInput {
-  background: var(--surface-card) !important;
-  border-top: 1px solid var(--border) !important;
-  padding: 12px 16px !important;
+  background: transparent !important;
+  border: none !important;
+  padding: 0 !important;
+  width: 100% !important;
 }
 
-.copilotKitInput textarea {
-  background: var(--surface-raised) !important;
+.copilotKitInput textarea,
+[data-testid="copilot-chat"] textarea {
+  background: var(--surface-card) !important;
   border: 1px solid var(--border) !important;
   color: var(--text) !important;
   border-radius: var(--radius-md) !important;
+  font-size: 13px !important;
+  padding: 10px 12px !important;
+  line-height: 1.5 !important;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease !important;
+  min-height: 42px !important;
+  resize: none !important;
 }
 
-.copilotKitInput textarea:focus {
-  border-color: var(--primary) !important;
+.copilotKitInput textarea:focus,
+[data-testid="copilot-chat"] textarea:focus {
+  border-color: var(--border-focus) !important;
+  box-shadow: 0 0 0 2px var(--ring) !important;
   outline: none !important;
 }
 
-/* ── Generative UI Components Injected by Agent ─────────────────────────── */
+.copilotKitInput textarea::placeholder {
+  color: var(--muted) !important;
+  font-size: 12.5px !important;
+}
+
+/* ── Generative UI Cards Injected by Agent ──────────────────────────────── */
 .ts-gen-card {
   background: var(--surface-card);
   border: 1px solid var(--border);
   border-radius: var(--radius-md);
-  padding: 16px;
+  padding: 14px;
   margin: 10px 0;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
-  font-size: 13px;
+  box-shadow: var(--shadow-sm);
+  font-size: 12.5px;
+  max-width: 100%;
+  box-sizing: border-box;
+  overflow-x: hidden;
 }
 
 .ts-gen-header {
-  margin-bottom: 14px;
+  margin-bottom: 12px;
 }
 
 .ts-gen-badge {
   display: inline-block;
   font-size: 10px;
   text-transform: uppercase;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.06em;
   font-weight: 700;
-  background: rgba(99, 102, 241, 0.2);
+  background: var(--primary-subtle);
   color: var(--primary-light);
-  padding: 2px 8px;
+  border: 1px solid var(--primary-border);
+  padding: 2px 7px;
   border-radius: var(--radius-full);
   margin-bottom: 6px;
 }
 
 .ts-badge-emerald {
   background: var(--emerald-bg);
-  color: var(--emerald);
+  color: var(--emerald-text);
+  border-color: var(--emerald-border);
 }
 
 .ts-gen-title {
-  font-size: 15px;
+  font-size: 14px;
   font-weight: 700;
-  margin: 0 0 4px;
+  margin: 0 0 3px;
   color: var(--text);
+  line-height: 1.3;
 }
 
 .ts-gen-subtitle {
-  font-size: 12px;
+  font-size: 11.5px;
   color: var(--text-secondary);
   margin: 0;
 }
@@ -914,22 +1230,22 @@ time {
   font-size: 12px;
   color: var(--muted);
   font-style: italic;
-  padding: 12px 0;
+  padding: 10px 0;
 }
 
-/* Comparison Matrix */
+/* Comparison Matrix Cards inside Chat */
 .ts-comp-grid {
   display: flex;
   flex-direction: column;
-  gap: 10px;
-  margin-bottom: 12px;
+  gap: 8px;
+  margin-bottom: 10px;
 }
 
 .ts-comp-col {
   background: var(--surface-raised);
   border: 1px solid var(--border);
   border-radius: var(--radius-sm);
-  padding: 12px;
+  padding: 10px 12px;
 }
 
 .ts-comp-col.is-over-budget {
@@ -945,36 +1261,38 @@ time {
   align-items: center;
   justify-content: space-between;
   margin-bottom: 6px;
+  gap: 8px;
 }
 
 .ts-comp-name {
   font-weight: 600;
-  font-size: 13.5px;
+  font-size: 13px;
   color: var(--text);
 }
 
 .ts-comp-score {
   font-size: 11px;
   font-weight: 700;
-  background: rgba(99, 102, 241, 0.2);
+  background: var(--primary-subtle);
   color: var(--primary-light);
+  border: 1px solid var(--primary-border);
   padding: 2px 6px;
   border-radius: var(--radius-full);
 }
 
 .ts-comp-salary-badge {
-  font-size: 12px;
+  font-size: 11.5px;
   color: var(--text-secondary);
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 8px;
-  padding-bottom: 8px;
+  margin-bottom: 6px;
+  padding-bottom: 6px;
   border-bottom: 1px solid var(--border-subtle);
 }
 
 .ts-budget-tag {
-  font-size: 10.5px;
+  font-size: 10px;
   font-weight: 600;
   padding: 2px 6px;
   border-radius: var(--radius-full);
@@ -982,25 +1300,27 @@ time {
 
 .ts-tag-success {
   background: var(--emerald-bg);
-  color: var(--emerald);
+  color: var(--emerald-text);
+  border: 1px solid var(--emerald-border);
 }
 
 .ts-tag-danger {
   background: var(--rose-bg);
-  color: var(--rose);
+  color: var(--rose-text);
+  border: 1px solid var(--rose-border);
 }
 
 .ts-comp-section {
-  margin-bottom: 8px;
+  margin-bottom: 6px;
 }
 
 .ts-section-label {
-  font-size: 11px;
+  font-size: 10.5px;
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.05em;
   color: var(--muted);
-  margin-bottom: 4px;
+  margin-bottom: 2px;
 }
 
 .ts-comp-list {
@@ -1013,109 +1333,116 @@ time {
 
 .ts-comp-list li {
   margin-bottom: 2px;
+  display: flex;
+  align-items: flex-start;
+  gap: 4px;
 }
 
 .ts-list-concerns li {
-  color: #fb7185;
+  color: var(--rose-text);
 }
 
 .ts-comp-verdict {
-  font-size: 12px;
+  font-size: 11.5px;
   background: var(--surface-card);
-  padding: 8px 10px;
-  border-radius: var(--radius-sm);
+  padding: 6px 8px;
+  border-radius: var(--radius-xs);
   color: var(--text);
   margin-top: 6px;
+  line-height: 1.45;
 }
 
 .ts-gen-recommendation {
-  background: rgba(99, 102, 241, 0.12);
-  border: 1px solid rgba(99, 102, 241, 0.3);
+  background: var(--primary-subtle);
+  border: 1px solid var(--primary-border);
   border-radius: var(--radius-sm);
   padding: 10px 12px;
   display: flex;
-  gap: 10px;
+  gap: 8px;
   align-items: flex-start;
-  font-size: 12.5px;
+  font-size: 12px;
   line-height: 1.5;
+  color: var(--text);
 }
 
 .ts-rec-icon {
-  font-size: 16px;
+  font-size: 14px;
+  flex-shrink: 0;
 }
 
-/* Offer Proposal Card */
+/* Offer Proposal Card inside Chat */
 .ts-offer-breakdown {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 10px;
-  margin-bottom: 14px;
+  gap: 8px;
+  margin-bottom: 12px;
 }
 
 .ts-offer-stat {
   background: var(--surface-raised);
   border: 1px solid var(--border);
   border-radius: var(--radius-sm);
-  padding: 10px;
+  padding: 8px 10px;
   display: flex;
   flex-direction: column;
 }
 
 .ts-stat-label {
-  font-size: 11px;
+  font-size: 10.5px;
   color: var(--muted);
   margin-bottom: 2px;
 }
 
 .ts-stat-value {
-  font-size: 14px;
+  font-size: 13.5px;
   font-weight: 700;
   color: var(--text);
 }
 
 .ts-stat-subtext {
-  font-size: 11px;
+  font-size: 10.5px;
   color: var(--text-secondary);
   margin-top: 2px;
 }
 
 .ts-color-success {
-  color: var(--emerald) !important;
+  color: var(--emerald-text) !important;
 }
 
 .ts-offer-benefits {
-  margin-bottom: 12px;
+  margin-bottom: 10px;
 }
 
 .ts-benefit-pills {
   display: flex;
   flex-wrap: wrap;
-  gap: 6px;
-  margin-top: 6px;
+  gap: 5px;
+  margin-top: 4px;
 }
 
 .ts-benefit-pill {
   background: var(--surface-raised);
   border: 1px solid var(--border);
   font-size: 11px;
-  padding: 3px 8px;
+  padding: 2px 7px;
   border-radius: var(--radius-full);
   color: var(--text-secondary);
 }
 
 .ts-offer-justification {
   background: var(--surface-raised);
-  padding: 10px 12px;
+  padding: 8px 10px;
   border-radius: var(--radius-sm);
-  font-size: 12px;
+  font-size: 11.5px;
   line-height: 1.5;
-  margin-bottom: 12px;
+  margin-bottom: 10px;
+  color: var(--text-secondary);
 }
 
 .ts-offer-footer {
   border-top: 1px solid var(--border-subtle);
-  padding-top: 10px;
-  font-size: 11px;
+  padding-top: 8px;
+  font-size: 10.5px;
   color: var(--muted);
 }
 
@@ -1125,9 +1452,9 @@ time {
   border: 1px solid var(--border);
   border-left: 3px solid var(--primary);
   border-radius: var(--radius-md);
-  padding: 16px;
+  padding: 14px;
   margin: 10px 0;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+  box-shadow: var(--shadow-sm);
 }
 
 .ts-gate-badge {
@@ -1136,51 +1463,59 @@ time {
   letter-spacing: 0.08em;
   font-weight: 700;
   color: var(--primary-light);
-  margin-bottom: 6px;
+  margin-bottom: 4px;
 }
 
 .ts-gate-title {
-  font-size: 14px;
+  font-size: 13.5px;
   font-weight: 700;
-  margin: 0 0 6px;
+  margin: 0 0 4px;
   color: var(--text);
+  line-height: 1.3;
 }
 
 .ts-gate-target {
-  font-size: 12.5px;
+  font-size: 12px;
   color: var(--text-secondary);
   margin: 0 0 6px;
 }
 
 .ts-gate-impact {
-  font-size: 12px;
-  color: var(--amber);
+  font-size: 11.5px;
+  color: var(--amber-text);
   background: var(--amber-bg);
   border: 1px solid var(--amber-border);
   padding: 6px 10px;
-  border-radius: var(--radius-sm);
-  margin: 8px 0 12px;
+  border-radius: var(--radius-xs);
+  margin: 8px 0 10px;
+  line-height: 1.45;
 }
 
 .ts-gate-actions {
   display: flex;
   gap: 8px;
+  flex-wrap: wrap;
 }
 
 .ts-btn {
   font: inherit;
-  font-size: 12.5px;
+  font-size: 12px;
   font-weight: 600;
   padding: 8px 14px;
   border-radius: var(--radius-sm);
   cursor: pointer;
   transition: all 0.15s ease;
   border: 1px solid transparent;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  min-height: 38px;
 }
 
 .ts-btn-primary {
   background: var(--primary);
-  color: white;
+  color: #ffffff;
   border-color: var(--primary);
 }
 
@@ -1205,26 +1540,31 @@ time {
   gap: 10px;
   border-left-color: var(--emerald);
   background: var(--emerald-bg);
+  border: 1px solid var(--emerald-border);
+  border-left-width: 3px;
 }
 
 .ts-gate-icon {
-  width: 24px;
-  height: 24px;
+  width: 22px;
+  height: 22px;
   border-radius: 50%;
   background: var(--emerald);
-  color: white;
+  color: #ffffff;
   display: flex;
   align-items: center;
   justify-content: center;
   font-weight: bold;
-  font-size: 12px;
+  font-size: 11px;
+  flex-shrink: 0;
 }
 
-/* ── Responsive adjustments ─────────────────────────────────────────────── */
-@media (max-width: 1200px) {
+/* ── Responsive Adaptations ─────────────────────────────────────────────── */
+/* Tablet (840px to 1180px) */
+@media (max-width: 1180px) {
   .ts-grid-layout {
-    grid-template-columns: 280px minmax(0, 1fr);
+    grid-template-columns: 260px minmax(0, 1fr);
   }
+
   .ts-copilot-panel {
     grid-column: span 2;
     height: 520px;
@@ -1232,18 +1572,116 @@ time {
   }
 }
 
-@media (max-width: 800px) {
-  .ts-grid-layout {
-    grid-template-columns: 1fr;
+/* Mobile (< 840px) */
+@media (max-width: 840px) {
+  .ts-container {
+    padding: 14px 14px 28px;
   }
-  .ts-copilot-panel {
-    grid-column: span 1;
+
+  .ts-navbar {
+    padding: 10px 14px;
   }
-  .ts-pros-cons-grid {
-    grid-template-columns: 1fr;
-  }
+
   .ts-navbar-inner {
     flex-direction: column;
     align-items: flex-start;
+    gap: 10px;
+  }
+
+  .ts-nav-role-badge {
+    width: 100%;
+    justify-content: space-between;
+    padding: 6px 12px;
+  }
+
+  .ts-nav-actions {
+    display: none;
+  }
+
+  .ts-mobile-tabs {
+    display: flex;
+  }
+
+  .ts-quick-prompts-bar {
+    margin-bottom: 14px;
+  }
+
+  .ts-grid-layout {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  /* When mobile tabs are active, conditionally show/hide columns */
+  .ts-view-detail .ts-panel,
+  .ts-view-detail .ts-copilot-panel {
+    display: none;
+  }
+
+  .ts-view-pipeline .ts-detail-container,
+  .ts-view-pipeline .ts-copilot-panel {
+    display: none;
+  }
+
+  .ts-view-copilot .ts-panel,
+  .ts-view-copilot .ts-detail-container {
+    display: none;
+  }
+
+  .ts-copilot-panel {
+    grid-column: span 1;
+    width: 100%;
+    height: calc(100vh - 160px);
+    min-height: 480px;
+    position: static;
+  }
+
+  .ts-pros-cons-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .ts-offer-breakdown {
+    grid-template-columns: 1fr;
+  }
+
+  .ts-hero-top {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .ts-hero-avatar {
+    width: 60px;
+    height: 60px;
+  }
+
+  .ts-budget-banner {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .ts-budget-pill-large {
+    width: 100%;
+    text-align: center;
+  }
+
+  .copilotKitUserMessage > div:not([data-testid="copilot-user-toolbar"]),
+  .copilotKitUserMessage .cpk\:prose,
+  [data-testid="copilot-user-message"] > div:first-of-type {
+    max-width: 92% !important;
+  }
+
+  .copilotKitAssistantMessage > div.cpk\:prose,
+  [data-testid="copilot-assistant-message"] > div.cpk\:prose {
+    max-width: 100% !important;
+  }
+
+  .ts-gate-actions {
+    flex-direction: column;
+  }
+
+  .ts-gate-actions .ts-btn {
+    width: 100%;
   }
 }
