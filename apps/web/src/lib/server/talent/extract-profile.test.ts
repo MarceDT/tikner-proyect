@@ -1,6 +1,6 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { extractProfile, type ExtractorFn, PROFILE_FIELDS } from "./extract-profile";
+import { extractProfile, type ExtractorFn, PROFILE_FIELDS, llmOutputSchema, llmOutputToProfileInput } from "./extract-profile";
 
 const CV = `Ana Pérez
 Senior Engineer — ana@example.com
@@ -70,4 +70,15 @@ test("rechaza salidas del LLM que no cumplen el schema", async () => {
 test("PROFILE_FIELDS cubre los campos que se evalúan como faltantes", () => {
   assert.ok(PROFILE_FIELDS.includes("salaryExpectation"));
   assert.ok(PROFILE_FIELDS.includes("experienceYears"));
+});
+
+test("el schema para el modelo no usa record (OpenAI structured outputs) y se convierte al contrato", () => {
+  const { toJSONSchema } = require("zod") as typeof import("zod");
+  const json = JSON.stringify(toJSONSchema(llmOutputSchema));
+  assert.ok(!json.includes("propertyNames"), "OpenAI rechaza propertyNames");
+  const converted = llmOutputToProfileInput({
+    ...base,
+    confidence: { overall: 0.8, fields: [{ field: "name", confidence: 1 }, { field: "skills", confidence: 0.7 }] },
+  });
+  assert.deepEqual(converted.confidence.fields, { name: 1, skills: 0.7 });
 });
