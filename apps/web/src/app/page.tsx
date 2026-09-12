@@ -1,52 +1,211 @@
-﻿"use client";
+"use client";
 
-import { useCallback, useState } from "react";
+import { useCallback, useState, useMemo, useEffect } from "react";
 import {
   CopilotChat,
   useConfigureSuggestions,
 } from "@copilotkit/react-core/v2";
 import { GenerativeUI } from "@/components/generative-ui";
 import { AppControl } from "@/components/app-control";
-import { candidates, getOrFirstCandidate, TARGET_ROLE } from "@/lib/candidates";
-import { useWorkplace } from "@/lib/use-workplace";
-import { WorkplaceFollowups } from "@/components/workplace-followups";
+import {
+  candidates as initialCandidates,
+  findCandidate,
+  TARGET_ROLE,
+  Candidate,
+} from "@/lib/candidates";
+
+/* ── Clean Corporate SVG Icons ───────────────────────────────────────────── */
+function LogoIcon() {
+  return (
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <circle cx="12" cy="12" r="10" />
+      <circle cx="12" cy="12" r="6" />
+      <circle cx="12" cy="12" r="2" />
+    </svg>
+  );
+}
+
+function SunIcon() {
+  return (
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <circle cx="12" cy="12" r="5" />
+      <line x1="12" y1="1" x2="12" y2="3" />
+      <line x1="12" y1="21" x2="12" y2="23" />
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64" />
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78" />
+      <line x1="1" y1="12" x2="3" y2="12" />
+      <line x1="21" y1="12" x2="23" y2="12" />
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36" />
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" />
+    </svg>
+  );
+}
+
+function MoonIcon() {
+  return (
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z" />
+    </svg>
+  );
+}
+
+function LocationIcon() {
+  return (
+    <svg width="13" height="13" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
+      <path d="M8 0a5 5 0 00-5 5c0 3.75 5 11 5 11s5-7.25 5-11a5 5 0 00-5-5zm0 7a2 2 0 110-4 2 2 0 010 4z" />
+    </svg>
+  );
+}
+
+function BriefcaseIcon() {
+  return (
+    <svg width="13" height="13" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
+      <path d="M6.5 1A1.5 1.5 0 005 2.5V4H2.5A1.5 1.5 0 001 5.5v7A1.5 1.5 0 002.5 14h11a1.5 1.5 0 001.5-1.5v-7A1.5 1.5 0 0013.5 4H11V2.5A1.5 1.5 0 009.5 1h-3zM6 2.5a.5.5 0 01.5-.5h3a.5.5 0 01.5.5V4H6V2.5z" />
+    </svg>
+  );
+}
+
+function RoleBadgeIcon() {
+  return (
+    <svg width="13" height="13" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
+      <path d="M8 1a7 7 0 100 14A7 7 0 008 1zm0 2a5 5 0 110 10A5 5 0 018 3zm0 3a2 2 0 100 4 2 2 0 000-4z" />
+    </svg>
+  );
+}
+
+function CheckIcon() {
+  return (
+    <svg width="13" height="13" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
+      <path d="M13.78 4.22a.75.75 0 010 1.06l-7.25 7.25a.75.75 0 01-1.06 0L2.22 9.28a.75.75 0 011.06-1.06L6 10.94l6.72-6.72a.75.75 0 011.06 0z" />
+    </svg>
+  );
+}
+
+function AlertIcon() {
+  return (
+    <svg width="13" height="13" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
+      <path d="M6.457 1.047c.659-1.234 2.427-1.234 3.086 0l6.082 11.378A1.75 1.75 0 0114.082 15H1.918a1.75 1.75 0 01-1.543-2.575L6.457 1.047zM8 5a.75.75 0 00-.75.75v3.5a.75.75 0 001.5 0v-3.5A.75.75 0 008 5zm0 7a1 1 0 100-2 1 1 0 000 2z" />
+    </svg>
+  );
+}
+
+function SparklesIcon() {
+  return (
+    <svg width="15" height="15" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
+      <path d="M7.53 1.282a.5.5 0 01.94 0l1.19 3.662a.5.5 0 00.375.326l3.847.559a.5.5 0 01.277.853l-2.784 2.714a.5.5 0 00-.144.442l.657 3.832a.5.5 0 01-.725.527L7.72 12.18a.5.5 0 00-.44 0l-3.447 2.017a.5.5 0 01-.725-.527l.657-3.832a.5.5 0 00-.144-.442L.882 6.682a.5.5 0 01.277-.853l3.847-.559a.5.5 0 00.375-.326L7.53 1.282z" />
+    </svg>
+  );
+}
+
+function UserGroupIcon() {
+  return (
+    <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
+      <path d="M7 14s-1 0-1-1 1-4 5-4 5 3 5 4-1 1-1 1H7zm4-6a3 3 0 100-6 3 3 0 000 6zM5.5 5a2.5 2.5 0 110-5 2.5 2.5 0 010 5zm-3.5 9s-.5 0-.5-.5 1-3 4-3c.8 0 1.5.15 2.1.42-.56.76-.85 1.7-.85 2.58H2z" />
+    </svg>
+  );
+}
+
+function ProfileIcon() {
+  return (
+    <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
+      <path d="M8 8a3 3 0 100-6 3 3 0 000 6zm2-3a2 2 0 11-4 0 2 2 0 014 0zm4 8c0-2.5-3-4-6-4s-6 1.5-6 4v1h12v-1z" />
+    </svg>
+  );
+}
 
 export default function Home() {
-  const [selectedId, setSelectedId] = useState<string>(candidates[0].id);
-  const workplace = useWorkplace(selectedId);
-  const candidate = getOrFirstCandidate(selectedId);
+  const [candidatesList, setCandidatesList] = useState<Candidate[]>(initialCandidates);
+  const [selectedId, setSelectedId] = useState<string>(initialCandidates[0].id);
+  const [mobileTab, setMobileTab] = useState<"detail" | "pipeline" | "copilot">("detail");
+  const [theme, setTheme] = useState<"light" | "dark">("light");
+
+  // Sync theme with localStorage and documentElement on mount
+  useEffect(() => {
+    try {
+      const saved = localStorage.getItem("talentscore_theme");
+      if (saved === "dark" || saved === "light") {
+        setTheme(saved);
+        document.documentElement.setAttribute("data-theme", saved);
+      } else {
+        const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+        // Default is light per requirement; only use system preference if dark preferred
+        const initial = prefersDark ? "dark" : "light";
+        setTheme(initial);
+        document.documentElement.setAttribute("data-theme", initial);
+      }
+    } catch {
+      setTheme("light");
+      document.documentElement.setAttribute("data-theme", "light");
+    }
+  }, []);
+
+  const toggleTheme = useCallback(() => {
+    setTheme((prev) => {
+      const next = prev === "light" ? "dark" : "light";
+      try {
+        localStorage.setItem("talentscore_theme", next);
+      } catch {
+        // ignore
+      }
+      document.documentElement.setAttribute("data-theme", next);
+      return next;
+    });
+  }, []);
+
+  // Get active candidate
+  const candidate = useMemo(() => {
+    return candidatesList.find((c) => c.id === selectedId) ?? candidatesList[0];
+  }, [candidatesList, selectedId]);
 
   const selectCandidate = useCallback((id: string) => {
-    const found = getOrFirstCandidate(id);
+    const found = findCandidate(id);
     setSelectedId(found.id);
   }, []);
 
+  const handleCandidateSelection = useCallback((id: string) => {
+    selectCandidate(id);
+    setMobileTab("detail");
+  }, [selectCandidate]);
+
+  const updateCandidateStatus = useCallback((id: string, newStatus: Candidate["status"]) => {
+    setCandidatesList((prev) =>
+      prev.map((c) => (c.id === id ? { ...c, status: newStatus } : c))
+    );
+  }, []);
+
+  // Suggestions for the CopilotChat before first message
   useConfigureSuggestions(
     {
       suggestions: [
         {
-          title: "¿Es Sofía la indicada?",
+          title: "Comparar candidatos con el budget ($95k)",
           message:
-            "Analiza a Sofía Albarracín para el puesto de Lead Fullstack. ¿Cómo se comparan sus pretensiones salariales con el presupuesto de $95k y cuál es el feedback de las entrevistas?",
+            "Compara a los 3 candidatos frente al presupuesto tope de $95k y los requisitos de Lead Engineer. Muestra la matriz comparativa.",
         },
         {
-          title: "Comparar con Lucas Varela",
+          title: "Analizar perfil de Sofía Albarracín",
           message:
-            "Compara a Sofía con Lucas Varela. ¿Vale la pena considerar a Lucas a pesar de que pide $125k ($30k por encima del presupuesto)?",
+            "Analiza el perfil de Sofía Albarracín. ¿Por qué es la principal finalista y qué opinaron los entrevistadores?",
         },
         {
-          title: "Preparar Oferta Formal",
+          title: "Evaluar riesgos salariales de Lucas Varela",
           message:
-            "Genera una propuesta formal de oferta salarial para el candidato seleccionado considerando el tope presupuestario y paquete de beneficios.",
+            "Revisa el perfil de Lucas Varela. ¿Cuáles son los riesgos respecto a su pretensión salarial y fit cultural?",
+        },
+        {
+          title: "Proponer oferta formal para Sofía",
+          message:
+            "Prepara una propuesta formal de oferta para Sofía Albarracín dentro del presupuesto de $95k. Incluye bono y equity.",
         },
       ],
       available: "before-first-message",
     },
-    [],
+    []
   );
 
-  const isOverBudget = candidate.salaryNumber > TARGET_ROLE.budgetMaxSalary;
+  // Budget calculations
   const budgetDiff = TARGET_ROLE.budgetMaxSalary - candidate.salaryNumber;
+  const isWithinBudget = budgetDiff >= 0;
 
   return (
     <>
@@ -54,184 +213,414 @@ export default function Home() {
       <AppControl
         selectedId={selectedId}
         selectCandidate={selectCandidate}
-        selectIncident={selectCandidate}
-        workplace={workplace}
+        onUpdateStatus={updateCandidateStatus}
       />
-      <main className="ck-workspace">
-        <header className="ck-workspace-header">
-          <div>
-            <p className="ck-eyebrow">TalentScore · ATS Inteligente &amp; People Ops</p>
-            <h1>Evaluación y Ofertas de Talento</h1>
-            <p className="ck-intro">
-              Vacante objetivo: <strong>{TARGET_ROLE.title}</strong> · Presupuesto departamental: <strong>${TARGET_ROLE.budgetMaxSalary.toLocaleString("en-US")} USD/año</strong>
-            </p>
-          </div>
-          <span className="ck-tag">AI Tinkerers Hackathon 2026</span>
-        </header>
 
-        <div className="ck-workspace-grid">
-          <section className="ck-panel" aria-labelledby="candidate-profile-title">
-            {/* Selector de Candidatos */}
-            <div className="ck-incident-picker">
-              <label htmlFor="candidate-select">Candidato evaluado:</label>
-              <select
-                id="candidate-select"
-                value={selectedId}
-                onChange={(event) => selectCandidate(event.target.value)}
-              >
-                {candidates.map((item) => (
-                  <option key={item.id} value={item.id}>
-                    {item.id} · {item.name} — {item.salaryExpectation} ({item.status})
-                  </option>
-                ))}
-              </select>
+      {/* Top Navigation Bar */}
+      <header className="ts-navbar">
+        <div className="ts-navbar-inner">
+          <div className="ts-logo-group">
+            <div className="ts-logo-mark" aria-hidden="true">
+              <LogoIcon />
+            </div>
+            <div>
+              <h1 className="ts-logo-title">TalentScore</h1>
+              <p className="ts-logo-tagline">Enterprise ATS & Recruiting Intelligence</p>
+            </div>
+          </div>
+
+          <div className="ts-nav-role-badge">
+            <span className="ts-role-dot" aria-hidden="true" />
+            <strong>{TARGET_ROLE.title}</strong>
+            <span>· {TARGET_ROLE.department}</span>
+            <span className="ts-nav-budget-pill">
+              Tope: ${TARGET_ROLE.budgetMaxSalary.toLocaleString()} {TARGET_ROLE.currency}
+            </span>
+          </div>
+
+          <div className="ts-nav-actions">
+            {/* Accessible Theme Toggle */}
+            <button
+              type="button"
+              className="ts-theme-toggle"
+              onClick={toggleTheme}
+              aria-label={`Cambiar a modo ${theme === "light" ? "oscuro" : "claro"}`}
+              title={`Cambiar a modo ${theme === "light" ? "oscuro" : "claro"}`}
+            >
+              {theme === "light" ? <MoonIcon /> : <SunIcon />}
+              <span>{theme === "light" ? "Oscuro" : "Claro"}</span>
+            </button>
+
+            <div className="ts-user-badge">
+              <span className="ts-user-avatar" aria-hidden="true">M</span>
+              <span>Milena · Lead UI & Product</span>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      {/* Main Workspace Layout */}
+      <main className="ts-container">
+        {/* Mobile Segmented View Controller (Visible < 840px) */}
+        <div className="ts-mobile-tabs" role="tablist" aria-label="Vistas del espacio de trabajo">
+          <button
+            type="button"
+            role="tab"
+            aria-selected={mobileTab === "detail"}
+            className={`ts-mobile-tab-btn ${mobileTab === "detail" ? "is-active" : ""}`}
+            onClick={() => setMobileTab("detail")}
+          >
+            <ProfileIcon /> Perfil
+          </button>
+          <button
+            type="button"
+            role="tab"
+            aria-selected={mobileTab === "pipeline"}
+            className={`ts-mobile-tab-btn ${mobileTab === "pipeline" ? "is-active" : ""}`}
+            onClick={() => setMobileTab("pipeline")}
+          >
+            <UserGroupIcon /> Pipeline
+            <span className="ts-mobile-tab-count">{candidatesList.length}</span>
+          </button>
+          <button
+            type="button"
+            role="tab"
+            aria-selected={mobileTab === "copilot"}
+            className={`ts-mobile-tab-btn ${mobileTab === "copilot" ? "is-active" : ""}`}
+            onClick={() => setMobileTab("copilot")}
+          >
+            <SparklesIcon /> Copilot
+          </button>
+        </div>
+
+        {/* Quick Candidates Selector Bar */}
+        <div className="ts-quick-prompts-bar">
+          <div className="ts-quick-prompts" aria-label="Acceso rápido a candidatos">
+            <span className="ts-prompt-label">Candidatos:</span>
+            {candidatesList.map((item) => {
+              const isSelected = item.id === selectedId;
+              const isOver = item.salaryNumber > TARGET_ROLE.budgetMaxSalary;
+              return (
+                <button
+                  key={item.id}
+                  type="button"
+                  className={`ts-prompt-chip ${isSelected ? "is-active" : ""}`}
+                  onClick={() => handleCandidateSelection(item.id)}
+                  aria-pressed={isSelected}
+                >
+                  <span>{item.name}</span>
+                  <span style={{ fontSize: "11px", opacity: 0.8 }}>
+                    {isOver ? `(+$${(item.salaryNumber - TARGET_ROLE.budgetMaxSalary) / 1000}k)` : `(${item.status})`}
+                  </span>
+                </button>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* 3-Column Responsive Grid with Mobile View Filter */}
+        <div className={`ts-grid-layout ts-view-${mobileTab}`}>
+          {/* Column 1: Candidates Pipeline */}
+          <aside className="ts-panel" aria-label="Pipeline de Candidatos">
+            <div className="ts-panel-header">
+              <h2 className="ts-panel-title">
+                <UserGroupIcon />
+                <span>Pipeline de Talento</span>
+              </h2>
+              <span className="ts-panel-count">{candidatesList.length} activos</span>
             </div>
 
-            {/* Ficha Principal del Candidato */}
-            <div className="ck-detail">
-              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", gap: "1rem" }}>
-                <div>
-                  <span className="ck-status-label" style={{ marginBottom: "0.5rem" }}>{candidate.status}</span>
-                  <h2 id="candidate-profile-title" style={{ fontSize: "1.75rem", margin: "0.25rem 0" }}>
-                    {candidate.name}
-                  </h2>
-                  <p style={{ color: "#94a3b8", fontSize: "0.95rem", margin: 0 }}>
-                    {candidate.currentTitle} · {candidate.location} · {candidate.experienceYears} años de experiencia
-                  </p>
-                </div>
-                {/* Badge de presupuesto */}
-                <div style={{
-                  padding: "0.5rem 0.85rem",
-                  borderRadius: "8px",
-                  fontSize: "0.85rem",
-                  fontWeight: 600,
-                  textAlign: "right",
-                  background: isOverBudget ? "rgba(239, 68, 68, 0.15)" : "rgba(34, 197, 94, 0.15)",
-                  color: isOverBudget ? "#f87171" : "#4ade80",
-                  border: isOverBudget ? "1px solid rgba(239, 68, 68, 0.3)" : "1px solid rgba(34, 197, 94, 0.3)"
-                }}>
-                  <div>Pretensión: {candidate.salaryExpectation}</div>
-                  <div style={{ fontSize: "0.75rem", opacity: 0.9 }}>
-                    {isOverBudget
-                      ? `⚠️ Excede tope por $${Math.abs(budgetDiff).toLocaleString("en-US")} USD`
-                      : `✓ Margen a favor: +$${budgetDiff.toLocaleString("en-US")} USD`}
+            <div className="ts-candidate-list">
+              {candidatesList.map((item) => {
+                const isSelected = item.id === selectedId;
+                const statusClass =
+                  item.status === "Finalist"
+                    ? "ts-status-finalist"
+                    : item.status === "Interviewing"
+                    ? "ts-status-interviewing"
+                    : item.status === "Offer Extended"
+                    ? "ts-status-offer"
+                    : "ts-status-review";
+
+                return (
+                  <button
+                    key={item.id}
+                    type="button"
+                    className={`ts-candidate-item ${isSelected ? "is-selected" : ""}`}
+                    onClick={() => handleCandidateSelection(item.id)}
+                    aria-current={isSelected ? "true" : undefined}
+                  >
+                    <div className="ts-cand-top">
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img
+                        src={item.avatar}
+                        alt={item.name}
+                        className="ts-cand-avatar"
+                      />
+                      <div className="ts-cand-meta">
+                        <div className="ts-cand-name">{item.name}</div>
+                        <div className="ts-cand-role">{item.currentTitle}</div>
+                      </div>
+                    </div>
+
+                    <div className="ts-cand-bottom">
+                      <span className="ts-salary-tag">{item.salaryExpectation}</span>
+                      <span className={`ts-status-badge ${statusClass}`}>
+                        {item.status}
+                      </span>
+                    </div>
+                  </button>
+                );
+              })}
+            </div>
+          </aside>
+
+          {/* Column 2: Candidate Deep Dive */}
+          <section className="ts-detail-container" aria-label="Detalle del Candidato">
+            {/* Candidate Header Profile Card */}
+            <div className="ts-hero-card">
+              <div className="ts-hero-top">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src={candidate.avatar}
+                  alt={candidate.name}
+                  className="ts-hero-avatar"
+                />
+                <div className="ts-hero-info">
+                  <div className="ts-hero-name-row">
+                    <h2 className="ts-hero-name">{candidate.name}</h2>
+                    <span
+                      className={`ts-status-badge ${
+                        candidate.status === "Finalist"
+                          ? "ts-status-finalist"
+                          : candidate.status === "Interviewing"
+                          ? "ts-status-interviewing"
+                          : candidate.status === "Offer Extended"
+                          ? "ts-status-offer"
+                          : "ts-status-review"
+                      }`}
+                    >
+                      {candidate.status}
+                    </span>
+                  </div>
+                  <div className="ts-hero-title">{candidate.currentTitle}</div>
+                  <div className="ts-hero-facts">
+                    <span className="ts-hero-fact">
+                      <LocationIcon /> {candidate.location}
+                    </span>
+                    <span className="ts-hero-fact">
+                      <BriefcaseIcon /> {candidate.experienceYears} años de exp.
+                    </span>
+                    <span className="ts-hero-fact">
+                      <RoleBadgeIcon /> Aplicó a: {candidate.appliedRole}
+                    </span>
                   </div>
                 </div>
               </div>
 
-              <p style={{ fontStyle: "italic", marginTop: "1rem", color: "#cbd5e1" }}>
+              {/* Headline */}
+              <blockquote className="ts-headline-box">
                 &ldquo;{candidate.headline}&rdquo;
-              </p>
-              <p>{candidate.summary}</p>
+              </blockquote>
 
-              {/* Habilidades */}
-              <div style={{ marginTop: "1rem" }}>
-                <strong style={{ fontSize: "0.85rem", textTransform: "uppercase", letterSpacing: "0.05em", color: "#94a3b8" }}>
-                  Habilidades Clave:
-                </strong>
-                <div style={{ display: "flex", flexWrap: "wrap", gap: "0.4rem", marginTop: "0.4rem" }}>
+              {/* Salary vs Budget Indicator */}
+              <div className={`ts-budget-banner ${isWithinBudget ? "is-ok" : "is-over"}`}>
+                <div className="ts-budget-info">
+                  <span className="ts-budget-title">
+                    {isWithinBudget ? (
+                      <>
+                        <CheckIcon /> Pretensión Salarial en Rango Presupuestario
+                      </>
+                    ) : (
+                      <>
+                        <AlertIcon /> Alerta de Compensación: Supera Presupuesto
+                      </>
+                    )}
+                  </span>
+                  <span className="ts-budget-desc">
+                    Pretensión: {candidate.salaryExpectation} · Presupuesto tope disponible: $
+                    {TARGET_ROLE.budgetMaxSalary.toLocaleString()} {TARGET_ROLE.currency}
+                  </span>
+                </div>
+                <span className="ts-budget-pill-large">
+                  {isWithinBudget
+                    ? `-$${Math.abs(budgetDiff).toLocaleString()} margen disponible`
+                    : `+$${Math.abs(budgetDiff).toLocaleString()} por encima del tope`}
+                </span>
+              </div>
+
+              {/* Summary */}
+              <p className="ts-candidate-summary-text">
+                {candidate.summary}
+              </p>
+
+              {/* Required Skills */}
+              <div className="ts-skills-section">
+                <span className="ts-section-heading">Competencias Principales:</span>
+                <div className="ts-skills-tags">
                   {candidate.skills.map((skill) => (
-                    <span
-                      key={skill}
-                      style={{
-                        background: "rgba(255, 255, 255, 0.08)",
-                        padding: "0.2rem 0.6rem",
-                        borderRadius: "4px",
-                        fontSize: "0.8rem"
-                      }}
-                    >
+                    <span key={skill} className="ts-skill-pill">
                       {skill}
                     </span>
                   ))}
                 </div>
               </div>
-
-              {/* Desplegable de Notas de Entrevista y Métricas */}
-              <details className="ck-more" key={candidate.id} style={{ marginTop: "1.25rem" }}>
-                <summary>📊 Ver Calificaciones Técnicas y Rondas de Entrevista</summary>
-                
-                {/* Calificaciones Radar / Scorecard */}
-                <h3 style={{ marginTop: "1rem" }}>Evaluación Técnica &amp; Competencias (1 al 10)</h3>
-                <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(130px, 1fr))", gap: "0.5rem", margin: "0.75rem 0" }}>
-                  <div style={{ background: "rgba(255, 255, 255, 0.04)", padding: "0.5rem", borderRadius: "6px", textAlign: "center" }}>
-                    <div style={{ fontSize: "0.75rem", color: "#94a3b8" }}>System Design</div>
-                    <div style={{ fontSize: "1.2rem", fontWeight: "bold", color: "#38bdf8" }}>{candidate.ratings.systemDesign} / 10</div>
-                  </div>
-                  <div style={{ background: "rgba(255, 255, 255, 0.04)", padding: "0.5rem", borderRadius: "6px", textAlign: "center" }}>
-                    <div style={{ fontSize: "0.75rem", color: "#94a3b8" }}>Live Coding</div>
-                    <div style={{ fontSize: "1.2rem", fontWeight: "bold", color: "#38bdf8" }}>{candidate.ratings.coding} / 10</div>
-                  </div>
-                  <div style={{ background: "rgba(255, 255, 255, 0.04)", padding: "0.5rem", borderRadius: "6px", textAlign: "center" }}>
-                    <div style={{ fontSize: "0.75rem", color: "#94a3b8" }}>Arquitectura</div>
-                    <div style={{ fontSize: "1.2rem", fontWeight: "bold", color: "#38bdf8" }}>{candidate.ratings.architecture} / 10</div>
-                  </div>
-                  <div style={{ background: "rgba(255, 255, 255, 0.04)", padding: "0.5rem", borderRadius: "6px", textAlign: "center" }}>
-                    <div style={{ fontSize: "0.75rem", color: "#94a3b8" }}>Liderazgo</div>
-                    <div style={{ fontSize: "1.2rem", fontWeight: "bold", color: "#a855f7" }}>{candidate.ratings.leadership} / 10</div>
-                  </div>
-                  <div style={{ background: "rgba(255, 255, 255, 0.04)", padding: "0.5rem", borderRadius: "6px", textAlign: "center" }}>
-                    <div style={{ fontSize: "0.75rem", color: "#94a3b8" }}>Comunicación</div>
-                    <div style={{ fontSize: "1.2rem", fontWeight: "bold", color: "#a855f7" }}>{candidate.ratings.communication} / 10</div>
-                  </div>
-                </div>
-
-                {/* Pros y Red Flags */}
-                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "1rem", margin: "1rem 0" }}>
-                  <div style={{ background: "rgba(34, 197, 94, 0.08)", padding: "0.75rem", borderRadius: "8px", borderLeft: "3px solid #22c55e" }}>
-                    <strong style={{ color: "#4ade80", fontSize: "0.85rem" }}>✓ Puntos Fuertes (Pros):</strong>
-                    <ul style={{ margin: "0.4rem 0 0 1rem", padding: 0, fontSize: "0.85rem", color: "#cbd5e1" }}>
-                      {candidate.pros.map((p, idx) => (
-                        <li key={idx} style={{ marginBottom: "0.25rem" }}>{p}</li>
-                      ))}
-                    </ul>
-                  </div>
-                  <div style={{ background: "rgba(239, 68, 68, 0.08)", padding: "0.75rem", borderRadius: "8px", borderLeft: "3px solid #ef4444" }}>
-                    <strong style={{ color: "#f87171", fontSize: "0.85rem" }}>⚠️ Alertas / Riesgos (Red Flags):</strong>
-                    <ul style={{ margin: "0.4rem 0 0 1rem", padding: 0, fontSize: "0.85rem", color: "#cbd5e1" }}>
-                      {candidate.redFlags.map((rf, idx) => (
-                        <li key={idx} style={{ marginBottom: "0.25rem" }}>{rf}</li>
-                      ))}
-                    </ul>
-                  </div>
-                </div>
-
-                {/* Timeline de Entrevistas */}
-                <h3>Rondas de Entrevista con el Equipo</h3>
-                <ol className="ck-timeline">
-                  {candidate.interviewNotes.map((note) => (
-                    <li key={note.round}>
-                      <time>{note.date}</time>
-                      <div>
-                        <strong>{note.round} — {note.interviewer} ({note.rating})</strong>
-                        <p>{note.notes}</p>
-                      </div>
-                    </li>
-                  ))}
-                </ol>
-              </details>
             </div>
 
-            {/* Puerta de Aprobación Human-in-the-Loop de Marcelo */}
-            <WorkplaceFollowups candidateId={selectedId} workplace={workplace} />
+            {/* Competency Matrix (Ratings 1-10) */}
+            <div className="ts-card">
+              <h3 className="ts-card-title">
+                <span>Matriz de Competencias Técnicas & Liderazgo</span>
+                <span className="ts-card-badge">Escala 1 a 10</span>
+              </h3>
+
+              <div className="ts-ratings-grid">
+                <div className="ts-rating-row">
+                  <span className="ts-rating-label">System Design</span>
+                  <div className="ts-bar-track" role="progressbar" aria-valuenow={candidate.ratings.systemDesign} aria-valuemin={1} aria-valuemax={10}>
+                    <div
+                      className="ts-bar-fill"
+                      style={{ width: `${candidate.ratings.systemDesign * 10}%` }}
+                    />
+                  </div>
+                  <span className="ts-rating-value">{candidate.ratings.systemDesign} / 10</span>
+                </div>
+
+                <div className="ts-rating-row">
+                  <span className="ts-rating-label">Coding & Algoritmos</span>
+                  <div className="ts-bar-track" role="progressbar" aria-valuenow={candidate.ratings.coding} aria-valuemin={1} aria-valuemax={10}>
+                    <div
+                      className="ts-bar-fill"
+                      style={{ width: `${candidate.ratings.coding * 10}%` }}
+                    />
+                  </div>
+                  <span className="ts-rating-value">{candidate.ratings.coding} / 10</span>
+                </div>
+
+                <div className="ts-rating-row">
+                  <span className="ts-rating-label">Arquitectura de Software</span>
+                  <div className="ts-bar-track" role="progressbar" aria-valuenow={candidate.ratings.architecture} aria-valuemin={1} aria-valuemax={10}>
+                    <div
+                      className="ts-bar-fill"
+                      style={{ width: `${candidate.ratings.architecture * 10}%` }}
+                    />
+                  </div>
+                  <span className="ts-rating-value">{candidate.ratings.architecture} / 10</span>
+                </div>
+
+                <div className="ts-rating-row">
+                  <span className="ts-rating-label">Liderazgo & Mentoría</span>
+                  <div className="ts-bar-track" role="progressbar" aria-valuenow={candidate.ratings.leadership} aria-valuemin={1} aria-valuemax={10}>
+                    <div
+                      className="ts-bar-fill"
+                      style={{ width: `${candidate.ratings.leadership * 10}%` }}
+                    />
+                  </div>
+                  <span className="ts-rating-value">{candidate.ratings.leadership} / 10</span>
+                </div>
+
+                <div className="ts-rating-row">
+                  <span className="ts-rating-label">Comunicación & Cultura</span>
+                  <div className="ts-bar-track" role="progressbar" aria-valuenow={candidate.ratings.communication} aria-valuemin={1} aria-valuemax={10}>
+                    <div
+                      className="ts-bar-fill"
+                      style={{ width: `${candidate.ratings.communication * 10}%` }}
+                    />
+                  </div>
+                  <span className="ts-rating-value">{candidate.ratings.communication} / 10</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Strengths & Red Flags */}
+            <div className="ts-pros-cons-grid">
+              <div className="ts-box ts-pros-box">
+                <div className="ts-box-header">
+                  <CheckIcon />
+                  <span>Fortalezas Destacadas</span>
+                </div>
+                <ul className="ts-bullet-list">
+                  {candidate.pros.map((pro, index) => (
+                    <li key={index}>{pro}</li>
+                  ))}
+                </ul>
+              </div>
+
+              <div className="ts-box ts-cons-box">
+                <div className="ts-box-header">
+                  <AlertIcon />
+                  <span>Puntos de Atención / Riesgos</span>
+                </div>
+                <ul className="ts-bullet-list">
+                  {candidate.redFlags.map((flag, index) => (
+                    <li key={index}>{flag}</li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+
+            {/* Interview Feed */}
+            <div className="ts-card">
+              <h3 className="ts-card-title">
+                <span>Feed de Entrevistas & Feedback del Equipo</span>
+                <span className="ts-card-badge">
+                  {candidate.interviewNotes.length} rondas completadas
+                </span>
+              </h3>
+
+              <div className="ts-interview-timeline">
+                {candidate.interviewNotes.map((note, index) => {
+                  const ratingClass =
+                    note.rating === "Strong Yes"
+                      ? "ts-rating-strong-yes"
+                      : note.rating === "Neutral"
+                      ? "ts-rating-neutral"
+                      : "ts-rating-no";
+
+                  return (
+                    <div key={index} className="ts-interview-item">
+                      <div className="ts-interview-header">
+                        <div className="ts-interview-meta">
+                          <span className="ts-interview-round">{note.round}</span>
+                          <span className="ts-interview-interviewer">· entrevistador: {note.interviewer}</span>
+                        </div>
+                        <span className={`ts-interview-rating ${ratingClass}`}>
+                          {note.rating}
+                        </span>
+                      </div>
+                      <p className="ts-interview-notes">{note.notes}</p>
+                      <time className="ts-interview-date">{note.date}</time>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
           </section>
 
-          {/* Panel Lateral: Asistente CopilotChat */}
-          <section
-            className="ck-panel ck-assistant"
-            aria-labelledby="assistant-title"
-          >
-            <header className="ck-assistant-header">
-              <h2 id="assistant-title">Copiloto TalentScore</h2>
-              <p>Analiza el candidato seleccionado, compara métricas y propone ofertas formales.</p>
-            </header>
+          {/* Column 3: Talent Copilot Panel */}
+          <aside className="ts-copilot-panel" aria-label="Asistente Talent Copilot">
+            <div className="ts-copilot-header">
+              <div className="ts-copilot-title-group">
+                <div className="ts-copilot-icon" aria-hidden="true">
+                  <SparklesIcon />
+                </div>
+                <div>
+                  <h3 className="ts-copilot-title">Talent Copilot</h3>
+                  <p className="ts-copilot-subtitle">
+                    <span className="ts-role-dot" /> Conectado al workspace
+                  </p>
+                </div>
+              </div>
+            </div>
+
             <CopilotChat
-              className="ck-chat"
+              className="ts-copilot-chat"
               labels={{
-                welcomeMessageText: "Hola, soy TalentScore. ¿Qué candidato deseas evaluar o comparar hoy?",
-                chatInputPlaceholder: "Pregunta sobre este candidato o pide una oferta…",
+                welcomeMessageText: `Hola. Asistente activo para ${TARGET_ROLE.title}. Estoy analizando a ${candidate.name}. ¿Deseas evaluar su fit, comparar candidatos o preparar una oferta?`,
+                chatInputPlaceholder: `Consulta sobre ${candidate.name}, compara o redacta una oferta…`,
               }}
             />
-          </section>
+          </aside>
         </div>
       </main>
     </>
