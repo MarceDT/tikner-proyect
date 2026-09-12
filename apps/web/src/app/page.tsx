@@ -720,12 +720,12 @@ export default function Home() {
                         <h2 className="ts-hero-name">{candidate.name}</h2>
                         <span
                           className={`ts-status-badge ${candidate.status === "Finalist"
-                              ? "ts-status-finalist"
-                              : candidate.status === "Interviewing"
-                                ? "ts-status-interviewing"
-                                : candidate.status === "Offer Extended"
-                                  ? "ts-status-offer"
-                                  : "ts-status-review"
+                            ? "ts-status-finalist"
+                            : candidate.status === "Interviewing"
+                              ? "ts-status-interviewing"
+                              : candidate.status === "Offer Extended"
+                                ? "ts-status-offer"
+                                : "ts-status-review"
                             }`}
                         >
                           {candidate.status}
