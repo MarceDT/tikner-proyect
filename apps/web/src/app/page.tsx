@@ -376,7 +376,11 @@ export default function Home() {
           </aside>
 
           {/* Column 2: Candidate Deep Dive */}
-          <section className="ts-detail-container" aria-label="Detalle del Candidato">
+          <section
+            key={candidate.id}
+            className="ts-detail-container ts-detail-animated"
+            aria-label="Detalle del Candidato"
+          >
             {/* Candidate Header Profile Card */}
             <div className="ts-hero-card">
               <div className="ts-hero-top">

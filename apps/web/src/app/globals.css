@@ -22,6 +22,16 @@
   --text-secondary: #475569;
   --muted: #64748b;
 
+  /* CopilotKit / Tailwind Semantic Overrides (Light Mode) */
+  --foreground: #0f172a;
+  --background: #ffffff;
+  --card: #f8fafc;
+  --card-foreground: #0f172a;
+  --popover: #ffffff;
+  --popover-foreground: #0f172a;
+  --muted-foreground: #64748b;
+  --input: #cbd5e1;
+
   --primary: #2563eb;
   --primary-hover: #1d4ed8;
   --primary-light: #2563eb;
@@ -75,6 +85,16 @@
   --text: #f8fafc;
   --text-secondary: #94a3b8;
   --muted: #64748b;
+
+  /* CopilotKit / Tailwind Semantic Overrides (Dark Mode) */
+  --foreground: #f8fafc;
+  --background: #111827;
+  --card: #151f32;
+  --card-foreground: #f8fafc;
+  --popover: #111827;
+  --popover-foreground: #f8fafc;
+  --muted-foreground: #94a3b8;
+  --input: #23324d;
 
   --primary: #3b82f6;
   --primary-hover: #2563eb;
@@ -140,7 +160,76 @@ input,
 select,
 textarea {
   font: inherit;
-  color: inherit;
+  color: var(--text);
+  caret-color: var(--primary);
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: var(--muted);
+  -webkit-text-fill-color: var(--muted);
+  opacity: 1;
+}
+
+/* ── Refined Micro-Animations System ─────────────────────────────────────── */
+@keyframes ts-section-pop {
+  0% {
+    opacity: 0;
+    transform: translateY(6px) scale(0.995);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes ts-fade-slide {
+  0% {
+    opacity: 0.68;
+    transform: translateY(4px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes ts-card-entry {
+  0% {
+    opacity: 0;
+    transform: translateY(5px) scale(0.995);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* Staggered Major Section Appearances on Initial Load */
+.ts-panel {
+  animation: ts-section-pop 240ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.ts-detail-container {
+  animation: ts-section-pop 260ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.ts-copilot-panel {
+  animation: ts-section-pop 280ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+/* Candidate Detail Transition when Switching Candidates */
+.ts-detail-animated {
+  animation: ts-fade-slide 180ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+/* Staggered Card Entry Animations */
+.ts-hero-card {
+  animation: ts-card-entry 200ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.ts-card {
+  animation: ts-card-entry 240ms cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 
 button,
@@ -364,7 +453,7 @@ time {
   font-size: 12px;
   font-weight: 500;
   white-space: nowrap;
-  transition: all 0.15s ease;
+  transition: all 0.16s cubic-bezier(0.16, 1, 0.3, 1);
   display: inline-flex;
   align-items: center;
   gap: 6px;
@@ -375,6 +464,13 @@ time {
   background: var(--surface-hover);
   color: var(--text);
   border-color: var(--primary);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-sm);
+}
+
+.ts-prompt-chip:active {
+  transform: scale(0.97);
+  transition-duration: 0.08s;
 }
 
 .ts-prompt-chip.is-active {
@@ -489,7 +585,7 @@ time {
   border-radius: var(--radius-md);
   padding: 12px 14px;
   cursor: pointer;
-  transition: all 0.15s ease;
+  transition: background-color 0.16s ease, border-color 0.16s ease, transform 0.16s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.16s ease;
   text-align: left;
   width: 100%;
   display: flex;
@@ -500,6 +596,18 @@ time {
 .ts-candidate-item:hover {
   background: var(--surface-hover);
   border-color: var(--border-focus);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-sm);
+}
+
+.ts-candidate-item:active {
+  transform: scale(0.985);
+  transition-duration: 0.08s;
+}
+
+.ts-candidate-item:focus-visible {
+  outline: 2px solid var(--border-focus);
+  outline-offset: 2px;
 }
 
 .ts-candidate-item.is-selected {
@@ -1237,6 +1345,7 @@ time {
 }
 
 /* ── Copilot Input Overlay & Field Override (Flattening Window Frame) ───── */
+/* ── Copilot Input Overlay & Field Override (Flattening Window Frame) ───── */
 .ts-copilot-panel [data-testid="copilot-input-overlay"] {
   background: var(--surface) !important;
   border-top: 1px solid var(--border) !important;
@@ -1254,7 +1363,8 @@ time {
 }
 
 /* Remove default rounded-[28px], white shadow, and box border */
-.ts-copilot-panel .copilotKitInput {
+.ts-copilot-panel .copilotKitInput,
+.ts-copilot-panel [data-testid="copilot-chat-input"] {
   background: transparent !important;
   border: none !important;
   border-radius: 0 !important;
@@ -1266,16 +1376,25 @@ time {
   min-width: 0 !important;
 }
 
+/* Textarea / Input Text Box Theme Override: Guarantees Dark Slate in Light Mode, Soft White in Dark Mode */
+.ts-copilot-panel textarea,
+.ts-copilot-panel input,
+.ts-copilot-panel [data-testid="copilot-chat-textarea"],
 .ts-copilot-panel .copilotKitInput textarea,
-.ts-copilot-panel [data-testid="copilot-chat"] textarea {
+.ts-copilot-panel [data-copilotkit] textarea,
+.ts-copilot-panel [data-testid="copilot-chat"] textarea,
+.ts-copilot-panel [data-testid="copilot-chat-input"] textarea,
+[data-testid="copilot-chat-textarea"] {
   background: var(--surface-card) !important;
   border: 1px solid var(--border) !important;
   color: var(--text) !important;
+  -webkit-text-fill-color: var(--text) !important;
+  caret-color: var(--primary) !important;
   border-radius: var(--radius-md) !important;
   font-size: 13px !important;
   padding: 10px 12px !important;
   line-height: 1.5 !important;
-  transition: border-color 0.15s ease, box-shadow 0.15s ease !important;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease, background-color 0.15s ease !important;
   min-height: 42px !important;
   resize: none !important;
   width: 100% !important;
@@ -1284,20 +1403,102 @@ time {
   outline: none !important;
 }
 
+.ts-copilot-panel textarea:focus,
+.ts-copilot-panel input:focus,
+.ts-copilot-panel [data-testid="copilot-chat-textarea"]:focus,
 .ts-copilot-panel .copilotKitInput textarea:focus,
 .ts-copilot-panel [data-testid="copilot-chat"] textarea:focus {
   border-color: var(--border-focus) !important;
   box-shadow: 0 0 0 2px var(--ring) !important;
 }
 
-.ts-copilot-panel .copilotKitInput textarea::placeholder {
+.ts-copilot-panel textarea::placeholder,
+.ts-copilot-panel input::placeholder,
+.ts-copilot-panel [data-testid="copilot-chat-textarea"]::placeholder,
+.ts-copilot-panel .copilotKitInput textarea::placeholder,
+.ts-copilot-panel [data-copilotkit] textarea::placeholder,
+[data-testid="copilot-chat-textarea"]::placeholder {
   color: var(--muted) !important;
+  -webkit-text-fill-color: var(--muted) !important;
+  opacity: 1 !important;
   font-size: 12.5px !important;
 }
 
-/* Copilot Suggestion Pills */
-.ts-copilot-panel [data-copilotkit] button {
-  color: var(--text);
+/* Copilot Suggestion Pills / Pre-configured Buttons */
+.ts-copilot-panel [data-copilotkit] button,
+.ts-copilot-panel [data-testid="copilot-chat"] button {
+  color: var(--text) !important;
+  background: var(--surface-card) !important;
+  border: 1px solid var(--border) !important;
+  transition: all 0.15s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+.ts-copilot-panel [data-copilotkit] button:hover,
+.ts-copilot-panel [data-testid="copilot-chat"] button:hover {
+  background: var(--surface-hover) !important;
+  color: var(--primary) !important;
+  border-color: var(--primary-border) !important;
+  transform: translateY(-1px) !important;
+}
+
+.ts-copilot-panel [data-copilotkit] button:active,
+.ts-copilot-panel [data-testid="copilot-chat"] button:active {
+  transform: scale(0.97) !important;
+}
+
+/* Copilot Send Button & Action Buttons */
+.ts-copilot-panel button[aria-label="Send message"],
+.ts-copilot-panel button[data-testid="copilot-send-button"],
+.ts-copilot-panel button.cpk\:text-white,
+.ts-copilot-panel button:has(svg.lucide-arrow-up) {
+  background: var(--primary) !important;
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+  border-radius: var(--radius-full) !important;
+  border: 1px solid transparent !important;
+  transition: all 0.15s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+.ts-copilot-panel button[aria-label="Send message"]:hover,
+.ts-copilot-panel button[data-testid="copilot-send-button"]:hover,
+.ts-copilot-panel button:has(svg.lucide-arrow-up):hover {
+  background: var(--primary-hover) !important;
+  transform: scale(1.05) !important;
+}
+
+.ts-copilot-panel button[aria-label="Send message"]:active,
+.ts-copilot-panel button[data-testid="copilot-send-button"]:active,
+.ts-copilot-panel button:has(svg.lucide-arrow-up):active {
+  transform: scale(0.96) !important;
+}
+
+.ts-copilot-panel button[aria-label="Send message"]:disabled,
+.ts-copilot-panel button[data-testid="copilot-send-button"]:disabled,
+.ts-copilot-panel button:has(svg.lucide-arrow-up):disabled {
+  opacity: 0.45 !important;
+  background: var(--surface-raised) !important;
+  color: var(--muted) !important;
+  -webkit-text-fill-color: var(--muted) !important;
+  transform: none !important;
+  cursor: not-allowed !important;
+}
+
+/* Copilot Attach / Plus Button */
+.ts-copilot-panel button[data-testid="copilot-add-menu-button"],
+.ts-copilot-panel button:has(svg.lucide-plus) {
+  color: var(--text-secondary) !important;
+  background: transparent !important;
+  border: 1px solid var(--border) !important;
+  border-radius: var(--radius-full) !important;
+  transition: all 0.15s ease !important;
+}
+
+.ts-copilot-panel button[data-testid="copilot-add-menu-button"]:hover,
+.ts-copilot-panel button:has(svg.lucide-plus):hover {
+  background: var(--surface-hover) !important;
+  color: var(--text) !important;
+  border-color: var(--border-focus) !important;
+  transform: translateY(-1px) !important;
 }
 
 /* ── Generative UI Cards Injected by Agent ──────────────────────────────── */
@@ -1312,6 +1513,7 @@ time {
   max-width: 100%;
   box-sizing: border-box;
   overflow-x: hidden;
+  animation: ts-card-entry 220ms cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 
 .ts-gen-header {
@@ -1812,3 +2014,17 @@ time {
     width: 100%;
   }
 }
+
+/* ── Accessibility: Reduced Motion Media Query ───────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+    transform: none !important;
+  }
+}
+
