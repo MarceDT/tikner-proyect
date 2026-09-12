@@ -1,0 +1,10 @@
+﻿HTTP/1.1 500 Internal Server Error
+vary: rsc, next-router-state-tree, next-router-prefetch, next-router-segment-prefetch
+access-control-allow-origin: *
+content-type: application/json
+Date: Sat, 12 Sep 2026 16:04:12 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+Transfer-Encoding: chunked
+
+{"error":"Failed to run agent","message":"OPENAI_API_KEY is required for openai."}
