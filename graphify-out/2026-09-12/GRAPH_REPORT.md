@@ -1,11 +1,11 @@
 # Graph Report - tinker-proyect  (2026-09-12)
 
 ## Corpus Check
-- 123 files · ~466,395 words
+- 123 files · ~467,160 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 802 nodes · 1183 edges · 53 communities (45 shown, 7 thin omitted)
+- 802 nodes · 1186 edges · 58 communities (49 shown, 8 thin omitted)
 - Extraction: 98% EXTRACTED · 2% INFERRED · 0% AMBIGUOUS · INFERRED: 22 edges (avg confidence: 0.82)
 - Token cost: 0 input · 0 output
 
@@ -16,7 +16,7 @@
 
 ## Community Hubs (Navigation)
 - server/workplace.ts
-- index.ts
+- makeAgent
 - channel.tsx
 - finance.ts
 - mobile/package.json
@@ -61,12 +61,17 @@
 - Choose a model provider
 - Setup
 - 👑 Workspace de Marcelo — Dominio, Human-in-the-Loop & Pitch
-- amin/README.md
+- index.ts
 - milena/README.md
 - rules/graphify.md
 - skills/README.md
 - workflows/graphify.md
-- Auth0 protected API recipe
+- auth0/README.md
+- shared.ts
+- voice/page.tsx
+- model.ts
+- ChannelRunAgent
+- Hackathon rules for coding agents
 
 ## God Nodes (most connected - your core abstractions)
 1. `Build the Slack template with Channels` - 18 edges
@@ -95,15 +100,15 @@
 ## Import Cycles
 - None detected.
 
-## Communities (53 total, 7 thin omitted)
+## Communities (58 total, 8 thin omitted)
 
 ### Community 0 - "server/workplace.ts"
 Cohesion: 0.06
-Nodes (35): main(), dynamic, GET, handler, POST, runtime, WorkplaceTask, FollowupError (+27 more)
+Nodes (36): main(), dynamic, GET, handler, POST, runtime, Proposal, WorkplaceTask (+28 more)
 
-### Community 1 - "index.ts"
-Cohesion: 0.06
-Nodes (40): ChannelAgentFactory, ChannelRunAgent, makeChannelAgent(), app, GET, OPTIONS, POST, runtime (+32 more)
+### Community 1 - "makeAgent"
+Cohesion: 0.15
+Nodes (13): ChannelAgentFactory, makeChannelAgent(), app, GET, OPTIONS, POST, runtime, app (+5 more)
 
 ### Community 2 - "channel.tsx"
 Cohesion: 0.08
@@ -183,11 +188,11 @@ Nodes (12): 1. Slack — an agent that joins the thread, 2. Web — an agent ins
 
 ### Community 22 - "hackathon-overview.md"
 Cohesion: 0.24
-Nodes (6): 🎯 Current Project: TalentScore (AI Tinkerers Hackathon), Notes for coding agents, Build eligibility, Hackathon rules for coding agents, Repository and demo preparation, Required deliverables
+Nodes (5): 🎯 Current Project: TalentScore (AI Tinkerers Hackathon), Notes for coding agents, 📂 Archivos y Áreas de Trabajo, 📋 Checklist de Tareas, 🎯 Tu Misión en el Hackathon
 
 ### Community 23 - "candidates.ts"
-Cohesion: 0.09
-Nodes (40): Home(), AppControl(), toolResult(), WorkplaceFollowups(), handleApprove(), handleRejectOrAdjust(), refresh(), submitProposal() (+32 more)
+Cohesion: 0.10
+Nodes (39): Home(), AppControl(), toolResult(), WorkplaceFollowups(), handleApprove(), handleRejectOrAdjust(), refresh(), submitProposal() (+31 more)
 
 ### Community 24 - "The `PlatformAdapter` contract"
 Cohesion: 0.20
@@ -269,18 +274,34 @@ Nodes (5): Add one useful capability, Add Slack, Setup, Start with one model pro
 Cohesion: 0.40
 Nodes (4): 📂 Archivos y Áreas de Trabajo, 📋 Checklist de Tareas, 🎯 Tu Misión en el Hackathon, 👑 Workspace de Marcelo — Dominio, Human-in-the-Loop & Pitch
 
-### Community 46 - "amin/README.md"
-Cohesion: 0.50
-Nodes (3): 📂 Archivos y Áreas de Trabajo, 📋 Checklist de Tareas, 🎯 Tu Misión en el Hackathon
+### Community 46 - "index.ts"
+Cohesion: 0.24
+Nodes (9): AgentFactoryOptions, isWorkplaceConfigured(), WORKPLACE_CONTEXT, workplaceMcpServers(), MOBILE_FINANCE_PROMPT, MOBILE_FINANCE_ROLE, ONCALL_ROLE, SURFACE_RULES (+1 more)
 
 ### Community 47 - "milena/README.md"
 Cohesion: 0.50
 Nodes (3): 📂 Archivos y Áreas de Trabajo, 📋 Checklist de Tareas, 🎯 Tu Misión en el Hackathon
 
+### Community 53 - "shared.ts"
+Cohesion: 0.27
+Nodes (8): isSearchConfigured(), SEARCH_TYPE, DEFAULT_MODEL, MODEL_NOTES, SearchHit, SearchWebArgs, searchWebParameters, exa-js
+
+### Community 54 - "voice/page.tsx"
+Cohesion: 0.27
+Nodes (5): searchTheWeb, Status, voiceAgent, REALTIME_MODEL, REALTIME_VOICE
+
+### Community 55 - "model.ts"
+Cohesion: 0.43
+Nodes (4): canonicalProvider(), resolveModel(), ORIGINAL_ENV, resolvedChatModel()
+
+### Community 57 - "Hackathon rules for coding agents"
+Cohesion: 0.50
+Nodes (4): Build eligibility, Hackathon rules for coding agents, Repository and demo preparation, Required deliverables
+
 ## Knowledge Gaps
 - **424 isolated node(s):** `copilotkit`, `exa`, `name`, `version`, `private` (+419 more)
   These have ≤1 connection - possible missing edges or undocumented components. (Counts symbols only; 462 node(s) total have ≤1 connection when file, concept and rationale nodes are included.)
-- **7 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
+- **8 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
@@ -294,8 +315,8 @@ _Questions this graph is uniquely positioned to answer:_
 - **What connects `copilotkit`, `exa`, `name` to the rest of the system?**
   _424 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `server/workplace.ts` be split into smaller, more focused modules?**
-  _Cohesion score 0.05578947368421053 - nodes in this community are weakly interconnected._
-- **Should `index.ts` be split into smaller, more focused modules?**
-  _Cohesion score 0.05654761904761905 - nodes in this community are weakly interconnected._
+  _Cohesion score 0.05502392344497608 - nodes in this community are weakly interconnected._
 - **Should `channel.tsx` be split into smaller, more focused modules?**
   _Cohesion score 0.07908163265306123 - nodes in this community are weakly interconnected._
+- **Should `finance.ts` be split into smaller, more focused modules?**
+  _Cohesion score 0.09302325581395349 - nodes in this community are weakly interconnected._

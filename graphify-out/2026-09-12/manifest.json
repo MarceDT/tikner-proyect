@@ -312,9 +312,9 @@
     "semantic_hash": "5d4fef84b8a4c24193225dc33f911c3e"
   },
   "apps/web/src/components/workplace-followups.tsx": {
-    "mtime": 1789226175.3966627,
-    "seen": 1789226300.5063572,
-    "ast_hash": "61c7cca7303b2ef59a748507bf3a6203",
+    "mtime": 1789226541.5436966,
+    "seen": 1789226596.0179744,
+    "ast_hash": "05a8b98b040a214bda3493a56e6794df",
     "semantic_hash": ""
   },
   "apps/web/src/lib/followup-client.test.ts": {
@@ -330,9 +330,9 @@
     "semantic_hash": "b77104606fd6def480b3e1c1673e534a"
   },
   "apps/web/src/lib/followup-types.ts": {
-    "mtime": 1789226228.5647466,
-    "seen": 1789226300.5063572,
-    "ast_hash": "b365918ed65e76b7815dd32b3eee33e8",
+    "mtime": 1789226484.5330665,
+    "seen": 1789226596.0179744,
+    "ast_hash": "ba2db7bc7b093d210042984fa3ff8c12",
     "semantic_hash": ""
   },
   "apps/web/src/lib/incidents.test.ts": {
@@ -534,15 +534,15 @@
     "semantic_hash": "e8b49d56e0718d6a056db477204312e4"
   },
   "apps/web/src/lib/candidates.test.ts": {
-    "mtime": 1789226215.830984,
-    "seen": 1789226300.5063572,
-    "ast_hash": "7470e084b7c9a25ce265980a793d74c2",
+    "mtime": 1789226553.990131,
+    "seen": 1789226596.0179744,
+    "ast_hash": "9896c6d38cd33f641858bc6b12af006e",
     "semantic_hash": ""
   },
   "apps/web/src/lib/candidates.ts": {
-    "mtime": 1789226148.994028,
-    "seen": 1789226300.5063572,
-    "ast_hash": "473530cfb865f6daf868428f095e2862",
+    "mtime": 1789226492.1606586,
+    "seen": 1789226596.0179744,
+    "ast_hash": "35646a972b259374dabef93a76f8deb1",
     "semantic_hash": ""
   },
   ".agents/rules/graphify.md": {
@@ -612,9 +612,9 @@
     "semantic_hash": ""
   },
   "SUBMISSION.md": {
-    "mtime": 1789226253.69165,
-    "seen": 1789226300.5063572,
-    "ast_hash": "33659df0a04ab786a500ebdbb2c3ceab",
+    "mtime": 1789226579.8382545,
+    "seen": 1789226596.0179744,
+    "ast_hash": "8ec0d1ba845b6f338d9cadca5ad9f210",
     "semantic_hash": ""
   },
   "apps/channel/README.md": {
@@ -738,9 +738,9 @@
     "semantic_hash": ""
   },
   "team/marcelo/README.md": {
-    "mtime": 1789226275.9239538,
-    "seen": 1789226300.5063572,
-    "ast_hash": "386718370ab9987f6b36dc73c3da129f",
+    "mtime": 1789226583.1517034,
+    "seen": 1789226596.0179744,
+    "ast_hash": "9272674a95b86befa124654c7618dbe6",
     "semantic_hash": ""
   },
   "team/milena/README.md": {

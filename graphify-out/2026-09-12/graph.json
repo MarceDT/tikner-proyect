@@ -4,6 +4,19 @@
   "graph": {},
   "nodes": [
     {
+      "id": "apps_web_src_lib_followup_types_proposal",
+      "label": "Proposal",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast",
+      "community": 0,
+      "community_name": "server/workplace.ts",
+      "file_type": "code",
+      "norm_label": "proposal",
+      "source_file": "apps/web/src/lib/followup-types.ts",
+      "source_location": "L18"
+    },
+    {
       "id": "apps_web_src_lib_followup_types_workplacetask",
       "label": "WorkplaceTask",
       "_callable": true,
@@ -114,76 +127,11 @@
       "_callable_class": true,
       "_origin": "ast",
       "community": 1,
-      "community_name": "index.ts",
+      "community_name": "makeAgent",
       "file_type": "code",
       "norm_label": "channelagentfactory",
       "source_file": "apps/channel/src/agent.ts",
       "source_location": "L6"
-    },
-    {
-      "id": "apps_channel_src_agent_channelrunagent",
-      "label": "ChannelRunAgent",
-      "_callable": true,
-      "_callable_class": true,
-      "_origin": "ast",
-      "community": 1,
-      "community_name": "index.ts",
-      "file_type": "code",
-      "norm_label": "channelrunagent",
-      "source_file": "apps/channel/src/agent.ts",
-      "source_location": "L19"
-    },
-    {
-      "id": "apps_web_src_app_voice_page_status",
-      "label": "Status",
-      "_callable": true,
-      "_callable_class": true,
-      "_origin": "ast",
-      "community": 1,
-      "community_name": "index.ts",
-      "file_type": "code",
-      "norm_label": "status",
-      "source_file": "apps/web/src/app/voice/page.tsx",
-      "source_location": "L21"
-    },
-    {
-      "id": "packages_agent_core_src_agent_agentfactoryoptions",
-      "label": "AgentFactoryOptions",
-      "_callable": true,
-      "_callable_class": true,
-      "_origin": "ast",
-      "community": 1,
-      "community_name": "index.ts",
-      "file_type": "code",
-      "norm_label": "agentfactoryoptions",
-      "source_file": "packages/agent-core/src/agent.ts",
-      "source_location": "L21"
-    },
-    {
-      "id": "packages_agent_core_src_schemas_searchhit",
-      "label": "SearchHit",
-      "_callable": true,
-      "_callable_class": true,
-      "_origin": "ast",
-      "community": 1,
-      "community_name": "index.ts",
-      "file_type": "code",
-      "norm_label": "searchhit",
-      "source_file": "packages/agent-core/src/schemas.ts",
-      "source_location": "L19"
-    },
-    {
-      "id": "packages_agent_core_src_schemas_searchwebargs",
-      "label": "SearchWebArgs",
-      "_callable": true,
-      "_callable_class": true,
-      "_origin": "ast",
-      "community": 1,
-      "community_name": "index.ts",
-      "file_type": "code",
-      "norm_label": "searchwebargs",
-      "source_file": "packages/agent-core/src/schemas.ts",
-      "source_location": "L17"
     },
     {
       "id": "apps_channel_src_agent_factory_test_controlledinneragent",
@@ -326,7 +274,7 @@
       "file_type": "code",
       "norm_label": "workplacefollowupsprops",
       "source_file": "apps/web/src/components/workplace-followups.tsx",
-      "source_location": "L19"
+      "source_location": "L20"
     },
     {
       "id": "apps_web_src_lib_candidates_candidate",
@@ -405,19 +353,6 @@
       "norm_label": "jobofferdetails",
       "source_file": "apps/web/src/lib/followup-types.ts",
       "source_location": "L7"
-    },
-    {
-      "id": "apps_web_src_lib_followup_types_proposal",
-      "label": "Proposal",
-      "_callable": true,
-      "_callable_class": true,
-      "_origin": "ast",
-      "community": 23,
-      "community_name": "candidates.ts",
-      "file_type": "code",
-      "norm_label": "proposal",
-      "source_file": "apps/web/src/lib/followup-types.ts",
-      "source_location": "L18"
     },
     {
       "id": "apps_web_src_lib_followup_types_workplacestatus",
@@ -573,6 +508,71 @@
       "file_type": "code",
       "norm_label": "transaction",
       "source_file": "apps/mobile/src/finance.ts",
+      "source_location": "L19"
+    },
+    {
+      "id": "packages_agent_core_src_agent_agentfactoryoptions",
+      "label": "AgentFactoryOptions",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast",
+      "community": 46,
+      "community_name": "index.ts",
+      "file_type": "code",
+      "norm_label": "agentfactoryoptions",
+      "source_file": "packages/agent-core/src/agent.ts",
+      "source_location": "L21"
+    },
+    {
+      "id": "packages_agent_core_src_schemas_searchhit",
+      "label": "SearchHit",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast",
+      "community": 53,
+      "community_name": "shared.ts",
+      "file_type": "code",
+      "norm_label": "searchhit",
+      "source_file": "packages/agent-core/src/schemas.ts",
+      "source_location": "L19"
+    },
+    {
+      "id": "packages_agent_core_src_schemas_searchwebargs",
+      "label": "SearchWebArgs",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast",
+      "community": 53,
+      "community_name": "shared.ts",
+      "file_type": "code",
+      "norm_label": "searchwebargs",
+      "source_file": "packages/agent-core/src/schemas.ts",
+      "source_location": "L17"
+    },
+    {
+      "id": "apps_web_src_app_voice_page_status",
+      "label": "Status",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast",
+      "community": 54,
+      "community_name": "voice/page.tsx",
+      "file_type": "code",
+      "norm_label": "status",
+      "source_file": "apps/web/src/app/voice/page.tsx",
+      "source_location": "L21"
+    },
+    {
+      "id": "apps_channel_src_agent_channelrunagent",
+      "label": "ChannelRunAgent",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast",
+      "community": 56,
+      "community_name": "ChannelRunAgent",
+      "file_type": "code",
+      "norm_label": "channelrunagent",
+      "source_file": "apps/channel/src/agent.ts",
       "source_location": "L19"
     },
     {
@@ -1092,88 +1092,16 @@
       "source_location": "L17"
     },
     {
-      "id": "apps_channel_src_agent_channelrunagent_abortrun",
-      "label": ".abortRun()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 1,
-      "community_name": "index.ts",
-      "file_type": "code",
-      "norm_label": ".abortrun()",
-      "source_file": "apps/channel/src/agent.ts",
-      "source_location": "L70"
-    },
-    {
-      "id": "apps_channel_src_agent_channelrunagent_clone",
-      "label": ".clone()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 1,
-      "community_name": "index.ts",
-      "file_type": "code",
-      "norm_label": ".clone()",
-      "source_file": "apps/channel/src/agent.ts",
-      "source_location": "L75"
-    },
-    {
-      "id": "apps_channel_src_agent_channelrunagent_constructor",
-      "label": ".constructor()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 1,
-      "community_name": "index.ts",
-      "file_type": "code",
-      "norm_label": ".constructor()",
-      "source_file": "apps/channel/src/agent.ts",
-      "source_location": "L22"
-    },
-    {
-      "id": "apps_channel_src_agent_channelrunagent_run",
-      "label": ".run()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 1,
-      "community_name": "index.ts",
-      "file_type": "code",
-      "norm_label": ".run()",
-      "source_file": "apps/channel/src/agent.ts",
-      "source_location": "L29"
-    },
-    {
       "id": "apps_channel_src_agent_makechannelagent",
       "label": "makeChannelAgent()",
       "_callable": true,
       "_origin": "ast",
       "community": 1,
-      "community_name": "index.ts",
+      "community_name": "makeAgent",
       "file_type": "code",
       "norm_label": "makechannelagent()",
       "source_file": "apps/channel/src/agent.ts",
       "source_location": "L83"
-    },
-    {
-      "id": "apps_web_src_app_api_realtime_token_route_post",
-      "label": "POST()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 1,
-      "community_name": "index.ts",
-      "file_type": "code",
-      "norm_label": "post()",
-      "source_file": "apps/web/src/app/api/realtime-token/route.ts",
-      "source_location": "L10"
-    },
-    {
-      "id": "apps_web_src_app_voice_page_voicepage",
-      "label": "VoicePage()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 1,
-      "community_name": "index.ts",
-      "file_type": "code",
-      "norm_label": "voicepage()",
-      "source_file": "apps/web/src/app/voice/page.tsx",
-      "source_location": "L54"
     },
     {
       "id": "packages_agent_core_src_agent_makeagent",
@@ -1181,95 +1109,11 @@
       "_callable": true,
       "_origin": "ast",
       "community": 1,
-      "community_name": "index.ts",
+      "community_name": "makeAgent",
       "file_type": "code",
       "norm_label": "makeagent()",
       "source_file": "packages/agent-core/src/agent.ts",
       "source_location": "L28"
-    },
-    {
-      "id": "packages_agent_core_src_capabilities_search_issearchconfigured",
-      "label": "isSearchConfigured()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 1,
-      "community_name": "index.ts",
-      "file_type": "code",
-      "norm_label": "issearchconfigured()",
-      "source_file": "packages/agent-core/src/capabilities/search.ts",
-      "source_location": "L19"
-    },
-    {
-      "id": "packages_agent_core_src_capabilities_workplace_isworkplaceconfigured",
-      "label": "isWorkplaceConfigured()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 1,
-      "community_name": "index.ts",
-      "file_type": "code",
-      "norm_label": "isworkplaceconfigured()",
-      "source_file": "packages/agent-core/src/capabilities/workplace.ts",
-      "source_location": "L21"
-    },
-    {
-      "id": "packages_agent_core_src_capabilities_workplace_workplacemcpservers",
-      "label": "workplaceMcpServers()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 1,
-      "community_name": "index.ts",
-      "file_type": "code",
-      "norm_label": "workplacemcpservers()",
-      "source_file": "packages/agent-core/src/capabilities/workplace.ts",
-      "source_location": "L33"
-    },
-    {
-      "id": "packages_agent_core_src_model_canonicalprovider",
-      "label": "canonicalProvider()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 1,
-      "community_name": "index.ts",
-      "file_type": "code",
-      "norm_label": "canonicalprovider()",
-      "source_file": "packages/agent-core/src/model.ts",
-      "source_location": "L5"
-    },
-    {
-      "id": "packages_agent_core_src_model_resolvemodel",
-      "label": "resolveModel()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 1,
-      "community_name": "index.ts",
-      "file_type": "code",
-      "norm_label": "resolvemodel()",
-      "source_file": "packages/agent-core/src/model.ts",
-      "source_location": "L10"
-    },
-    {
-      "id": "packages_agent_core_src_model_test_resolvedchatmodel",
-      "label": "resolvedChatModel()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 1,
-      "community_name": "index.ts",
-      "file_type": "code",
-      "norm_label": "resolvedchatmodel()",
-      "source_file": "packages/agent-core/src/model.test.ts",
-      "source_location": "L29"
-    },
-    {
-      "id": "packages_agent_core_src_model_test_withenv",
-      "label": "withEnv()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 1,
-      "community_name": "index.ts",
-      "file_type": "code",
-      "norm_label": "withenv()",
-      "source_file": "packages/agent-core/src/model.test.ts",
-      "source_location": "L14"
     },
     {
       "id": "apps_channel_src_agent_factory_test_appendtoolresult",
@@ -1665,7 +1509,7 @@
       "file_type": "code",
       "norm_label": "workplacefollowups()",
       "source_file": "apps/web/src/components/workplace-followups.tsx",
-      "source_location": "L25"
+      "source_location": "L26"
     },
     {
       "id": "apps_web_src_components_workplace_followups_workplacefollowups_handleapprove",
@@ -1677,7 +1521,7 @@
       "file_type": "code",
       "norm_label": "handleapprove()",
       "source_file": "apps/web/src/components/workplace-followups.tsx",
-      "source_location": "L130"
+      "source_location": "L175"
     },
     {
       "id": "apps_web_src_components_workplace_followups_workplacefollowups_handlerejectoradjust",
@@ -1689,7 +1533,7 @@
       "file_type": "code",
       "norm_label": "handlerejectoradjust()",
       "source_file": "apps/web/src/components/workplace-followups.tsx",
-      "source_location": "L169"
+      "source_location": "L218"
     },
     {
       "id": "apps_web_src_components_workplace_followups_workplacefollowups_refresh",
@@ -1701,7 +1545,7 @@
       "file_type": "code",
       "norm_label": "refresh()",
       "source_file": "apps/web/src/components/workplace-followups.tsx",
-      "source_location": "L193"
+      "source_location": "L245"
     },
     {
       "id": "apps_web_src_components_workplace_followups_workplacefollowups_submitproposal",
@@ -1713,7 +1557,7 @@
       "file_type": "code",
       "norm_label": "submitproposal()",
       "source_file": "apps/web/src/components/workplace-followups.tsx",
-      "source_location": "L91"
+      "source_location": "L101"
     },
     {
       "id": "apps_web_src_lib_candidates_approvecandidateoffer",
@@ -1737,7 +1581,7 @@
       "file_type": "code",
       "norm_label": "candidatesworkspacecontext()",
       "source_file": "apps/web/src/lib/candidates.ts",
-      "source_location": "L334"
+      "source_location": "L346"
     },
     {
       "id": "apps_web_src_lib_candidates_createdefaultoffer",
@@ -1809,7 +1653,7 @@
       "file_type": "code",
       "norm_label": "rejectcandidateoffer()",
       "source_file": "apps/web/src/lib/candidates.ts",
-      "source_location": "L300"
+      "source_location": "L308"
     },
     {
       "id": "apps_web_src_lib_candidates_resetcandidateoffersfortesting",
@@ -1821,7 +1665,7 @@
       "file_type": "code",
       "norm_label": "resetcandidateoffersfortesting()",
       "source_file": "apps/web/src/lib/candidates.ts",
-      "source_location": "L324"
+      "source_location": "L336"
     },
     {
       "id": "apps_web_src_lib_candidates_saveofferdraft",
@@ -1869,7 +1713,7 @@
       "file_type": "code",
       "norm_label": "parseofferdescription()",
       "source_file": "apps/web/src/lib/followup-types.ts",
-      "source_location": "L64"
+      "source_location": "L66"
     },
     {
       "id": "apps_web_src_lib_incidents_findincident",
@@ -2086,6 +1930,162 @@
       "norm_label": "app()",
       "source_file": "apps/mobile/App.tsx",
       "source_location": "L15"
+    },
+    {
+      "id": "packages_agent_core_src_capabilities_workplace_isworkplaceconfigured",
+      "label": "isWorkplaceConfigured()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 46,
+      "community_name": "index.ts",
+      "file_type": "code",
+      "norm_label": "isworkplaceconfigured()",
+      "source_file": "packages/agent-core/src/capabilities/workplace.ts",
+      "source_location": "L21"
+    },
+    {
+      "id": "packages_agent_core_src_capabilities_workplace_workplacemcpservers",
+      "label": "workplaceMcpServers()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 46,
+      "community_name": "index.ts",
+      "file_type": "code",
+      "norm_label": "workplacemcpservers()",
+      "source_file": "packages/agent-core/src/capabilities/workplace.ts",
+      "source_location": "L33"
+    },
+    {
+      "id": "packages_agent_core_src_capabilities_search_issearchconfigured",
+      "label": "isSearchConfigured()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 53,
+      "community_name": "shared.ts",
+      "file_type": "code",
+      "norm_label": "issearchconfigured()",
+      "source_file": "packages/agent-core/src/capabilities/search.ts",
+      "source_location": "L19"
+    },
+    {
+      "id": "apps_web_src_app_api_realtime_token_route_post",
+      "label": "POST()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 54,
+      "community_name": "voice/page.tsx",
+      "file_type": "code",
+      "norm_label": "post()",
+      "source_file": "apps/web/src/app/api/realtime-token/route.ts",
+      "source_location": "L10"
+    },
+    {
+      "id": "apps_web_src_app_voice_page_voicepage",
+      "label": "VoicePage()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 54,
+      "community_name": "voice/page.tsx",
+      "file_type": "code",
+      "norm_label": "voicepage()",
+      "source_file": "apps/web/src/app/voice/page.tsx",
+      "source_location": "L54"
+    },
+    {
+      "id": "packages_agent_core_src_model_canonicalprovider",
+      "label": "canonicalProvider()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 55,
+      "community_name": "model.ts",
+      "file_type": "code",
+      "norm_label": "canonicalprovider()",
+      "source_file": "packages/agent-core/src/model.ts",
+      "source_location": "L5"
+    },
+    {
+      "id": "packages_agent_core_src_model_resolvemodel",
+      "label": "resolveModel()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 55,
+      "community_name": "model.ts",
+      "file_type": "code",
+      "norm_label": "resolvemodel()",
+      "source_file": "packages/agent-core/src/model.ts",
+      "source_location": "L10"
+    },
+    {
+      "id": "packages_agent_core_src_model_test_resolvedchatmodel",
+      "label": "resolvedChatModel()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 55,
+      "community_name": "model.ts",
+      "file_type": "code",
+      "norm_label": "resolvedchatmodel()",
+      "source_file": "packages/agent-core/src/model.test.ts",
+      "source_location": "L29"
+    },
+    {
+      "id": "packages_agent_core_src_model_test_withenv",
+      "label": "withEnv()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 55,
+      "community_name": "model.ts",
+      "file_type": "code",
+      "norm_label": "withenv()",
+      "source_file": "packages/agent-core/src/model.test.ts",
+      "source_location": "L14"
+    },
+    {
+      "id": "apps_channel_src_agent_channelrunagent_abortrun",
+      "label": ".abortRun()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 56,
+      "community_name": "ChannelRunAgent",
+      "file_type": "code",
+      "norm_label": ".abortrun()",
+      "source_file": "apps/channel/src/agent.ts",
+      "source_location": "L70"
+    },
+    {
+      "id": "apps_channel_src_agent_channelrunagent_clone",
+      "label": ".clone()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 56,
+      "community_name": "ChannelRunAgent",
+      "file_type": "code",
+      "norm_label": ".clone()",
+      "source_file": "apps/channel/src/agent.ts",
+      "source_location": "L75"
+    },
+    {
+      "id": "apps_channel_src_agent_channelrunagent_constructor",
+      "label": ".constructor()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 56,
+      "community_name": "ChannelRunAgent",
+      "file_type": "code",
+      "norm_label": ".constructor()",
+      "source_file": "apps/channel/src/agent.ts",
+      "source_location": "L22"
+    },
+    {
+      "id": "apps_channel_src_agent_channelrunagent_run",
+      "label": ".run()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 56,
+      "community_name": "ChannelRunAgent",
+      "file_type": "code",
+      "norm_label": ".run()",
+      "source_file": "apps/channel/src/agent.ts",
+      "source_location": "L29"
     },
     {
       "id": "dev_docs_auth0_client_rundemo",
@@ -2427,7 +2427,7 @@
       "label": "channel/src/agent.ts",
       "_origin": "ast",
       "community": 1,
-      "community_name": "index.ts",
+      "community_name": "makeAgent",
       "file_type": "code",
       "norm_label": "channel/src/agent.ts",
       "source_file": "apps/channel/src/agent.ts",
@@ -2438,7 +2438,7 @@
       "label": "copilotkit/[[...path]]/route.ts",
       "_origin": "ast",
       "community": 1,
-      "community_name": "index.ts",
+      "community_name": "makeAgent",
       "file_type": "code",
       "norm_label": "copilotkit/[[...path]]/route.ts",
       "source_file": "apps/web/src/app/api/copilotkit/[[...path]]/route.ts",
@@ -2449,7 +2449,7 @@
       "label": "app",
       "_origin": "ast",
       "community": 1,
-      "community_name": "index.ts",
+      "community_name": "makeAgent",
       "file_type": "code",
       "norm_label": "app",
       "source_file": "apps/web/src/app/api/copilotkit/[[...path]]/route.ts",
@@ -2460,7 +2460,7 @@
       "label": "GET",
       "_origin": "ast",
       "community": 1,
-      "community_name": "index.ts",
+      "community_name": "makeAgent",
       "file_type": "code",
       "norm_label": "get",
       "source_file": "apps/web/src/app/api/copilotkit/[[...path]]/route.ts",
@@ -2471,7 +2471,7 @@
       "label": "OPTIONS",
       "_origin": "ast",
       "community": 1,
-      "community_name": "index.ts",
+      "community_name": "makeAgent",
       "file_type": "code",
       "norm_label": "options",
       "source_file": "apps/web/src/app/api/copilotkit/[[...path]]/route.ts",
@@ -2482,7 +2482,7 @@
       "label": "POST",
       "_origin": "ast",
       "community": 1,
-      "community_name": "index.ts",
+      "community_name": "makeAgent",
       "file_type": "code",
       "norm_label": "post",
       "source_file": "apps/web/src/app/api/copilotkit/[[...path]]/route.ts",
@@ -2493,7 +2493,7 @@
       "label": "runtime",
       "_origin": "ast",
       "community": 1,
-      "community_name": "index.ts",
+      "community_name": "makeAgent",
       "file_type": "code",
       "norm_label": "runtime",
       "source_file": "apps/web/src/app/api/copilotkit/[[...path]]/route.ts",
@@ -2504,7 +2504,7 @@
       "label": "mobile-copilotkit/[[...path]]/route.ts",
       "_origin": "ast",
       "community": 1,
-      "community_name": "index.ts",
+      "community_name": "makeAgent",
       "file_type": "code",
       "norm_label": "mobile-copilotkit/[[...path]]/route.ts",
       "source_file": "apps/web/src/app/api/mobile-copilotkit/[[...path]]/route.ts",
@@ -2515,7 +2515,7 @@
       "label": "app",
       "_origin": "ast",
       "community": 1,
-      "community_name": "index.ts",
+      "community_name": "makeAgent",
       "file_type": "code",
       "norm_label": "app",
       "source_file": "apps/web/src/app/api/mobile-copilotkit/[[...path]]/route.ts",
@@ -2526,7 +2526,7 @@
       "label": "GET",
       "_origin": "ast",
       "community": 1,
-      "community_name": "index.ts",
+      "community_name": "makeAgent",
       "file_type": "code",
       "norm_label": "get",
       "source_file": "apps/web/src/app/api/mobile-copilotkit/[[...path]]/route.ts",
@@ -2537,7 +2537,7 @@
       "label": "OPTIONS",
       "_origin": "ast",
       "community": 1,
-      "community_name": "index.ts",
+      "community_name": "makeAgent",
       "file_type": "code",
       "norm_label": "options",
       "source_file": "apps/web/src/app/api/mobile-copilotkit/[[...path]]/route.ts",
@@ -2548,7 +2548,7 @@
       "label": "POST",
       "_origin": "ast",
       "community": 1,
-      "community_name": "index.ts",
+      "community_name": "makeAgent",
       "file_type": "code",
       "norm_label": "post",
       "source_file": "apps/web/src/app/api/mobile-copilotkit/[[...path]]/route.ts",
@@ -2559,341 +2559,11 @@
       "label": "runtime",
       "_origin": "ast",
       "community": 1,
-      "community_name": "index.ts",
+      "community_name": "makeAgent",
       "file_type": "code",
       "norm_label": "runtime",
       "source_file": "apps/web/src/app/api/mobile-copilotkit/[[...path]]/route.ts",
       "source_location": "L9"
-    },
-    {
-      "id": "apps_web_src_app_api_realtime_token_route",
-      "label": "realtime-token/route.ts",
-      "_origin": "ast",
-      "community": 1,
-      "community_name": "index.ts",
-      "file_type": "code",
-      "norm_label": "realtime-token/route.ts",
-      "source_file": "apps/web/src/app/api/realtime-token/route.ts",
-      "source_location": "L1"
-    },
-    {
-      "id": "apps_web_src_app_voice_page",
-      "label": "voice/page.tsx",
-      "_origin": "ast",
-      "community": 1,
-      "community_name": "index.ts",
-      "file_type": "code",
-      "norm_label": "voice/page.tsx",
-      "source_file": "apps/web/src/app/voice/page.tsx",
-      "source_location": "L1"
-    },
-    {
-      "id": "apps_web_src_app_voice_page_searchtheweb",
-      "label": "searchTheWeb",
-      "_origin": "ast",
-      "community": 1,
-      "community_name": "index.ts",
-      "file_type": "code",
-      "norm_label": "searchtheweb",
-      "source_file": "apps/web/src/app/voice/page.tsx",
-      "source_location": "L23"
-    },
-    {
-      "id": "apps_web_src_app_voice_page_voiceagent",
-      "label": "voiceAgent",
-      "_origin": "ast",
-      "community": 1,
-      "community_name": "index.ts",
-      "file_type": "code",
-      "norm_label": "voiceagent",
-      "source_file": "apps/web/src/app/voice/page.tsx",
-      "source_location": "L42"
-    },
-    {
-      "id": "apps_web_src_lib_realtime_config",
-      "label": "realtime-config.ts",
-      "_origin": "ast",
-      "community": 1,
-      "community_name": "index.ts",
-      "file_type": "code",
-      "norm_label": "realtime-config.ts",
-      "source_file": "apps/web/src/lib/realtime-config.ts",
-      "source_location": "L1"
-    },
-    {
-      "id": "apps_web_src_lib_realtime_config_realtime_model",
-      "label": "REALTIME_MODEL",
-      "_origin": "ast",
-      "community": 1,
-      "community_name": "index.ts",
-      "file_type": "code",
-      "norm_label": "realtime_model",
-      "source_file": "apps/web/src/lib/realtime-config.ts",
-      "source_location": "L9"
-    },
-    {
-      "id": "apps_web_src_lib_realtime_config_realtime_voice",
-      "label": "REALTIME_VOICE",
-      "_origin": "ast",
-      "community": 1,
-      "community_name": "index.ts",
-      "file_type": "code",
-      "norm_label": "realtime_voice",
-      "source_file": "apps/web/src/lib/realtime-config.ts",
-      "source_location": "L10"
-    },
-    {
-      "id": "packages_agent_core_src_agent",
-      "label": "agent-core/src/agent.ts",
-      "_origin": "ast",
-      "community": 1,
-      "community_name": "index.ts",
-      "file_type": "code",
-      "norm_label": "agent-core/src/agent.ts",
-      "source_file": "packages/agent-core/src/agent.ts",
-      "source_location": "L1"
-    },
-    {
-      "id": "packages_agent_core_src_capabilities_search",
-      "label": "search.ts",
-      "_origin": "ast",
-      "community": 1,
-      "community_name": "index.ts",
-      "file_type": "code",
-      "norm_label": "search.ts",
-      "source_file": "packages/agent-core/src/capabilities/search.ts",
-      "source_location": "L1"
-    },
-    {
-      "id": "packages_agent_core_src_capabilities_search_search_type",
-      "label": "SEARCH_TYPE",
-      "_origin": "ast",
-      "community": 1,
-      "community_name": "index.ts",
-      "file_type": "code",
-      "norm_label": "search_type",
-      "source_file": "packages/agent-core/src/capabilities/search.ts",
-      "source_location": "L16"
-    },
-    {
-      "id": "packages_agent_core_src_capabilities_workplace",
-      "label": "capabilities/workplace.ts",
-      "_origin": "ast",
-      "community": 1,
-      "community_name": "index.ts",
-      "file_type": "code",
-      "norm_label": "capabilities/workplace.ts",
-      "source_file": "packages/agent-core/src/capabilities/workplace.ts",
-      "source_location": "L1"
-    },
-    {
-      "id": "packages_agent_core_src_capabilities_workplace_workplace_context",
-      "label": "WORKPLACE_CONTEXT",
-      "_origin": "ast",
-      "community": 1,
-      "community_name": "index.ts",
-      "file_type": "code",
-      "norm_label": "workplace_context",
-      "source_file": "packages/agent-core/src/capabilities/workplace.ts",
-      "source_location": "L53"
-    },
-    {
-      "id": "packages_agent_core_src_index",
-      "label": "index.ts",
-      "_origin": "ast",
-      "community": 1,
-      "community_name": "index.ts",
-      "file_type": "code",
-      "norm_label": "index.ts",
-      "source_file": "packages/agent-core/src/index.ts",
-      "source_location": "L1"
-    },
-    {
-      "id": "packages_agent_core_src_mobile_finance_prompt",
-      "label": "mobile-finance-prompt.ts",
-      "_origin": "ast",
-      "community": 1,
-      "community_name": "index.ts",
-      "file_type": "code",
-      "norm_label": "mobile-finance-prompt.ts",
-      "source_file": "packages/agent-core/src/mobile-finance-prompt.ts",
-      "source_location": "L1"
-    },
-    {
-      "id": "packages_agent_core_src_mobile_finance_prompt_mobile_finance_prompt",
-      "label": "MOBILE_FINANCE_PROMPT",
-      "_origin": "ast",
-      "community": 1,
-      "community_name": "index.ts",
-      "file_type": "code",
-      "norm_label": "mobile_finance_prompt",
-      "source_file": "packages/agent-core/src/mobile-finance-prompt.ts",
-      "source_location": "L24"
-    },
-    {
-      "id": "packages_agent_core_src_mobile_finance_prompt_mobile_finance_role",
-      "label": "MOBILE_FINANCE_ROLE",
-      "_origin": "ast",
-      "community": 1,
-      "community_name": "index.ts",
-      "file_type": "code",
-      "norm_label": "mobile_finance_role",
-      "source_file": "packages/agent-core/src/mobile-finance-prompt.ts",
-      "source_location": "L3"
-    },
-    {
-      "id": "packages_agent_core_src_model",
-      "label": "model.ts",
-      "_origin": "ast",
-      "community": 1,
-      "community_name": "index.ts",
-      "file_type": "code",
-      "norm_label": "model.ts",
-      "source_file": "packages/agent-core/src/model.ts",
-      "source_location": "L1"
-    },
-    {
-      "id": "packages_agent_core_src_model_meta",
-      "label": "model-meta.ts",
-      "_origin": "ast",
-      "community": 1,
-      "community_name": "index.ts",
-      "file_type": "code",
-      "norm_label": "model-meta.ts",
-      "source_file": "packages/agent-core/src/model-meta.ts",
-      "source_location": "L1"
-    },
-    {
-      "id": "packages_agent_core_src_model_meta_default_model",
-      "label": "DEFAULT_MODEL",
-      "_origin": "ast",
-      "community": 1,
-      "community_name": "index.ts",
-      "file_type": "code",
-      "norm_label": "default_model",
-      "source_file": "packages/agent-core/src/model-meta.ts",
-      "source_location": "L1"
-    },
-    {
-      "id": "packages_agent_core_src_model_meta_model_notes",
-      "label": "MODEL_NOTES",
-      "_origin": "ast",
-      "community": 1,
-      "community_name": "index.ts",
-      "file_type": "code",
-      "norm_label": "model_notes",
-      "source_file": "packages/agent-core/src/model-meta.ts",
-      "source_location": "L10"
-    },
-    {
-      "id": "packages_agent_core_src_model_test",
-      "label": "model.test.ts",
-      "_origin": "ast",
-      "community": 1,
-      "community_name": "index.ts",
-      "file_type": "code",
-      "norm_label": "model.test.ts",
-      "source_file": "packages/agent-core/src/model.test.ts",
-      "source_location": "L1"
-    },
-    {
-      "id": "packages_agent_core_src_model_test_original_env",
-      "label": "ORIGINAL_ENV",
-      "_origin": "ast",
-      "community": 1,
-      "community_name": "index.ts",
-      "file_type": "code",
-      "norm_label": "original_env",
-      "source_file": "packages/agent-core/src/model.test.ts",
-      "source_location": "L5"
-    },
-    {
-      "id": "packages_agent_core_src_prompt",
-      "label": "prompt.ts",
-      "_origin": "ast",
-      "community": 1,
-      "community_name": "index.ts",
-      "file_type": "code",
-      "norm_label": "prompt.ts",
-      "source_file": "packages/agent-core/src/prompt.ts",
-      "source_location": "L1"
-    },
-    {
-      "id": "packages_agent_core_src_prompt_oncall_role",
-      "label": "ONCALL_ROLE",
-      "_origin": "ast",
-      "community": 1,
-      "community_name": "index.ts",
-      "file_type": "code",
-      "norm_label": "oncall_role",
-      "source_file": "packages/agent-core/src/prompt.ts",
-      "source_location": "L32"
-    },
-    {
-      "id": "packages_agent_core_src_prompt_surface_rules",
-      "label": "SURFACE_RULES",
-      "_origin": "ast",
-      "community": 1,
-      "community_name": "index.ts",
-      "file_type": "code",
-      "norm_label": "surface_rules",
-      "source_file": "packages/agent-core/src/prompt.ts",
-      "source_location": "L11"
-    },
-    {
-      "id": "packages_agent_core_src_prompt_system_prompt",
-      "label": "SYSTEM_PROMPT",
-      "_origin": "ast",
-      "community": 1,
-      "community_name": "index.ts",
-      "file_type": "code",
-      "norm_label": "system_prompt",
-      "source_file": "packages/agent-core/src/prompt.ts",
-      "source_location": "L62"
-    },
-    {
-      "id": "packages_agent_core_src_schemas",
-      "label": "schemas.ts",
-      "_origin": "ast",
-      "community": 1,
-      "community_name": "index.ts",
-      "file_type": "code",
-      "norm_label": "schemas.ts",
-      "source_file": "packages/agent-core/src/schemas.ts",
-      "source_location": "L1"
-    },
-    {
-      "id": "packages_agent_core_src_schemas_searchwebparameters",
-      "label": "searchWebParameters",
-      "_origin": "ast",
-      "community": 1,
-      "community_name": "index.ts",
-      "file_type": "code",
-      "norm_label": "searchwebparameters",
-      "source_file": "packages/agent-core/src/schemas.ts",
-      "source_location": "L6"
-    },
-    {
-      "id": "packages_agent_core_src_shared",
-      "label": "shared.ts",
-      "_origin": "ast",
-      "community": 1,
-      "community_name": "index.ts",
-      "file_type": "code",
-      "norm_label": "shared.ts",
-      "source_file": "packages/agent-core/src/shared.ts",
-      "source_location": "L1"
-    },
-    {
-      "id": "ref_exa_js",
-      "label": "exa-js",
-      "_origin": "ast",
-      "community": 1,
-      "community_name": "index.ts",
-      "file_type": "concept",
-      "norm_label": "exa-js",
-      "source_file": "packages/agent-core/package.json",
-      "source_location": "L19"
     },
     {
       "id": "apps_channel_src_agent_factory_test",
@@ -4405,18 +4075,6 @@
       "source_location": "L1"
     },
     {
-      "id": "dev_docs_auth0_readme",
-      "label": "auth0/README.md",
-      "_origin": "ast",
-      "community": 19,
-      "community_name": "README.md",
-      "file_type": "document",
-      "node_kind": "page",
-      "norm_label": "auth0/readme.md",
-      "source_file": "dev-docs/auth0/README.md",
-      "source_location": "L1"
-    },
-    {
       "id": "dev_docs_channels_sdk_walkthrough_readme",
       "label": "channels-sdk-walkthrough/README.md",
       "_origin": "ast",
@@ -5215,54 +4873,6 @@
       "source_location": "L1"
     },
     {
-      "id": "hackathon_rules_build_eligibility",
-      "label": "Build eligibility",
-      "_origin": "ast",
-      "community": 22,
-      "community_name": "hackathon-overview.md",
-      "file_type": "document",
-      "node_kind": "heading",
-      "norm_label": "build eligibility",
-      "source_file": "hackathon-rules.md",
-      "source_location": "L5"
-    },
-    {
-      "id": "hackathon_rules_hackathon_rules_for_coding_agents",
-      "label": "Hackathon rules for coding agents",
-      "_origin": "ast",
-      "community": 22,
-      "community_name": "hackathon-overview.md",
-      "file_type": "document",
-      "node_kind": "heading",
-      "norm_label": "hackathon rules for coding agents",
-      "source_file": "hackathon-rules.md",
-      "source_location": "L1"
-    },
-    {
-      "id": "hackathon_rules_repository_and_demo_preparation",
-      "label": "Repository and demo preparation",
-      "_origin": "ast",
-      "community": 22,
-      "community_name": "hackathon-overview.md",
-      "file_type": "document",
-      "node_kind": "heading",
-      "norm_label": "repository and demo preparation",
-      "source_file": "hackathon-rules.md",
-      "source_location": "L28"
-    },
-    {
-      "id": "hackathon_rules_required_deliverables",
-      "label": "Required deliverables",
-      "_origin": "ast",
-      "community": 22,
-      "community_name": "hackathon-overview.md",
-      "file_type": "document",
-      "node_kind": "heading",
-      "norm_label": "required deliverables",
-      "source_file": "hackathon-rules.md",
-      "source_location": "L16"
-    },
-    {
       "id": "submission",
       "label": "SUBMISSION.md",
       "_origin": "ast",
@@ -5273,6 +4883,54 @@
       "norm_label": "submission.md",
       "source_file": "SUBMISSION.md",
       "source_location": "L1"
+    },
+    {
+      "id": "team_amin_readme",
+      "label": "amin/README.md",
+      "_origin": "ast",
+      "community": 22,
+      "community_name": "hackathon-overview.md",
+      "file_type": "document",
+      "node_kind": "page",
+      "norm_label": "amin/readme.md",
+      "source_file": "team/amin/README.md",
+      "source_location": "L1"
+    },
+    {
+      "id": "team_amin_readme_archivos_y_\u00e1reas_de_trabajo",
+      "label": "\ud83d\udcc2 Archivos y \u00c1reas de Trabajo",
+      "_origin": "ast",
+      "community": 22,
+      "community_name": "hackathon-overview.md",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "\ud83d\udcc2 archivos y areas de trabajo",
+      "source_file": "team/amin/README.md",
+      "source_location": "L6"
+    },
+    {
+      "id": "team_amin_readme_checklist_de_tareas",
+      "label": "\ud83d\udccb Checklist de Tareas",
+      "_origin": "ast",
+      "community": 22,
+      "community_name": "hackathon-overview.md",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "\ud83d\udccb checklist de tareas",
+      "source_file": "team/amin/README.md",
+      "source_location": "L12"
+    },
+    {
+      "id": "team_amin_readme_tu_misi\u00f3n_en_el_hackathon",
+      "label": "\ud83c\udfaf Tu Misi\u00f3n en el Hackathon",
+      "_origin": "ast",
+      "community": 22,
+      "community_name": "hackathon-overview.md",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "\ud83c\udfaf tu mision en el hackathon",
+      "source_file": "team/amin/README.md",
+      "source_location": "L3"
     },
     {
       "id": "apps_web_src_app_page",
@@ -7829,52 +7487,125 @@
       "source_location": "L1"
     },
     {
-      "id": "team_amin_readme",
-      "label": "amin/README.md",
+      "id": "packages_agent_core_src_agent",
+      "label": "agent-core/src/agent.ts",
       "_origin": "ast",
       "community": 46,
-      "community_name": "amin/README.md",
-      "file_type": "document",
-      "node_kind": "page",
-      "norm_label": "amin/readme.md",
-      "source_file": "team/amin/README.md",
+      "community_name": "index.ts",
+      "file_type": "code",
+      "norm_label": "agent-core/src/agent.ts",
+      "source_file": "packages/agent-core/src/agent.ts",
       "source_location": "L1"
     },
     {
-      "id": "team_amin_readme_archivos_y_\u00e1reas_de_trabajo",
-      "label": "\ud83d\udcc2 Archivos y \u00c1reas de Trabajo",
+      "id": "packages_agent_core_src_capabilities_workplace",
+      "label": "capabilities/workplace.ts",
       "_origin": "ast",
       "community": 46,
-      "community_name": "amin/README.md",
-      "file_type": "document",
-      "node_kind": "heading",
-      "norm_label": "\ud83d\udcc2 archivos y areas de trabajo",
-      "source_file": "team/amin/README.md",
-      "source_location": "L6"
+      "community_name": "index.ts",
+      "file_type": "code",
+      "norm_label": "capabilities/workplace.ts",
+      "source_file": "packages/agent-core/src/capabilities/workplace.ts",
+      "source_location": "L1"
     },
     {
-      "id": "team_amin_readme_checklist_de_tareas",
-      "label": "\ud83d\udccb Checklist de Tareas",
+      "id": "packages_agent_core_src_capabilities_workplace_workplace_context",
+      "label": "WORKPLACE_CONTEXT",
       "_origin": "ast",
       "community": 46,
-      "community_name": "amin/README.md",
-      "file_type": "document",
-      "node_kind": "heading",
-      "norm_label": "\ud83d\udccb checklist de tareas",
-      "source_file": "team/amin/README.md",
-      "source_location": "L12"
+      "community_name": "index.ts",
+      "file_type": "code",
+      "norm_label": "workplace_context",
+      "source_file": "packages/agent-core/src/capabilities/workplace.ts",
+      "source_location": "L53"
     },
     {
-      "id": "team_amin_readme_tu_misi\u00f3n_en_el_hackathon",
-      "label": "\ud83c\udfaf Tu Misi\u00f3n en el Hackathon",
+      "id": "packages_agent_core_src_index",
+      "label": "index.ts",
       "_origin": "ast",
       "community": 46,
-      "community_name": "amin/README.md",
-      "file_type": "document",
-      "node_kind": "heading",
-      "norm_label": "\ud83c\udfaf tu mision en el hackathon",
-      "source_file": "team/amin/README.md",
+      "community_name": "index.ts",
+      "file_type": "code",
+      "norm_label": "index.ts",
+      "source_file": "packages/agent-core/src/index.ts",
+      "source_location": "L1"
+    },
+    {
+      "id": "packages_agent_core_src_mobile_finance_prompt",
+      "label": "mobile-finance-prompt.ts",
+      "_origin": "ast",
+      "community": 46,
+      "community_name": "index.ts",
+      "file_type": "code",
+      "norm_label": "mobile-finance-prompt.ts",
+      "source_file": "packages/agent-core/src/mobile-finance-prompt.ts",
+      "source_location": "L1"
+    },
+    {
+      "id": "packages_agent_core_src_mobile_finance_prompt_mobile_finance_prompt",
+      "label": "MOBILE_FINANCE_PROMPT",
+      "_origin": "ast",
+      "community": 46,
+      "community_name": "index.ts",
+      "file_type": "code",
+      "norm_label": "mobile_finance_prompt",
+      "source_file": "packages/agent-core/src/mobile-finance-prompt.ts",
+      "source_location": "L24"
+    },
+    {
+      "id": "packages_agent_core_src_mobile_finance_prompt_mobile_finance_role",
+      "label": "MOBILE_FINANCE_ROLE",
+      "_origin": "ast",
+      "community": 46,
+      "community_name": "index.ts",
+      "file_type": "code",
+      "norm_label": "mobile_finance_role",
+      "source_file": "packages/agent-core/src/mobile-finance-prompt.ts",
       "source_location": "L3"
+    },
+    {
+      "id": "packages_agent_core_src_prompt",
+      "label": "prompt.ts",
+      "_origin": "ast",
+      "community": 46,
+      "community_name": "index.ts",
+      "file_type": "code",
+      "norm_label": "prompt.ts",
+      "source_file": "packages/agent-core/src/prompt.ts",
+      "source_location": "L1"
+    },
+    {
+      "id": "packages_agent_core_src_prompt_oncall_role",
+      "label": "ONCALL_ROLE",
+      "_origin": "ast",
+      "community": 46,
+      "community_name": "index.ts",
+      "file_type": "code",
+      "norm_label": "oncall_role",
+      "source_file": "packages/agent-core/src/prompt.ts",
+      "source_location": "L32"
+    },
+    {
+      "id": "packages_agent_core_src_prompt_surface_rules",
+      "label": "SURFACE_RULES",
+      "_origin": "ast",
+      "community": 46,
+      "community_name": "index.ts",
+      "file_type": "code",
+      "norm_label": "surface_rules",
+      "source_file": "packages/agent-core/src/prompt.ts",
+      "source_location": "L11"
+    },
+    {
+      "id": "packages_agent_core_src_prompt_system_prompt",
+      "label": "SYSTEM_PROMPT",
+      "_origin": "ast",
+      "community": 46,
+      "community_name": "index.ts",
+      "file_type": "code",
+      "norm_label": "system_prompt",
+      "source_file": "packages/agent-core/src/prompt.ts",
+      "source_location": "L62"
     },
     {
       "id": "team_milena_readme",
@@ -8293,11 +8024,23 @@
       "source_location": "L6"
     },
     {
+      "id": "dev_docs_auth0_readme",
+      "label": "auth0/README.md",
+      "_origin": "ast",
+      "community": 51,
+      "community_name": "auth0/README.md",
+      "file_type": "document",
+      "node_kind": "page",
+      "norm_label": "auth0/readme.md",
+      "source_file": "dev-docs/auth0/README.md",
+      "source_location": "L1"
+    },
+    {
       "id": "dev_docs_auth0_readme_auth0_protected_api_recipe",
       "label": "Auth0 protected API recipe",
       "_origin": "ast",
       "community": 51,
-      "community_name": "Auth0 protected API recipe",
+      "community_name": "auth0/README.md",
       "file_type": "document",
       "node_kind": "heading",
       "norm_label": "auth0 protected api recipe",
@@ -8309,7 +8052,7 @@
       "label": "Source and verification",
       "_origin": "ast",
       "community": 51,
-      "community_name": "Auth0 protected API recipe",
+      "community_name": "auth0/README.md",
       "file_type": "document",
       "node_kind": "heading",
       "norm_label": "source and verification",
@@ -8327,6 +8070,263 @@
       "norm_label": "copilot-instructions.md",
       "source_file": ".github/copilot-instructions.md",
       "source_location": "L1"
+    },
+    {
+      "id": "packages_agent_core_src_capabilities_search",
+      "label": "search.ts",
+      "_origin": "ast",
+      "community": 53,
+      "community_name": "shared.ts",
+      "file_type": "code",
+      "norm_label": "search.ts",
+      "source_file": "packages/agent-core/src/capabilities/search.ts",
+      "source_location": "L1"
+    },
+    {
+      "id": "packages_agent_core_src_capabilities_search_search_type",
+      "label": "SEARCH_TYPE",
+      "_origin": "ast",
+      "community": 53,
+      "community_name": "shared.ts",
+      "file_type": "code",
+      "norm_label": "search_type",
+      "source_file": "packages/agent-core/src/capabilities/search.ts",
+      "source_location": "L16"
+    },
+    {
+      "id": "packages_agent_core_src_model_meta",
+      "label": "model-meta.ts",
+      "_origin": "ast",
+      "community": 53,
+      "community_name": "shared.ts",
+      "file_type": "code",
+      "norm_label": "model-meta.ts",
+      "source_file": "packages/agent-core/src/model-meta.ts",
+      "source_location": "L1"
+    },
+    {
+      "id": "packages_agent_core_src_model_meta_default_model",
+      "label": "DEFAULT_MODEL",
+      "_origin": "ast",
+      "community": 53,
+      "community_name": "shared.ts",
+      "file_type": "code",
+      "norm_label": "default_model",
+      "source_file": "packages/agent-core/src/model-meta.ts",
+      "source_location": "L1"
+    },
+    {
+      "id": "packages_agent_core_src_model_meta_model_notes",
+      "label": "MODEL_NOTES",
+      "_origin": "ast",
+      "community": 53,
+      "community_name": "shared.ts",
+      "file_type": "code",
+      "norm_label": "model_notes",
+      "source_file": "packages/agent-core/src/model-meta.ts",
+      "source_location": "L10"
+    },
+    {
+      "id": "packages_agent_core_src_schemas",
+      "label": "schemas.ts",
+      "_origin": "ast",
+      "community": 53,
+      "community_name": "shared.ts",
+      "file_type": "code",
+      "norm_label": "schemas.ts",
+      "source_file": "packages/agent-core/src/schemas.ts",
+      "source_location": "L1"
+    },
+    {
+      "id": "packages_agent_core_src_schemas_searchwebparameters",
+      "label": "searchWebParameters",
+      "_origin": "ast",
+      "community": 53,
+      "community_name": "shared.ts",
+      "file_type": "code",
+      "norm_label": "searchwebparameters",
+      "source_file": "packages/agent-core/src/schemas.ts",
+      "source_location": "L6"
+    },
+    {
+      "id": "packages_agent_core_src_shared",
+      "label": "shared.ts",
+      "_origin": "ast",
+      "community": 53,
+      "community_name": "shared.ts",
+      "file_type": "code",
+      "norm_label": "shared.ts",
+      "source_file": "packages/agent-core/src/shared.ts",
+      "source_location": "L1"
+    },
+    {
+      "id": "ref_exa_js",
+      "label": "exa-js",
+      "_origin": "ast",
+      "community": 53,
+      "community_name": "shared.ts",
+      "file_type": "concept",
+      "norm_label": "exa-js",
+      "source_file": "packages/agent-core/package.json",
+      "source_location": "L19"
+    },
+    {
+      "id": "apps_web_src_app_api_realtime_token_route",
+      "label": "realtime-token/route.ts",
+      "_origin": "ast",
+      "community": 54,
+      "community_name": "voice/page.tsx",
+      "file_type": "code",
+      "norm_label": "realtime-token/route.ts",
+      "source_file": "apps/web/src/app/api/realtime-token/route.ts",
+      "source_location": "L1"
+    },
+    {
+      "id": "apps_web_src_app_voice_page",
+      "label": "voice/page.tsx",
+      "_origin": "ast",
+      "community": 54,
+      "community_name": "voice/page.tsx",
+      "file_type": "code",
+      "norm_label": "voice/page.tsx",
+      "source_file": "apps/web/src/app/voice/page.tsx",
+      "source_location": "L1"
+    },
+    {
+      "id": "apps_web_src_app_voice_page_searchtheweb",
+      "label": "searchTheWeb",
+      "_origin": "ast",
+      "community": 54,
+      "community_name": "voice/page.tsx",
+      "file_type": "code",
+      "norm_label": "searchtheweb",
+      "source_file": "apps/web/src/app/voice/page.tsx",
+      "source_location": "L23"
+    },
+    {
+      "id": "apps_web_src_app_voice_page_voiceagent",
+      "label": "voiceAgent",
+      "_origin": "ast",
+      "community": 54,
+      "community_name": "voice/page.tsx",
+      "file_type": "code",
+      "norm_label": "voiceagent",
+      "source_file": "apps/web/src/app/voice/page.tsx",
+      "source_location": "L42"
+    },
+    {
+      "id": "apps_web_src_lib_realtime_config",
+      "label": "realtime-config.ts",
+      "_origin": "ast",
+      "community": 54,
+      "community_name": "voice/page.tsx",
+      "file_type": "code",
+      "norm_label": "realtime-config.ts",
+      "source_file": "apps/web/src/lib/realtime-config.ts",
+      "source_location": "L1"
+    },
+    {
+      "id": "apps_web_src_lib_realtime_config_realtime_model",
+      "label": "REALTIME_MODEL",
+      "_origin": "ast",
+      "community": 54,
+      "community_name": "voice/page.tsx",
+      "file_type": "code",
+      "norm_label": "realtime_model",
+      "source_file": "apps/web/src/lib/realtime-config.ts",
+      "source_location": "L9"
+    },
+    {
+      "id": "apps_web_src_lib_realtime_config_realtime_voice",
+      "label": "REALTIME_VOICE",
+      "_origin": "ast",
+      "community": 54,
+      "community_name": "voice/page.tsx",
+      "file_type": "code",
+      "norm_label": "realtime_voice",
+      "source_file": "apps/web/src/lib/realtime-config.ts",
+      "source_location": "L10"
+    },
+    {
+      "id": "packages_agent_core_src_model",
+      "label": "model.ts",
+      "_origin": "ast",
+      "community": 55,
+      "community_name": "model.ts",
+      "file_type": "code",
+      "norm_label": "model.ts",
+      "source_file": "packages/agent-core/src/model.ts",
+      "source_location": "L1"
+    },
+    {
+      "id": "packages_agent_core_src_model_test",
+      "label": "model.test.ts",
+      "_origin": "ast",
+      "community": 55,
+      "community_name": "model.ts",
+      "file_type": "code",
+      "norm_label": "model.test.ts",
+      "source_file": "packages/agent-core/src/model.test.ts",
+      "source_location": "L1"
+    },
+    {
+      "id": "packages_agent_core_src_model_test_original_env",
+      "label": "ORIGINAL_ENV",
+      "_origin": "ast",
+      "community": 55,
+      "community_name": "model.ts",
+      "file_type": "code",
+      "norm_label": "original_env",
+      "source_file": "packages/agent-core/src/model.test.ts",
+      "source_location": "L5"
+    },
+    {
+      "id": "hackathon_rules_build_eligibility",
+      "label": "Build eligibility",
+      "_origin": "ast",
+      "community": 57,
+      "community_name": "Hackathon rules for coding agents",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "build eligibility",
+      "source_file": "hackathon-rules.md",
+      "source_location": "L5"
+    },
+    {
+      "id": "hackathon_rules_hackathon_rules_for_coding_agents",
+      "label": "Hackathon rules for coding agents",
+      "_origin": "ast",
+      "community": 57,
+      "community_name": "Hackathon rules for coding agents",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "hackathon rules for coding agents",
+      "source_file": "hackathon-rules.md",
+      "source_location": "L1"
+    },
+    {
+      "id": "hackathon_rules_repository_and_demo_preparation",
+      "label": "Repository and demo preparation",
+      "_origin": "ast",
+      "community": 57,
+      "community_name": "Hackathon rules for coding agents",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "repository and demo preparation",
+      "source_file": "hackathon-rules.md",
+      "source_location": "L28"
+    },
+    {
+      "id": "hackathon_rules_required_deliverables",
+      "label": "Required deliverables",
+      "_origin": "ast",
+      "community": 57,
+      "community_name": "Hackathon rules for coding agents",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "required deliverables",
+      "source_file": "hackathon-rules.md",
+      "source_location": "L16"
     },
     {
       "id": "package",
@@ -9750,7 +9750,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "apps/web/src/components/workplace-followups.tsx",
-      "source_location": "L31",
+      "source_location": "L32",
       "weight": 1.0
     },
     {
@@ -9762,7 +9762,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "apps/web/src/components/workplace-followups.tsx",
-      "source_location": "L46",
+      "source_location": "L47",
       "weight": 1.0
     },
     {
@@ -9774,7 +9774,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "apps/web/src/components/workplace-followups.tsx",
-      "source_location": "L72",
+      "source_location": "L73",
       "weight": 1.0
     },
     {
@@ -9786,7 +9786,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "apps/web/src/components/workplace-followups.tsx",
-      "source_location": "L136",
+      "source_location": "L185",
       "weight": 1.0
     },
     {
@@ -9798,7 +9798,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "apps/web/src/components/workplace-followups.tsx",
-      "source_location": "L177",
+      "source_location": "L226",
       "weight": 1.0
     },
     {
@@ -9810,7 +9810,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "apps/web/src/components/workplace-followups.tsx",
-      "source_location": "L196",
+      "source_location": "L248",
       "weight": 1.0
     },
     {
@@ -9822,7 +9822,19 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "apps/web/src/components/workplace-followups.tsx",
-      "source_location": "L114",
+      "source_location": "L157",
+      "weight": 1.0
+    },
+    {
+      "source": "apps_web_src_components_workplace_followups_workplacefollowups_submitproposal",
+      "target": "apps_web_src_lib_candidates_saveofferdraft",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "apps/web/src/components/workplace-followups.tsx",
+      "source_location": "L161",
       "weight": 1.0
     },
     {
@@ -9846,7 +9858,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "apps/web/src/lib/candidates.ts",
-      "source_location": "L280",
+      "source_location": "L288",
       "weight": 1.0
     },
     {
@@ -9858,7 +9870,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "apps/web/src/lib/candidates.ts",
-      "source_location": "L280",
+      "source_location": "L288",
       "weight": 1.0
     },
     {
@@ -9870,7 +9882,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "apps/web/src/lib/candidates.ts",
-      "source_location": "L335",
+      "source_location": "L347",
       "weight": 1.0
     },
     {
@@ -9882,7 +9894,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "apps/web/src/lib/candidates.ts",
-      "source_location": "L336",
+      "source_location": "L348",
       "weight": 1.0
     },
     {
@@ -9906,7 +9918,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "apps/web/src/lib/candidates.ts",
-      "source_location": "L304",
+      "source_location": "L312",
       "weight": 1.0
     },
     {
@@ -9918,7 +9930,19 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "apps/web/src/lib/candidates.ts",
-      "source_location": "L305",
+      "source_location": "L314",
+      "weight": 1.0
+    },
+    {
+      "source": "apps_web_src_lib_candidates_rejectcandidateoffer",
+      "target": "apps_web_src_lib_candidates_createdefaultoffer",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "apps/web/src/lib/candidates.ts",
+      "source_location": "L315",
       "weight": 1.0
     },
     {
@@ -10543,7 +10567,7 @@
       "confidence_score": 1.0,
       "context": "field",
       "source_file": "apps/web/src/components/workplace-followups.tsx",
-      "source_location": "L22",
+      "source_location": "L23",
       "weight": 1.0
     },
     {
@@ -12049,6 +12073,18 @@
     {
       "source": "apps_web_src_components_workplace_followups",
       "target": "apps_web_src_lib_candidates_rejectcandidateoffer",
+      "relation": "imports",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "apps/web/src/components/workplace-followups.tsx",
+      "source_location": "L10",
+      "weight": 1.0
+    },
+    {
+      "source": "apps_web_src_components_workplace_followups",
+      "target": "apps_web_src_lib_candidates_saveofferdraft",
       "relation": "imports",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -17660,7 +17696,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "apps/web/src/components/workplace-followups.tsx",
-      "source_location": "L19",
+      "source_location": "L20",
       "weight": 1.0
     },
     {
@@ -17671,40 +17707,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "apps/web/src/components/workplace-followups.tsx",
-      "source_location": "L25",
-      "weight": 1.0
-    },
-    {
-      "source": "apps_web_src_components_workplace_followups_workplacefollowups",
-      "target": "apps_web_src_components_workplace_followups_workplacefollowups_handleapprove",
-      "relation": "contains",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "apps/web/src/components/workplace-followups.tsx",
-      "source_location": "L130",
-      "weight": 1.0
-    },
-    {
-      "source": "apps_web_src_components_workplace_followups_workplacefollowups",
-      "target": "apps_web_src_components_workplace_followups_workplacefollowups_handlerejectoradjust",
-      "relation": "contains",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "apps/web/src/components/workplace-followups.tsx",
-      "source_location": "L169",
-      "weight": 1.0
-    },
-    {
-      "source": "apps_web_src_components_workplace_followups_workplacefollowups",
-      "target": "apps_web_src_components_workplace_followups_workplacefollowups_refresh",
-      "relation": "contains",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "apps/web/src/components/workplace-followups.tsx",
-      "source_location": "L193",
+      "source_location": "L26",
       "weight": 1.0
     },
     {
@@ -17715,7 +17718,40 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "apps/web/src/components/workplace-followups.tsx",
-      "source_location": "L91",
+      "source_location": "L101",
+      "weight": 1.0
+    },
+    {
+      "source": "apps_web_src_components_workplace_followups_workplacefollowups",
+      "target": "apps_web_src_components_workplace_followups_workplacefollowups_handleapprove",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "apps/web/src/components/workplace-followups.tsx",
+      "source_location": "L175",
+      "weight": 1.0
+    },
+    {
+      "source": "apps_web_src_components_workplace_followups_workplacefollowups",
+      "target": "apps_web_src_components_workplace_followups_workplacefollowups_handlerejectoradjust",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "apps/web/src/components/workplace-followups.tsx",
+      "source_location": "L218",
+      "weight": 1.0
+    },
+    {
+      "source": "apps_web_src_components_workplace_followups_workplacefollowups",
+      "target": "apps_web_src_components_workplace_followups_workplacefollowups_refresh",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "apps/web/src/components/workplace-followups.tsx",
+      "source_location": "L245",
       "weight": 1.0
     },
     {
@@ -17836,7 +17872,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "apps/web/src/lib/candidates.ts",
-      "source_location": "L300",
+      "source_location": "L308",
       "weight": 1.0
     },
     {
@@ -17847,7 +17883,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "apps/web/src/lib/candidates.ts",
-      "source_location": "L324",
+      "source_location": "L336",
       "weight": 1.0
     },
     {
@@ -17858,7 +17894,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "apps/web/src/lib/candidates.ts",
-      "source_location": "L334",
+      "source_location": "L346",
       "weight": 1.0
     },
     {
@@ -17990,7 +18026,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "apps/web/src/lib/followup-types.ts",
-      "source_location": "L64",
+      "source_location": "L66",
       "weight": 1.0
     },
     {
