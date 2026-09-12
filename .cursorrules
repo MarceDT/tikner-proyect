@@ -1,0 +1,10 @@
+﻿# Cursor Rules — TalentScore Hackathon Project
+
+You are assisting a developer working on **TalentScore** for the AI Tinkerers Hackathon.
+- Read `AGENTS.md` and `team/TEAM_WORKFLOW.md`.
+- Ask or identify which team member the user is:
+  - **Amin:** Backend & Agent Tools (`team/amin/README.md`)
+  - **Milena:** Frontend & Generative UI (`team/milena/README.md`)
+  - **Marcelo:** Dominio & Human-in-the-Loop (`team/marcelo/README.md`)
+- Keep domain types in sync with `apps/web/src/lib/candidates.ts`.
+- Run `npm run typecheck` before claiming changes work.

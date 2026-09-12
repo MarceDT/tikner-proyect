@@ -1,6 +1,17 @@
 # Notes for coding agents
 
-Read [hackathon-overview.md](hackathon-overview.md), [hackathon-rules.md](hackathon-rules.md), and [using-sponsor-tools.md](using-sponsor-tools.md), then the chosen app README in `apps/channel`, `apps/web`, or `apps/mobile`. Build the team's own workflow; the incident app is infrastructure reference code.
+## 🎯 Current Project: TalentScore (AI Tinkerers Hackathon)
+We are building **TalentScore**, an AI agent inside an ATS & Recruiting Web Dashboard (`apps/web`).
+- The domain model and candidate data live in [`apps/web/src/lib/candidates.ts`](apps/web/src/lib/candidates.ts).
+- The team has 3 members with distinct workspaces and responsibilities:
+  1. **Amin:** Backend & Agent Tools -> [`team/amin/README.md`](team/amin/README.md)
+  2. **Milena:** Frontend & Generative UI -> [`team/milena/README.md`](team/milena/README.md)
+  3. **Marcelo:** Dominio, Human-in-the-Loop & Pitch -> [`team/marcelo/README.md`](team/marcelo/README.md)
+- Team coordination guide: [`team/TEAM_WORKFLOW.md`](team/TEAM_WORKFLOW.md).
+
+> **Instruction for AI Agents:** When interacting with the user, check or ask which role they are working on (Amin, Milena, or Marcelo) and prioritize their specific README and domain boundaries to avoid merge conflicts.
+
+Read [hackathon-overview.md](hackathon-overview.md), [hackathon-rules.md](hackathon-rules.md), and [using-sponsor-tools.md](using-sponsor-tools.md), then `apps/web/README.md`. Build the team's own workflow; the incident app is infrastructure reference code.
 
 CopilotKit powers the Slack and web templates. The mobile starting point in `apps/mobile` has its own install and environment; follow its README for setup and checks.
 
