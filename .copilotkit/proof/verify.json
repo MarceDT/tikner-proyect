@@ -1,0 +1,79 @@
+﻿{
+  "checks": [
+    {
+      "detail": "No readable hosted project is recorded in .copilotkit/project.json, searching from C:\\xampp\\htdocs\\tinker-proyect up to the repository root. Run `copilotkit project select` to choose one.",
+      "id": "project_selected",
+      "status": "fail",
+      "title": "A hosted project is selected"
+    },
+    {
+      "detail": "Neither CPK_INTELLIGENCE_API_KEY or COPILOTKIT_API_KEY or INTELLIGENCE_API_KEY is set in the environment or in any .env or .env.local from C:\\xampp\\htdocs\\tinker-proyect. Run `copilotkit project select` to provision a project-scoped key.",
+      "id": "api_key_present",
+      "status": "fail",
+      "title": "A project API key is present"
+    },
+    {
+      "detail": "Not attempted: there is no key to load. Fix the check above first.",
+      "id": "api_key_loadable_by_app",
+      "status": "undetermined",
+      "title": "The app can load the project API key"
+    },
+    {
+      "detail": "Not attempted: there was no key to send. Fix the check above first.",
+      "id": "api_key_authenticates",
+      "status": "undetermined",
+      "title": "The API key authenticates against Intelligence"
+    },
+    {
+      "detail": "A server answered with status 500 but not with a CopilotKit runtime /info payload. Check that --runtime-url names the route the CopilotKit runtime is mounted on.",
+      "id": "runtime_reachable",
+      "status": "fail",
+      "title": "The CopilotKit runtime responds"
+    },
+    {
+      "detail": "Not attempted: the runtime did not answer. Fix the check above first.",
+      "id": "runtime_agents_declared",
+      "status": "undetermined",
+      "title": "The runtime declares at least one agent"
+    },
+    {
+      "detail": "Not attempted: there is no key, so there is nothing for the runtime to consume.",
+      "id": "intelligence_consumed",
+      "status": "undetermined",
+      "title": "The runtime actually uses the Intelligence credential"
+    },
+    {
+      "detail": "Not attempted: the runtime did not answer, so it reported no routes either way.",
+      "id": "intelligence_thread_routes",
+      "status": "undetermined",
+      "title": "The runtime serves the Intelligence thread routes"
+    },
+    {
+      "detail": "http://127.0.0.1:3100 served its page and http://127.0.0.1:3100/_next/static/chunks/node_modules_next_dist_compiled_react-dom_1e674e59._.js, so this host is one the dev server serves assets on.",
+      "id": "frontend_assets_served",
+      "status": "pass",
+      "title": "The frontend serves its own static assets"
+    },
+    {
+      "detail": "The runtime is mounted on the page's own origin (http://127.0.0.1:3100), so no cross-origin rule is consulted.",
+      "id": "runtime_cors_allows_frontend",
+      "status": "pass",
+      "title": "The runtime accepts the frontend origin"
+    },
+    {
+      "detail": "Not attempted: the runtime did not report a version.",
+      "id": "package_versions_aligned",
+      "status": "undetermined",
+      "title": "The installed packages match the runtime"
+    }
+  ],
+  "facts": {
+    "frameworks": [],
+    "intelligenceGatewayWired": false
+  },
+  "ok": false,
+  "frontendUrl": "http://127.0.0.1:3100",
+  "frontendUrlSource": "flag",
+  "runtimeUrl": "http://127.0.0.1:3100/api/copilotkit",
+  "runtimeUrlSource": "flag"
+}
