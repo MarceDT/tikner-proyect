@@ -17,6 +17,21 @@ export interface TalentToolsBackend {
   evaluate(applicationId: string): Promise<unknown>;
   compare(applicationIds: string[]): Promise<unknown>;
   buildReport(input: { topN: number; requestedBy: string }): Promise<unknown>;
+  listInterviews(reportId?: string): Promise<unknown[]>;
+  getInterviewAvailability(applicationId: string): Promise<unknown>;
+  proposeInterview(input: {
+    reportId: string;
+    candidateApplicationId: string;
+    type: "screening" | "technical" | "culture" | "panel" | "final";
+    startsAt: string;
+    durationMinutes: number;
+    timezone: string;
+    interviewers: string[];
+    modality: "video" | "phone" | "onsite";
+    locationOrMeetingUrl?: string | null;
+    agenda: string[];
+    recommendationReason: string;
+  }): Promise<unknown>;
 }
 
 export const TALENT_TOOL_NAMES = [
@@ -25,6 +40,9 @@ export const TALENT_TOOL_NAMES = [
   "evaluate_candidate",
   "compare_candidates",
   "build_selection_report",
+  "list_interviews",
+  "get_interview_availability",
+  "propose_interview",
 ] as const;
 
 const applicationId = z.string().trim().min(1).describe("ID de la postulación, p. ej. APP-3F2A9C1B7D.");
@@ -79,6 +97,41 @@ export function createTalentTools(backend: TalentToolsBackend): ToolDefinition[]
         requestedBy: z.string().trim().min(1).max(120).default("Agente TalentScore").describe("Quién pidió el reporte."),
       }),
       execute: async ({ topN, requestedBy }) => safe(() => backend.buildReport({ topN, requestedBy })),
+    }),
+    defineTool({
+      name: "list_interviews",
+      description:
+        "Lista propuestas y entrevistas ya confirmadas para una shortlist. Solo lectura: usala para detectar entrevistas existentes antes de sugerir un horario.",
+      parameters: z.object({
+        reportId: z.string().trim().min(1).optional(),
+      }),
+      execute: async ({ reportId }) => safe(() => backend.listInterviews(reportId)),
+    }),
+    defineTool({
+      name: "get_interview_availability",
+      description:
+        "Lee la disponibilidad publicada de una candidatura. En este demo es un dato simulado y puede ser desconocido; nunca inventes disponibilidad ni afirmes consultar Google Calendar u Outlook.",
+      parameters: z.object({ applicationId }),
+      execute: async ({ applicationId }) => safe(() => backend.getInterviewAvailability(applicationId)),
+    }),
+    defineTool({
+      name: "propose_interview",
+      description:
+        "Crea una propuesta de entrevista pendiente de aprobación humana para una candidatura de una shortlist ya aprobada. Podés proponer, pero NUNCA crear/confirmar/reprogramar/cancelar agendas ni enviar invitaciones. Indicá al reclutador que revise y confirme desde la compuerta visible.",
+      parameters: z.object({
+        reportId: z.string().trim().min(1),
+        candidateApplicationId: applicationId,
+        type: z.enum(["screening", "technical", "culture", "panel", "final"]),
+        startsAt: z.string().datetime({ offset: true }),
+        durationMinutes: z.number().int().min(15).max(240),
+        timezone: z.string().trim().min(1).max(100),
+        interviewers: z.array(z.string().trim().min(1).max(120)).max(12),
+        modality: z.enum(["video", "phone", "onsite"]),
+        locationOrMeetingUrl: z.string().trim().max(500).nullable().optional(),
+        agenda: z.array(z.string().trim().min(1).max(500)).max(12),
+        recommendationReason: z.string().trim().min(1).max(1000),
+      }),
+      execute: async (input) => safe(() => backend.proposeInterview(input)),
     }),
   ];
 }
